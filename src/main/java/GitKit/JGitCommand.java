@@ -79,6 +79,9 @@ public class JGitCommand {
 		RevCommit commit;
 		try {
 			commit = revWalk.parseCommit(commitId);
+			DiffFormatter diffFormatter = new DiffFormatter(DisabledOutputStream.INSTANCE);
+			diffFormatter.setRepository(git.getRepository());
+
 			RevCommit[] parentsCommits = commit.getParents();
 			for (RevCommit parent : parentsCommits) {
 				ObjectReader reader = git.getRepository().newObjectReader();
@@ -86,17 +89,17 @@ public class JGitCommand {
 				CanonicalTreeParser newTreeIter = new CanonicalTreeParser();
 				ObjectId newTree = commit.getTree().getId();
 				newTreeIter.reset(reader, newTree);
-				
+
 				CanonicalTreeParser oldTreeIter = new CanonicalTreeParser();
 				RevCommit pCommit = revWalk.parseCommit(parent.getId());
 				ObjectId oldTree = pCommit.getTree().getId();
 				oldTreeIter.reset(reader, oldTree);
-				DiffFormatter diffFormatter = new DiffFormatter(DisabledOutputStream.INSTANCE);
-				diffFormatter.setRepository(git.getRepository());
+
 				List<DiffEntry> entries = diffFormatter.scan(oldTreeIter, newTreeIter);
 				result.put(pCommit.getName(), entries);
-				diffFormatter.close();
+				diffFormatter.flush();
 			}
+			diffFormatter.close();
 			return result;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -119,22 +122,23 @@ public class JGitCommand {
 			currCommit = revWalk.parseCommit(currCommitId);
 			nextCommit = revWalk.parseCommit(nextCommitId);
 			ObjectReader reader = git.getRepository().newObjectReader();
+			
 			CanonicalTreeParser currTreeIter = new CanonicalTreeParser();
 			ObjectId currTree = currCommit.getTree().getId();
 			currTreeIter.reset(reader, currTree);
+			
 			CanonicalTreeParser nextTreeIter = new CanonicalTreeParser();
 			ObjectId nextTree = nextCommit.getTree().getId();
 			nextTreeIter.reset(reader, nextTree);
+			
 			diffFormatter = new DiffFormatter(DisabledOutputStream.INSTANCE);
 			diffFormatter.setRepository(git.getRepository());
 			List<DiffEntry> entries = diffFormatter.scan(currTreeIter, nextTreeIter);
 			result.put(currCommit.getName(), entries);
 			return result;
-		} catch (MissingObjectException | IncorrectObjectTypeException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			diffFormatter.close();
 		}
 		return null;
@@ -152,10 +156,6 @@ public class JGitCommand {
 			RevCommit revCommit = revWalk.parseCommit(commitId);
 			int time = revCommit.getCommitTime();
 			return time;
-		} catch (MissingObjectException e) {
-			e.printStackTrace();
-		} catch (IncorrectObjectTypeException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -169,19 +169,8 @@ public class JGitCommand {
 	 * @return seconds since epoch
 	 */
 	public int readCommitTime(String commitId) {
-		try {
-			ObjectId id = ObjectId.fromString(commitId);
-			RevCommit revCommit = revWalk.parseCommit(id);
-			int time = revCommit.getCommitTime();
-			return time;
-		} catch (MissingObjectException e) {
-			e.printStackTrace();
-		} catch (IncorrectObjectTypeException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return 0;
+		ObjectId id = ObjectId.fromString(commitId);
+		return readCommitTime(id);
 	}
 
 
@@ -201,10 +190,6 @@ public class JGitCommand {
 				parentCommitsString[i] = parentCommits[i].getName();
 			}
 			return parentCommitsString;
-		} catch (MissingObjectException e) {
-			e.printStackTrace();
-		} catch (IncorrectObjectTypeException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -220,14 +205,6 @@ public class JGitCommand {
 		try {
 			CheckoutCommand checkoutCommand = git.checkout();
 			checkoutCommand.setName(commitid).call();
-		} catch (RefAlreadyExistsException e) {
-			e.printStackTrace();
-		} catch (RefNotFoundException e) {
-			e.printStackTrace();
-		} catch (InvalidRefNameException e) {
-			e.printStackTrace();
-		} catch (CheckoutConflictException e) {
-			e.printStackTrace();
 		} catch (GitAPIException e) {
 			e.printStackTrace();
 		}
@@ -242,47 +219,13 @@ public class JGitCommand {
 	 * @return
 	 */
 	public byte[] extract(String fileName, String revisionId) {
-		if (revisionId == null || fileName == null) {
-            System.err.println("revisionId/fileFullPackageName is null..");
-			return null;
-		}
-		if (repository == null || git == null || revWalk == null) {
-			System.err.println("git repo is null..");
-			return null;
-		}
-		RevWalk walk = new RevWalk(repository);
-		try {
-			ObjectId objId = repository.resolve(revisionId);
-			if (objId == null) {
-				System.err.println("The revision:" + revisionId + " does not exist.");
-				walk.close();
-				return null;
-			}
-			RevCommit commit = walk.parseCommit(repository.resolve(revisionId));
-			if (commit != null) {
-				RevTree tree = commit.getTree();
-				TreeWalk treeWalk = TreeWalk.forPath(repository, fileName, tree);
-				ObjectId id = treeWalk.getObjectId(0);
+		byte[] res = null;
 
-				InputStream is = FileRWUtil.open(id, repository);
-				byte[] res = FileRWUtil.toByteArray(is);
-				return res;
-			} else {
-				System.err.println("Cannot found file(" + fileName + ") in revision(" + revisionId + "): " + revWalk);
-			}
-		} catch (RevisionSyntaxException e) {
-			e.printStackTrace();
-		} catch (MissingObjectException e) {
-			e.printStackTrace();
-		} catch (IncorrectObjectTypeException e) {
-			e.printStackTrace();
-		} catch (AmbiguousObjectException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		InputStream is = extractAndReturnInputStream(fileName, revisionId);
+		if (is != null) {
+			res = FileRWUtil.toByteArray(is);
 		}
-		walk.close();
-		return null;
+		return res;
 	}
 
 	/**
@@ -321,15 +264,7 @@ public class JGitCommand {
 			} else {
 				System.err.println("Cannot found file(" + fileName + ") in revision(" + revisionId + "): " + revWalk);
 			}
-		} catch (RevisionSyntaxException e) {
-			e.printStackTrace();
-		} catch (MissingObjectException e) {
-			e.printStackTrace();
-		} catch (IncorrectObjectTypeException e) {
-			e.printStackTrace();
-		} catch (AmbiguousObjectException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (RevisionSyntaxException | IOException e) {
 			e.printStackTrace();
 		}
 		walk.close();
@@ -368,11 +303,7 @@ public class JGitCommand {
 	
 	public static String stampToDate(RevCommit rc) {
 		Long s = rc.getCommitTime()*1000L;
-		String res;
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date date = new Date(s);
-		res = simpleDateFormat.format(date);
-		return res;
+		return stampToDate(s);
 	}
 	
 	public RevCommit revCommitOfBranchRef(Ref branch) {
@@ -386,8 +317,6 @@ public class JGitCommand {
 				System.err.println("invalid");
 			}
 			return null;
-		} catch (MissingObjectException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
