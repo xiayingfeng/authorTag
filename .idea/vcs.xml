@@ -2,5 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/main/resources/repos/google__fdse__dagger/dagger" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/main/resources/repos/square__fdse__dagger/dagger" vcs="Git" />
   </component>
 </project>

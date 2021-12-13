@@ -34,7 +34,9 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
-import edu.fdu.se.fileutil.FileRWUtil;
+//import edu.fdu.se.fileutil.FileRWUtil;
+
+
 
 public class JGitCommand {
 
@@ -221,10 +223,24 @@ public class JGitCommand {
 	public byte[] extract(String fileName, String revisionId) {
 		byte[] res = null;
 
+
 		InputStream is = extractAndReturnInputStream(fileName, revisionId);
-		if (is != null) {
-			res = FileRWUtil.toByteArray(is);
+		try {
+			if (is != null) {
+				res = FileRWUtil.toByteArray(is);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (is != null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
+
 		return res;
 	}
 
