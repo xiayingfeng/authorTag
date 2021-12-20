@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  * @author Xia Yingfeng
  * @date 2021/12/13
  */
-public class CommitAnalyzer implements ICommitAnalyzer {
+public class CommitAnalyzer extends AbstractCommitAnalyzer {
     private static final Logger logger = Logger.getLogger(CommitAnalyzer.class.getName());
 
     /**
