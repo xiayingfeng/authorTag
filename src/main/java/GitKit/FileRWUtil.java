@@ -111,6 +111,7 @@ public class FileRWUtil {
 		return null;
 		
 	}
+
 	public static boolean fileOutput(byte[] a,String output){
 		try {
 			FileOutputStream fos=new FileOutputStream(new File(output));
@@ -198,7 +199,6 @@ public class FileRWUtil {
 		}
 		return null;
 	}
-
 
 	private static String getLinesOfFile(byte[] fileContent, List<String> fileList) {
 		try {

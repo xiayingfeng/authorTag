@@ -66,6 +66,7 @@ public class JGitCommand {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	private RevCommit revCommit;
@@ -287,7 +288,6 @@ public class JGitCommand {
 		return null;
 	}
 
-
 	public boolean filterRule(int flag,String oldPath){
 		if (JGitCommand.ALL_FILE == flag) {
 			return true;
@@ -298,7 +298,6 @@ public class JGitCommand {
 		}
 		return false;
 	}
-
 	
 	public List<Ref> getAllBranches(){
 		List<Ref> branches = null;
@@ -309,6 +308,7 @@ public class JGitCommand {
 		}
 		return branches;
 	}
+
 	public static String stampToDate(Long s) {
 		String res;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
