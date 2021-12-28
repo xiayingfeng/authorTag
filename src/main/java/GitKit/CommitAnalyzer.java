@@ -1,20 +1,25 @@
 package GitKit;
 
+import Entity.FileTag;
+import Entity.LineTag;
 import org.eclipse.jgit.api.*;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.blame.BlameResult;
 import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.diff.RawTextComparator;
+import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.revwalk.*;
-import org.eclipse.jgit.treewalk.CanonicalTreeParser;
-import org.jetbrains.annotations.NotNull;
+import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Xia Yingfeng
@@ -22,6 +27,9 @@ import java.util.logging.Logger;
  */
 public class CommitAnalyzer extends AbstractCommitAnalyzer {
     private static final Logger logger = Logger.getLogger(CommitAnalyzer.class.getName());
+    private static final String TIME_PAT_STR = "(\\d{4}-\\d{2}-\\d{2}\\s\\d{2}:\\d{2}:\\d{2}\\s-\\d{4}\\s+)";
+    private static final Pattern TIME_PATTERN = Pattern.compile(TIME_PAT_STR);
+
 
     /**
      * 通过对比两个Repo的首个commit的时间来判断parent与child关系
@@ -74,18 +82,16 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
      * @param oldCommit .
      */
     @Override
-    public List<DiffEntry> getDiffEntryList(Repository repo, @NotNull RevCommit oldCommit, @NotNull RevCommit newCommit) {
+    public List<DiffEntry> getDiffEntryList(Repository repo, RevCommit oldCommit, RevCommit newCommit) {
         logger.log(Level.INFO, "Compare 2 commits between ");
         List<DiffEntry> diffs = null;
         ObjectId newId = newCommit.getTree().getId();
         ObjectId oldId = oldCommit.getTree().getId();
 
         try (ObjectReader reader = repo.newObjectReader()){
-            CanonicalTreeParser newTreeIter = new CanonicalTreeParser();
-            newTreeIter.reset(reader, newId);
+            AbstractTreeIterator newTreeIter = prepareTreeParser(repo, String.valueOf(newCommit.getId()));
 
-            CanonicalTreeParser oldTreeIter = new CanonicalTreeParser();
-            oldTreeIter.reset(reader, oldId);
+            AbstractTreeIterator oldTreeIter = prepareTreeParser(repo, String.valueOf(oldCommit.getId()));
 
             // finally, get the list of changed files
             try (Git git = new Git(repo)) {
@@ -103,7 +109,7 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
     /** use RevWalk to quickly iterate over all available commits
      * From later to older*/
     @Override
-    public List<RevCommit> getCommitList(@NotNull Repository repo) {
+    public List<RevCommit> getCommitList(Repository repo) {
         List<RevCommit> commitList = new ArrayList<>();
         try (Git git = new Git(repo)) {
             ObjectId branchId = repo.resolve("HEAD");
@@ -117,6 +123,102 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
         logger.log(Level.FINE, "Get the commit list of repo " + repo.getIdentifier());
         return commitList;
     }
+
+    /**
+     * get the Blame-information for dir
+     *
+     * @param repo .
+     * @param dirPath .
+     */
+    @Override
+    public BlameResult getDirBlame(Repository repo, String dirPath) {
+        return null;
+
+    }
+
+    /**
+     * get the Blame-information for a file
+     *  @param repo .
+     *  @param filePath .
+     */
+    @Override
+    public BlameResult getFileBlame(Repository repo, String filePath) throws GitAPIException {
+        logger.log(Level.INFO, "Blaming " + filePath);
+        BlameResult result = null;
+//        result = new Git(repo).blame().setFilePath(filePath).call();
+        try {
+            BlameCommand blamer = new BlameCommand(repo)
+                    .setFilePath(filePath)
+                    .setStartCommit(repo.resolve("70eee48"))
+                    .setTextComparator(RawTextComparator.WS_IGNORE_ALL);
+            BlameResult result1 = blamer.call();
+            result = result1;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * get the Blame-info by invoke cmd in windows
+     *
+     * @param repoPath absolute path
+     * @param filePath absolute path
+     */
+    @Override
+    public FileTag getFileBlameByCmd(String repoPath, String filePath) {
+
+
+        String cmdStr = "cmd /c cd " + repoPath +
+                " && " +
+                "git blame -w " + filePath;
+        List<LineTag> lineTagList = new ArrayList<>();
+
+        try {
+            Runtime rt =Runtime.getRuntime();
+            Process pr = rt.exec(cmdStr);
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                lineTagList.add(lineToTag(line));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new FileTag(filePath, lineTagList);
+    }
+
+    private LineTag lineToTag(String line) {
+        // split line to 2 part
+        String[] parts = line.split(TIME_PAT_STR);
+
+        // find the sha, before ' ' and replace all '^'
+        int rightOfSha = parts[0].indexOf(' ');
+        String sha = parts[0].substring(0, rightOfSha).replace("^", "");
+
+        // find the author, after '('
+        int leftOfAuthor = parts[0].indexOf('(') + 1;
+        String author = parts[0].substring(leftOfAuthor).trim();
+
+        // get time stamp
+        Matcher matcher = TIME_PATTERN.matcher(line);
+        String timeStamp = null;
+        if (matcher.find()) {
+            timeStamp = matcher.group().substring(0, 19);
+        } else {
+            throw new RuntimeException("Date extract Failed.");
+        }
+
+        // get line number
+        int posBracket = parts[1].indexOf(')');
+        int lineNo = Integer.parseInt(parts[1].substring(0, posBracket));
+        String content = parts[1].substring(posBracket + 1);
+
+        return new LineTag(lineNo, content, sha, author);
+    }
+
 
     /**
      * 获取特定Repository的首个Commit*/
@@ -199,6 +301,7 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
         }
         return status;
     }
+
 
 
 }

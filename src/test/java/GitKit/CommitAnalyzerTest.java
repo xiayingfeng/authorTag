@@ -1,5 +1,7 @@
 package GitKit;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.blame.BlameResult;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -15,14 +17,31 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Xia Yingfeng
  * @date 2021/12/20
  */
 class CommitAnalyzerTest {
+    private static final Logger logger = Logger.getLogger(CommitAnalyzerTest.class.getName());
+    private static Repository repo;
+
+    static {
+        try {
+            repo = new RepositoryBuilder()
+                    .setGitDir(new File("F:/SelfFileBackUp/Term/Lab/License_Reading/authorTag/src/main/resources/repos/google__fdse__dagger/dagger/.git"))
+//                    .setGitDir(new File("F:/SelfFileBackUp/Term/Lab/License_Reading/authorTag/.git"))
+                    .build();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    CommitAnalyzerTest() throws IOException {
+    }
 
     @Test
     void isParentRepo() {
@@ -30,9 +49,7 @@ class CommitAnalyzerTest {
 
     @Test
     void extractFilesSet() throws IOException {
-        Repository repo = new RepositoryBuilder()
-                .setGitDir(new File("src/main/resources/repos/google__fdse__dagger/dagger/.git"))
-                .build();
+
         String firstDiffId = "1f4351707";
         RevWalk walk = new RevWalk(repo);
         RevCommit commit = walk.parseCommit(repo.resolve(firstDiffId));
@@ -65,12 +82,14 @@ class CommitAnalyzerTest {
 
     @Test
     void getCommitList() throws IOException {
-        Repository repo = new RepositoryBuilder()
-                .setGitDir(new File("src/main/resources/repos/google__fdse__dagger/dagger/.git"))
-                .build();
-        List<RevCommit> commits = new CommitAnalyzer().getCommitList(repo);
-        System.out.println("pause here");
+//        Repository repo = new RepositoryBuilder()
+//                .setGitDir(new File("src/main/resources/repos/google__fdse__dagger/dagger/.git"))
+//                .build();
+//        List<RevCommit> commits = new CommitAnalyzer().getCommitList(repo);
+//        System.out.println("pause here");
     }
+
+
 
     private HashSet<String> getSetFromTxt(String filePath) {
         HashSet<String> filesSet = new HashSet<>();
@@ -102,5 +121,33 @@ class CommitAnalyzerTest {
             }
         }
         return filesSet;
+    }
+
+    @Test
+    void getDirBlame() {
+    }
+
+    @Test
+    void getFileBlame() {
+        String filePath = "F:/SelfFileBackUp/Term/Lab/License_Reading/authorTag/src/main/resources/repos/google__fdse__dagger/dagger/README.md";
+//        String filePath = "F:/SelfFileBackUp/Term/Lab/License_Reading/authorTag/src/main/java/GitKit/CommitAnalyzer.java";
+        Assertions.assertTrue(new File(filePath).exists(), "File exists.");
+        BlameResult result = null;
+        try {
+            result = new CommitAnalyzer().getFileBlame(repo, filePath);
+        } catch (GitAPIException e) {
+            e.printStackTrace();
+        }
+        Assertions.assertNotNull(result, "result should not be null.");
+    }
+
+    @Test
+    void getFileBlameByCmd() {
+        String repoPath = "F:/SelfFileBackUp/Term/Lab/License_Reading/authorTag/src/main/resources/repos/google__fdse__dagger/dagger";
+        String filePath = "F:/SelfFileBackUp/Term/Lab/License_Reading/authorTag/src/main/resources/repos/google__fdse__dagger/dagger/README.md";
+//        String filePath = "F:/SelfFileBackUp/Term/Lab/License_Reading/authorTag/src/main/java/GitKit/CommitAnalyzer.java";
+
+        new CommitAnalyzer().getFileBlameByCmd(repoPath, filePath);
+        logger.log(Level.INFO, "Pause for debug");
     }
 }

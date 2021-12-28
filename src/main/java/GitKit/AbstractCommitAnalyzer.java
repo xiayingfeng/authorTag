@@ -1,5 +1,8 @@
 package GitKit;
 
+import Entity.FileTag;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.blame.BlameResult;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
@@ -9,6 +12,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
@@ -44,7 +48,14 @@ public abstract class AbstractCommitAnalyzer {
     /** use RevWalk to quickly iterate over all available commits*/
     abstract List<RevCommit> getCommitList(Repository repo);
 
-    /** List changed files between two commits*/
+    /** get the Blame-information for a dir */
+    abstract BlameResult getDirBlame(Repository repo, String dirPath);
+
+    /** get the Blame-information for a file */
+    abstract BlameResult getFileBlame(Repository repo, String filePath) throws GitAPIException;
+
+    /** get the Blame-info by invoke cmd in windows*/
+    abstract FileTag getFileBlameByCmd(String repoPath, String filePath);
 
     /** from the commit we can build the tree which allows us to construct the TreeParser*/
     protected AbstractTreeIterator prepareTreeParser(Repository repository, String objectId) throws IOException {
