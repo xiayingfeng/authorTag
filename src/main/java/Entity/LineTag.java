@@ -5,21 +5,23 @@ package Entity;
  * @date 2021/12/27
  */
 public class LineTag {
-    private int line;
-    private String content;
+    private final int lineNo;
+    private final String content;
     //short SHA
-    private String sha;
-    private String author;
+    private final String sha;
+    private final String author;
+    private final String timeStamp;
 
-    public LineTag(int line, String content, String sha, String author) {
-        this.line = line;
+    public LineTag(int lineNo, String content, String sha, String author, String timeStamp) {
+        this.lineNo = lineNo;
         this.content = content;
         this.sha = sha;
         this.author = author;
+        this.timeStamp = timeStamp;
     }
 
-    public int getLine() {
-        return line;
+    public int getLineNo() {
+        return lineNo;
     }
 
     public String getContent() {
@@ -32,5 +34,9 @@ public class LineTag {
 
     public String getAuthor() {
         return author;
+    }
+
+    public String getTimeStamp() {
+        return timeStamp;
     }
 }

@@ -1,43 +1,40 @@
 package Entity;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Xia Yingfeng
  * @date 2021/12/27
  */
 public class FileTag {
-    private String fileFullName;
-    private int size;
-    private List<LineTag> lines;
+    private final String fileFullName;
+    private final int size;
+    private final List<LineTag> lines;
+    private final Set<String> shaSet;
 
-    public FileTag(String fileFullName,  List<LineTag> lines) {
+
+    public FileTag(String fileFullName,  List<LineTag> lines, Set<String> shaSet) {
         this.fileFullName = fileFullName;
         this.size = lines.size();
         this.lines = lines;
+        this.shaSet = shaSet;
     }
 
     public String getFileFullName() {
         return fileFullName;
     }
 
-    public void setFileFullName(String fileFullName) {
-        this.fileFullName = fileFullName;
-    }
-
     public int getSize() {
         return size;
     }
 
-    public void setSize(int size) {
-        this.size = size;
-    }
-
+    // better to return a copy instead of original object
     public List<LineTag> getLines() {
         return lines;
     }
 
-    public void setLines(List<LineTag> lines) {
-        this.lines = lines;
+    public boolean containsCommit(String sha) {
+        return shaSet.contains(sha);
     }
 }

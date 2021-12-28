@@ -6,4 +6,5 @@ package Entity;
  */
 public class Author {
     String authorName;
+    String mail;
 }

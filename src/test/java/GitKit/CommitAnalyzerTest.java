@@ -143,11 +143,9 @@ class CommitAnalyzerTest {
 
     @Test
     void getFileBlameByCmd() {
+        logger.log(Level.INFO, "Test getFileBlameByCmd()");
         String repoPath = "F:/SelfFileBackUp/Term/Lab/License_Reading/authorTag/src/main/resources/repos/google__fdse__dagger/dagger";
         String filePath = "F:/SelfFileBackUp/Term/Lab/License_Reading/authorTag/src/main/resources/repos/google__fdse__dagger/dagger/README.md";
-//        String filePath = "F:/SelfFileBackUp/Term/Lab/License_Reading/authorTag/src/main/java/GitKit/CommitAnalyzer.java";
-
-        new CommitAnalyzer().getFileBlameByCmd(repoPath, filePath);
-        logger.log(Level.INFO, "Pause for debug");
+        new CommitAnalyzer().getFileTagByCmd(repoPath, filePath);
     }
 }

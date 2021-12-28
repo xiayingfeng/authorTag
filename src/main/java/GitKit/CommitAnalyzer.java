@@ -143,6 +143,7 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
      */
     @Override
     public BlameResult getFileBlame(Repository repo, String filePath) throws GitAPIException {
+        //TODO BlameCommand not work
         logger.log(Level.INFO, "Blaming " + filePath);
         BlameResult result = null;
 //        result = new Git(repo).blame().setFilePath(filePath).call();
@@ -166,13 +167,13 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
      * @param filePath absolute path
      */
     @Override
-    public FileTag getFileBlameByCmd(String repoPath, String filePath) {
-
-
+    public FileTag getFileTagByCmd(String repoPath, String filePath) {
         String cmdStr = "cmd /c cd " + repoPath +
                 " && " +
                 "git blame -w " + filePath;
+
         List<LineTag> lineTagList = new ArrayList<>();
+        Set<String> shaSet = new HashSet<>();
 
         try {
             Runtime rt =Runtime.getRuntime();
@@ -181,15 +182,18 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
             BufferedReader reader = new BufferedReader(new InputStreamReader(pr.getInputStream()));
             String line = null;
             while ((line = reader.readLine()) != null) {
-                lineTagList.add(lineToTag(line));
+                LineTag lineTag = lineToTag(line);
+                lineTagList.add(lineTag);
+                shaSet.add(lineTag.getSha());
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return new FileTag(filePath, lineTagList);
+        return new FileTag(filePath, lineTagList, shaSet);
     }
 
+    /** extract the information in single line, and transfer to LineTag */
     private LineTag lineToTag(String line) {
         // split line to 2 part
         String[] parts = line.split(TIME_PAT_STR);
@@ -216,12 +220,11 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
         int lineNo = Integer.parseInt(parts[1].substring(0, posBracket));
         String content = parts[1].substring(posBracket + 1);
 
-        return new LineTag(lineNo, content, sha, author);
+        return new LineTag(lineNo, content, sha, author, timeStamp);
     }
 
 
-    /**
-     * 获取特定Repository的首个Commit*/
+    /** 获取特定Repository的首个Commit*/
     private RevCommit getFirstCommit(Repository repo) {
         List<RevCommit> commits = getCommitList(repo);
         int size = commits.size();

@@ -55,7 +55,7 @@ public abstract class AbstractCommitAnalyzer {
     abstract BlameResult getFileBlame(Repository repo, String filePath) throws GitAPIException;
 
     /** get the Blame-info by invoke cmd in windows*/
-    abstract FileTag getFileBlameByCmd(String repoPath, String filePath);
+    abstract FileTag getFileTagByCmd(String repoPath, String filePath);
 
     /** from the commit we can build the tree which allows us to construct the TreeParser*/
     protected AbstractTreeIterator prepareTreeParser(Repository repository, String objectId) throws IOException {
