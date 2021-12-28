@@ -17,6 +17,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,13 +28,17 @@ import java.util.logging.Logger;
  */
 class CommitAnalyzerTest {
     private static final Logger logger = Logger.getLogger(CommitAnalyzerTest.class.getName());
-    private static Repository repo;
+    private static Repository child, parent;
+    private static CommitAnalyzer commitAnalyzer;
 
     static {
+        commitAnalyzer = new CommitAnalyzer();
         try {
-            repo = new RepositoryBuilder()
+            child = new RepositoryBuilder()
                     .setGitDir(new File("F:/SelfFileBackUp/Term/Lab/License_Reading/authorTag/src/main/resources/repos/google__fdse__dagger/dagger/.git"))
-//                    .setGitDir(new File("F:/SelfFileBackUp/Term/Lab/License_Reading/authorTag/.git"))
+                    .build();
+            parent = new RepositoryBuilder()
+                    .setGitDir(new File("F:/SelfFileBackUp/Term/Lab/License_Reading/authorTag/src/main/resources/repos/square__fdse__dagger/dagger/.git"))
                     .build();
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,9 +56,9 @@ class CommitAnalyzerTest {
     void extractFilesSet() throws IOException {
 
         String firstDiffId = "1f4351707";
-        RevWalk walk = new RevWalk(repo);
-        RevCommit commit = walk.parseCommit(repo.resolve(firstDiffId));
-        HashSet<String> filesSet = new CommitAnalyzer().extractFilesSet(repo, commit);
+        RevWalk walk = new RevWalk(child);
+        RevCommit commit = walk.parseCommit(child.resolve(firstDiffId));
+        HashSet<String> filesSet = new CommitAnalyzer().extractFilesSet(child, commit);
         Assertions.assertIterableEquals(filesSet, getSetFromTxt("src/main/resources/repos/1f4351707.txt"));
     }
 
@@ -134,7 +139,7 @@ class CommitAnalyzerTest {
         Assertions.assertTrue(new File(filePath).exists(), "File exists.");
         BlameResult result = null;
         try {
-            result = new CommitAnalyzer().getFileBlame(repo, filePath);
+            result = new CommitAnalyzer().getFileBlame(child, filePath);
         } catch (GitAPIException e) {
             e.printStackTrace();
         }
@@ -146,6 +151,13 @@ class CommitAnalyzerTest {
         logger.log(Level.INFO, "Test getFileBlameByCmd()");
         String repoPath = "F:/SelfFileBackUp/Term/Lab/License_Reading/authorTag/src/main/resources/repos/google__fdse__dagger/dagger";
         String filePath = "F:/SelfFileBackUp/Term/Lab/License_Reading/authorTag/src/main/resources/repos/google__fdse__dagger/dagger/README.md";
-        new CommitAnalyzer().getFileTagByCmd(repoPath, filePath);
+        commitAnalyzer.getFileTagByCmd(repoPath, filePath);
+    }
+
+    @Test
+    void getCommonCommitSet() {
+        Set<String> commonCommitSet = commitAnalyzer.getCommonCommitSet(parent, child);
+        logger.log(Level.INFO, "Test getCommonCommitSet()");
+
     }
 }

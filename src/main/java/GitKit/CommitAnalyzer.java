@@ -12,9 +12,11 @@ import org.eclipse.jgit.revwalk.*;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -182,7 +184,7 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
     public FileTag getFileTagByCmd(String repoPath, String filePath) {
         String cmdStr = "cmd /c cd " + repoPath +
                 " && " +
-                "git blame -w " + filePath;
+                "git blame -lw " + filePath;
 
         List<LineTag> lineTagList = new ArrayList<>();
         Set<String> shaSet = new HashSet<>();
@@ -315,6 +317,39 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
         return status;
     }
 
+    /** get common commits as a hashset*/
+    public Set<String> getCommonCommitSet(Repository parent, Repository child) {
+        Set<RevCommit> parentCommitSet = getCommitSet(parent);
+        List<RevCommit> childCommitList = getCommitList(child);
+
+        Set<String> parentShaSet = (HashSet)toStrCollection(parentCommitSet);
+        List<String> childShaList = (ArrayList)toStrCollection(childCommitList);
+
+        Set<String> commonSet = new HashSet<>();
+        for (String sha : childShaList) {
+            if (parentShaSet.contains(sha)) {
+                commonSet.add(sha);
+            }
+        }
+        return commonSet;
+    }
+
+    private Collection<String> toStrCollection(Collection<RevCommit> commits){
+        Collection<String> strCollection = null;
+        try {
+            strCollection = commits.getClass().getConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        for (RevCommit commit : commits) {
+            if (strCollection != null) {
+                strCollection.add(commit.getName());
+            } else {
+                throw new RuntimeException("strCollection is null");
+            }
+        }
+        return strCollection;
+    }
 
 
 }
