@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Xia Yingfeng
@@ -25,7 +26,7 @@ public abstract class AbstractCommitAnalyzer {
 
     /**
      * 通过对比两个Repo的首个commit的时间来判断parent与child关系
-    *
+     *
      * @param left
      * @param right*/
     abstract boolean isParentRepo(Repository left, Repository right);
@@ -45,8 +46,11 @@ public abstract class AbstractCommitAnalyzer {
      * 对比得到一个Repo的两个Commit之间的文件差异*/
     abstract List<DiffEntry> getDiffEntryList(Repository repo, RevCommit oldCommit, RevCommit newCommit);
 
-    /** use RevWalk to quickly iterate over all available commits*/
+    /** use RevWalk to quickly iterate over all available commits list*/
     abstract List<RevCommit> getCommitList(Repository repo);
+
+    /** invoke getCommitList() to generate a commits set*/
+    abstract Set<RevCommit> getCommitSet(Repository repo);
 
     /** get the Blame-information for a dir */
     abstract BlameResult getDirBlame(Repository repo, String dirPath);

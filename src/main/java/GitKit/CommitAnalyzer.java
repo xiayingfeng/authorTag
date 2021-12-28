@@ -125,6 +125,18 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
     }
 
     /**
+     * invoke getCommitList() to generate a commits set
+     *
+     * @param repo .
+     */
+    @Override
+    public Set<RevCommit> getCommitSet(Repository repo) {
+        List<RevCommit> commitList = getCommitList(repo);
+        Set<RevCommit> commitSet = new HashSet<>(commitList);
+        return commitSet;
+    }
+
+    /**
      * get the Blame-information for dir
      *
      * @param repo .
@@ -223,7 +235,6 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
         return new LineTag(lineNo, content, sha, author, timeStamp);
     }
 
-
     /** 获取特定Repository的首个Commit*/
     private RevCommit getFirstCommit(Repository repo) {
         List<RevCommit> commits = getCommitList(repo);
@@ -249,7 +260,6 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
         }
         return status;
     }
-
 
     /**
      * 比较左边的commit是否比右边的commit更早*/
