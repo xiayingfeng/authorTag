@@ -12,6 +12,7 @@ public class FileTag {
     private final int size;
     private final List<LineTag> lines;
     private final Set<String> shaSet;
+    private boolean[] bitMap;
 
 
     public FileTag(String fileFullName,  List<LineTag> lines, Set<String> shaSet) {
@@ -19,6 +20,7 @@ public class FileTag {
         this.size = lines.size();
         this.lines = lines;
         this.shaSet = shaSet;
+        this.bitMap = new boolean[this.size];
     }
 
     public String getFileFullName() {
@@ -36,5 +38,13 @@ public class FileTag {
 
     public boolean containsCommit(String sha) {
         return shaSet.contains(sha);
+    }
+
+    public boolean[] getBitMap() {
+        return bitMap;
+    }
+
+    public void setBitMap(boolean[] bitMap) {
+        this.bitMap = bitMap;
     }
 }

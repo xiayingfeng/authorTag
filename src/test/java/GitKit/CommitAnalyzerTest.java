@@ -17,7 +17,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,8 +27,10 @@ import java.util.logging.Logger;
  */
 class CommitAnalyzerTest {
     private static final Logger logger = Logger.getLogger(CommitAnalyzerTest.class.getName());
+    private static final CommitAnalyzer commitAnalyzer;
+    private static final String childReadme = "F:/SelfFileBackUp/Term/Lab/License_Reading/authorTag/src/main/resources/repos/google__fdse__dagger/dagger/README.md";
     private static Repository child, parent;
-    private static CommitAnalyzer commitAnalyzer;
+
 
     static {
         commitAnalyzer = new CommitAnalyzer();
@@ -43,9 +44,6 @@ class CommitAnalyzerTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    CommitAnalyzerTest() throws IOException {
     }
 
     @Test
@@ -83,17 +81,6 @@ class CommitAnalyzerTest {
         System.out.println(diffEntries);
 
     }
-
-
-    @Test
-    void getCommitList() throws IOException {
-//        Repository repo = new RepositoryBuilder()
-//                .setGitDir(new File("src/main/resources/repos/google__fdse__dagger/dagger/.git"))
-//                .build();
-//        List<RevCommit> commits = new CommitAnalyzer().getCommitList(repo);
-//        System.out.println("pause here");
-    }
-
 
 
     private HashSet<String> getSetFromTxt(String filePath) {
@@ -156,8 +143,24 @@ class CommitAnalyzerTest {
 
     @Test
     void getCommonCommitSet() {
-        Set<String> commonCommitSet = commitAnalyzer.getCommonCommitSet(parent, child);
+//        Set<String> commonCommitSet = commitAnalyzer.getCommonCommitSet(parent, child);
         logger.log(Level.INFO, "Test getCommonCommitSet()");
 
+    }
+
+    @Test
+    void testGetCommonCommitSet() {
+    }
+
+    @Test
+    void getParentCodeSum() {
+        int sum = commitAnalyzer.getParentCodeSumByFile(parent, child, childReadme);
+        logger.log(Level.INFO, "Test getParentCodeSum()");
+    }
+
+    @Test
+    void testGetParentCodeSumByRepo() {
+        int sum = commitAnalyzer.getParentCodeSumByRepo(parent, child);
+        logger.log(Level.INFO, "Test getParentCodeSumByRepo()");
     }
 }

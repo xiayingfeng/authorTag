@@ -12,6 +12,7 @@ import org.eclipse.jgit.revwalk.*;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
@@ -29,7 +30,7 @@ import java.util.regex.Pattern;
  */
 public class CommitAnalyzer extends AbstractCommitAnalyzer {
     private static final Logger logger = Logger.getLogger(CommitAnalyzer.class.getName());
-    private static final String TIME_PAT_STR = "(\\d{4}-\\d{2}-\\d{2}\\s\\d{2}:\\d{2}:\\d{2}\\s-\\d{4}\\s+)";
+    private static final String TIME_PAT_STR = "(\\d{4}-\\d{2}-\\d{2}\\s\\d{2}:\\d{2}:\\d{2}\\s[+-]\\d{4}\\s+)";
     private static final Pattern TIME_PATTERN = Pattern.compile(TIME_PAT_STR);
 
 
@@ -166,8 +167,7 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
                     .setFilePath(filePath)
                     .setStartCommit(repo.resolve("70eee48"))
                     .setTextComparator(RawTextComparator.WS_IGNORE_ALL);
-            BlameResult result1 = blamer.call();
-            result = result1;
+            result = blamer.call();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -181,7 +181,7 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
      * @param filePath absolute path
      */
     @Override
-    public FileTag getFileTagByCmd(String repoPath, String filePath) {
+    public FileTag getFileTagByCmd(String repoPath, String filePath) throws RuntimeException {
         String cmdStr = "cmd /c cd " + repoPath +
                 " && " +
                 "git blame -lw " + filePath;
@@ -194,7 +194,7 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
             Process pr = rt.exec(cmdStr);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(pr.getInputStream()));
-            String line = null;
+            String line;
             while ((line = reader.readLine()) != null) {
                 LineTag lineTag = lineToTag(line);
                 lineTagList.add(lineTag);
@@ -207,8 +207,104 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
         return new FileTag(filePath, lineTagList, shaSet);
     }
 
+    /** get sha of common commits  as a hashset*/
+    public Set<String> getCommonCommitSet(Set<RevCommit> parentCommitSet, List<RevCommit> childCommitList) {
+//        Set<RevCommit> parentCommitSet = getCommitSet(parent);
+//        List<RevCommit> childCommitList = getCommitList(child);
+
+        Set<String> parentShaSet = (HashSet)toStrCollection(parentCommitSet);
+        List<String> childShaList = (ArrayList)toStrCollection(childCommitList);
+
+        Set<String> commonSet = new HashSet<>();
+        for (String sha : childShaList) {
+            if (parentShaSet.contains(sha)) {
+                commonSet.add(sha);
+            }
+        }
+        return commonSet;
+    }
+
+    /** count how many lines in a child file are from parent */
+    public int getParentCodeSumByFile(Repository parent, Repository child, String filePath) {
+        Set<RevCommit> parentCommitSet = getCommitSet(parent);
+        List<RevCommit> childCommitList = getCommitList(child);
+        // repo level common commits set
+        Set<String> commonSha = getCommonCommitSet(parentCommitSet, childCommitList);
+
+        String repoDir = child.getDirectory().getParent();
+        int count = getParentCodeSumByFile(commonSha, getFileTagByCmd(repoDir, filePath));
+        return count;
+    }
+
+    /** common codes in by file and by repo, to count parent lines sum in a single file*/
+    private int getParentCodeSumByFile(Set<String> commonSha, FileTag fileTag) {
+//        FileTag fileTag= getFileTagByCmd(childRepoDir, filePath);
+        List<LineTag> lineTags = fileTag.getLines();
+        int count = 0;
+        for (LineTag line : lineTags) {
+            String tmpSha = line.getSha();
+            if (commonSha.contains(tmpSha)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+
+    public int getParentCodeSumByRepo(Repository parent, Repository child) {
+        int total = 0, parentCount = 0;
+
+        // TODO may be this should be extracted.
+        Set<RevCommit> parentCommitSet = getCommitSet(parent);
+        List<RevCommit> childCommitList = getCommitList(child);
+        // repo level common commits set
+        Set<String> commonSha = getCommonCommitSet(parentCommitSet, childCommitList);
+
+        String childRepoDir = child.getDirectory().getParent();
+        File dir = new File(childRepoDir);
+        if (!dir.isDirectory()) {
+            throw new RuntimeException(childRepoDir + " is not a directory");
+        }
+
+        //TODO .git directory required to be remove from list
+        Vector<File> fileVector = new Vector<>();
+        fileVector.add(dir);
+        while(!fileVector.isEmpty()) {
+            File currFile = fileVector.firstElement();
+            if (currFile.isFile()) {
+                String filePath = currFile.getAbsolutePath();
+                FileTag fileTag;
+                try {
+                     fileTag = getFileTagByCmd(childRepoDir, filePath);
+                } catch (RuntimeException e) {
+                    // while line analyze failed, log it
+                    logger.log(Level.SEVERE, filePath + " read failed.");
+                    fileVector.remove(currFile);
+                    continue;
+                }
+                total += fileTag.getSize();
+                parentCount += getParentCodeSumByFile(commonSha, fileTag);
+                logger.log(Level.INFO, "total: " + total +
+                        "\tparent count: " + parentCount + "\tfile: " + filePath);
+            }
+            else if (currFile.isDirectory()) {
+                File[] children = currFile.listFiles();
+                if (children != null) {
+                    fileVector.addAll(Arrays.asList(children));
+                }
+            }
+            fileVector.remove(currFile);
+        }
+        logger.log(Level.INFO,
+                "repo: " + childRepoDir +
+                        "\ntotal: " + total +
+                        "\nparent count: " + parentCount +
+                        "\nparent percentage: " + parentCount / total);
+        return 0;
+    }
+
     /** extract the information in single line, and transfer to LineTag */
-    private LineTag lineToTag(String line) {
+    private LineTag lineToTag(String line) throws RuntimeException{
         // split line to 2 part
         String[] parts = line.split(TIME_PAT_STR);
 
@@ -222,11 +318,13 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
 
         // get time stamp
         Matcher matcher = TIME_PATTERN.matcher(line);
-        String timeStamp = null;
+        String timeStamp;
         if (matcher.find()) {
             timeStamp = matcher.group().substring(0, 19);
-        } else {
-            throw new RuntimeException("Date extract Failed.");
+        }
+        //TODO handle not match
+        else {
+            throw new RuntimeException("Date extract Failed: " + line);
         }
 
         // get line number
@@ -317,23 +415,7 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
         return status;
     }
 
-    /** get common commits as a hashset*/
-    public Set<String> getCommonCommitSet(Repository parent, Repository child) {
-        Set<RevCommit> parentCommitSet = getCommitSet(parent);
-        List<RevCommit> childCommitList = getCommitList(child);
-
-        Set<String> parentShaSet = (HashSet)toStrCollection(parentCommitSet);
-        List<String> childShaList = (ArrayList)toStrCollection(childCommitList);
-
-        Set<String> commonSet = new HashSet<>();
-        for (String sha : childShaList) {
-            if (parentShaSet.contains(sha)) {
-                commonSet.add(sha);
-            }
-        }
-        return commonSet;
-    }
-
+    /** extract the sha info of Commit Collection, and return corresponding collection */
     private Collection<String> toStrCollection(Collection<RevCommit> commits){
         Collection<String> strCollection = null;
         try {
@@ -350,6 +432,4 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
         }
         return strCollection;
     }
-
-
 }
