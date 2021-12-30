@@ -1,5 +1,7 @@
 package GitKit;
 
+import Entity.Repo;
+import Entity.RepoTag;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.blame.BlameResult;
 import org.eclipse.jgit.diff.DiffEntry;
@@ -160,7 +162,7 @@ class CommitAnalyzerTest {
 
     @Test
     void testGetParentCodeSumByRepo() {
-        int sum = commitAnalyzer.getParentCodeSumByRepo(parent, child);
+        RepoTag repoTag = commitAnalyzer.getParentCodeSumByRepo(parent, child);
         logger.log(Level.INFO, "Test getParentCodeSumByRepo()");
     }
 }

@@ -2,6 +2,7 @@ package GitKit;
 
 import Entity.FileTag;
 import Entity.LineTag;
+import Entity.RepoTag;
 import org.eclipse.jgit.api.*;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.blame.BlameResult;
@@ -251,7 +252,7 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
     }
 
 
-    public int getParentCodeSumByRepo(Repository parent, Repository child) {
+    public RepoTag getParentCodeSumByRepo(Repository parent, Repository child) {
         int total = 0, parentCount = 0;
 
         // TODO may be this should be extracted.
@@ -295,12 +296,13 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
             }
             fileVector.remove(currFile);
         }
-        logger.log(Level.INFO,
-                "repo: " + childRepoDir +
-                        "\ntotal: " + total +
-                        "\nparent count: " + parentCount +
-                        "\nparent percentage: " + parentCount / total);
-        return 0;
+//        logger.log(Level.INFO,
+//                "repo: " + childRepoDir +
+//                        "\ntotal: " + total +
+//                        "\nparent count: " + parentCount +
+//                        "\nparent percentage: " + parentCount / total);
+
+        return new RepoTag(parent.getDirectory().getParent(), childRepoDir, total, parentCount);
     }
 
     /** extract the information in single line, and transfer to LineTag */
