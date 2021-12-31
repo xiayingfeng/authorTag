@@ -20,9 +20,14 @@ import java.util.ResourceBundle;
  */
 public class Main {
     private static final String ENV_PATH = "config/env";
-    private static final CommitAnalyzer analyzer = new CommitAnalyzer();
+    private static final CommitAnalyzer ANALYZER = new CommitAnalyzer();
 
     public static void main(String[] args) {
+        batchAnalyze();
+    }
+
+    /** analyze all pairs logged in index.json*/
+    private static void batchAnalyze() {
         ResourceBundle resource = ResourceBundle.getBundle(ENV_PATH);
 
         ObjectMapper mapper = new ObjectMapper();
@@ -30,6 +35,7 @@ public class Main {
         String indexPath = resource.getString("index_path");
         String reposDir = resource.getString("repos_dir");
         String originProportion = resource.getString("origin_proportion");
+        String platform = resource.getString("platform");
 
         try {
             File indexFile = new File(indexPath);
@@ -50,8 +56,8 @@ public class Main {
                 String childShortPath = tmpNode.get("child").asText();
                 String parentShortPath = tmpNode.get("parent").asText();
 
-                String childPath = getFullGitPath(reposDir, childShortPath);
-                String parentPath = getFullGitPath(reposDir, parentShortPath);
+                String childPath = getFullGitPath(reposDir, childShortPath, platform);
+                String parentPath = getFullGitPath(reposDir, parentShortPath, platform);
 
                 Repository childRepo = null, parentRepo = null;
                 try {
@@ -60,28 +66,37 @@ public class Main {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                RepoTag repoTag = analyzer.getParentCodeSumByRepo(parentRepo, childRepo);
+                RepoTag repoTag = ANALYZER.getParentCodeSumByRepo(parentRepo, childRepo);
                 repoTagList.add(repoTag);
             }
         }
-        writeRepoTags(originProportion, repoTagList);
+        writeRepoTags(originProportion, repoTagList, platform);
     }
 
-    private static String getFullGitPath(String reposDir, String shortPath) {
+    /** get full git  directory path in multiple platform*/
+    private static String getFullGitPath(String reposDir, String shortPath, String platform) {
+        String split = "";
+        if ("windows".equals(platform)) {
+            split = "//";
+        } else if ("linux".equals(platform)) {
+            split = "/";
+        }
+
         String[] parts = shortPath.split("/");
         String specialDir = shortPath.replace("/", "__fdse__");
-        String fullPath = reposDir + "//" + specialDir + "//" + parts[1] + "//.git" ;
+        String fullPath = reposDir + split + specialDir + split + parts[1] + split +".git" ;
         return fullPath;
     }
 
-    private static void writeRepoTags(String destJson, List<RepoTag> repoTagList) {
+    /** write repo result tags to the destination json file */
+    private static void writeRepoTags(String destJson, List<RepoTag> repoTagList, String platform) {
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
         ArrayNode array = mapper.createArrayNode();
         for (RepoTag repoTag : repoTagList) {
             ObjectNode node = mapper.createObjectNode();
 
-            node.put("self", getShortName(repoTag.getMyName()));
-            node.put("parent", getShortName(repoTag.getParentName()));
+            node.put("self", getShortName(repoTag.getMyName(), platform));
+            node.put("parent", getShortName(repoTag.getParentName(), platform));
             node.put("line_count", repoTag.getLineCount());
             node.put("parent_line_count", repoTag.getParentLineCount());
             node.put("origin_line_count", repoTag.getOriginLineCount());
@@ -97,14 +112,17 @@ public class Main {
         }
     }
 
-    private static String getShortName(String fullName) {
-        String[] dirs = fullName.split("//");
+    /** get short name of each repo in multiple platform*/
+    private static String getShortName(String fullName, String platform) {
+        String split = "";
+        if ("windows".equals(platform)) {
+            split = "//";
+        } else if ("linux".equals(platform)) {
+            split = "/";
+        }
+        String[] dirs = fullName.split(split);
         String shortName = dirs[dirs.length - 2].replace("__fdse__", "/");
         return shortName;
     }
 
-
-    private static void calcRepo(){
-
-    }
 }
