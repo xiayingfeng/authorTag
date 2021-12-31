@@ -19,6 +19,8 @@ import java.util.ResourceBundle;
  * @date 2021/12/10
  */
 public class Main {
+    private static final String LIN = "linux";
+    private static final String WIN = "windows";
     private static final String ENV_PATH = "config/env";
     private static final CommitAnalyzer ANALYZER = new CommitAnalyzer();
 
@@ -76,9 +78,9 @@ public class Main {
     /** get full git  directory path in multiple platform*/
     private static String getFullGitPath(String reposDir, String shortPath, String platform) {
         String split = "";
-        if ("windows".equals(platform)) {
+        if (WIN.equals(platform)) {
             split = "//";
-        } else if ("linux".equals(platform)) {
+        } else if (LIN.equals(platform)) {
             split = "/";
         }
 
@@ -115,9 +117,9 @@ public class Main {
     /** get short name of each repo in multiple platform*/
     private static String getShortName(String fullName, String platform) {
         String split = "";
-        if ("windows".equals(platform)) {
+        if (WIN.equals(platform)) {
             split = "//";
-        } else if ("linux".equals(platform)) {
+        } else if (LIN.equals(platform)) {
             split = "/";
         }
         String[] dirs = fullName.split(split);
