@@ -1,4 +1,4 @@
-package Entity;
+package entity;
 
 /**
  * @author Xia Yingfeng

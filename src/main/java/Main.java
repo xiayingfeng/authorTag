@@ -1,5 +1,5 @@
-import Entity.RepoTag;
-import GitKit.CommitAnalyzer;
+import entity.RepoTag;
+import gitKit.CommitAnalyzer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -14,13 +14,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static constant.Constant.LIN;
+import static constant.Constant.WIN;
+
 /**
  * @author Xia Yingfeng
  * @date 2021/12/10
  */
 public class Main {
-    private static final String LIN = "linux";
-    private static final String WIN = "windows";
+
     private static final String ENV_PATH = "config/env";
     private static final CommitAnalyzer ANALYZER = new CommitAnalyzer();
 
@@ -68,7 +70,7 @@ public class Main {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                RepoTag repoTag = ANALYZER.getParentCodeSumByRepo(parentRepo, childRepo);
+                RepoTag repoTag = ANALYZER.getParentCodeSumByRepo(parentRepo, childRepo, platform);
                 repoTagList.add(repoTag);
             }
         }

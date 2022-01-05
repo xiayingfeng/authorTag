@@ -1,15 +1,21 @@
-package GitKit;
+package gitKit;
 
-import Entity.FileTag;
-import Entity.LineTag;
-import Entity.RepoTag;
+import entity.FileTag;
+import entity.LineTag;
+import entity.RepoTag;
+
 import org.eclipse.jgit.api.*;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.blame.BlameResult;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.RawTextComparator;
-import org.eclipse.jgit.lib.*;
-import org.eclipse.jgit.revwalk.*;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 
 import java.io.BufferedReader;
@@ -17,13 +23,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static constant.Constant.LIN;
+import static constant.Constant.WIN;
 
 /**
  * @author Xia Yingfeng
@@ -37,7 +44,7 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
 
     /**
      * 通过对比两个Repo的首个commit的时间来判断parent与child关系
-     *  @param left repo a
+     * @param left repo a
      * @param right repo b
      */
     @Override
@@ -182,8 +189,12 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
      * @param filePath absolute path
      */
     @Override
-    public FileTag getFileTagByCmd(String repoPath, String filePath) throws RuntimeException {
-        String cmdStr = "cmd /c cd " + repoPath +
+    public FileTag getFileTagByCmd(String repoPath, String filePath, String platform) throws RuntimeException {
+        String cmdStr = "";
+        if (WIN.equals(platform)) {
+            cmdStr = "cmd /c ";
+        }
+        cmdStr += "cd " + repoPath +
                 " && " +
                 "git blame -lw " + filePath;
 
@@ -226,14 +237,14 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
     }
 
     /** count how many lines in a child file are from parent */
-    public int getParentCodeSumByFile(Repository parent, Repository child, String filePath) {
+    public int getParentCodeSumByFile(Repository parent, Repository child, String filePath, String platform) {
         Set<RevCommit> parentCommitSet = getCommitSet(parent);
         List<RevCommit> childCommitList = getCommitList(child);
         // repo level common commits set
         Set<String> commonSha = getCommonCommitSet(parentCommitSet, childCommitList);
 
         String repoDir = child.getDirectory().getParent();
-        int count = getParentCodeSumByFile(commonSha, getFileTagByCmd(repoDir, filePath));
+        int count = getParentCodeSumByFile(commonSha, getFileTagByCmd(repoDir, filePath, platform));
         return count;
     }
 
@@ -251,8 +262,8 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
         return count;
     }
 
-
-    public RepoTag getParentCodeSumByRepo(Repository parent, Repository child) {
+    /** get the total lines derived from parent repo in child repo */
+    public RepoTag getParentCodeSumByRepo(Repository parent, Repository child, String platform) {
         int total = 0, parentCount = 0;
 
         // TODO may be this should be extracted.
@@ -267,7 +278,7 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
             throw new RuntimeException(childRepoDir + " is not a directory");
         }
 
-        //TODO .git directory required to be remove from list
+        //TODO .git directory required to be removed from list
         Vector<File> fileVector = new Vector<>();
         fileVector.add(dir);
         while(!fileVector.isEmpty()) {
@@ -276,7 +287,7 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
                 String filePath = currFile.getAbsolutePath();
                 FileTag fileTag;
                 try {
-                     fileTag = getFileTagByCmd(childRepoDir, filePath);
+                     fileTag = getFileTagByCmd(childRepoDir, filePath, platform);
                 } catch (RuntimeException e) {
                     // while line analyze failed, log it
                     logger.log(Level.SEVERE, filePath + " read failed.");
@@ -296,11 +307,6 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
             }
             fileVector.remove(currFile);
         }
-//        logger.log(Level.INFO,
-//                "repo: " + childRepoDir +
-//                        "\ntotal: " + total +
-//                        "\nparent count: " + parentCount +
-//                        "\nparent percentage: " + parentCount / total);
 
         return new RepoTag(parent.getDirectory().getParent(), childRepoDir, total, parentCount);
     }
@@ -326,7 +332,7 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
         }
         //TODO handle not match
         else {
-            throw new RuntimeException("Date extract Failed: " + line);
+            throw new RuntimeException("Date extract Failed:  " + line);
         }
 
         // get line number

@@ -1,7 +1,6 @@
-package GitKit;
+package gitKit;
 
-import Entity.Repo;
-import Entity.RepoTag;
+import entity.RepoTag;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.blame.BlameResult;
 import org.eclipse.jgit.diff.DiffEntry;
@@ -140,7 +139,7 @@ class CommitAnalyzerTest {
         logger.log(Level.INFO, "Test getFileBlameByCmd()");
         String repoPath = "F:/SelfFileBackUp/Term/Lab/License_Reading/authorTag/src/main/resources/repos/google__fdse__dagger/dagger";
         String filePath = "F:/SelfFileBackUp/Term/Lab/License_Reading/authorTag/src/main/resources/repos/google__fdse__dagger/dagger/README.md";
-        commitAnalyzer.getFileTagByCmd(repoPath, filePath);
+        commitAnalyzer.getFileTagByCmd(repoPath, filePath, "linux");
     }
 
     @Test
@@ -156,13 +155,13 @@ class CommitAnalyzerTest {
 
     @Test
     void getParentCodeSum() {
-        int sum = commitAnalyzer.getParentCodeSumByFile(parent, child, childReadme);
+        int sum = commitAnalyzer.getParentCodeSumByFile(parent, child, childReadme, "linux");
         logger.log(Level.INFO, "Test getParentCodeSum()");
     }
 
     @Test
     void testGetParentCodeSumByRepo() {
-        RepoTag repoTag = commitAnalyzer.getParentCodeSumByRepo(parent, child);
+        RepoTag repoTag = commitAnalyzer.getParentCodeSumByRepo(parent, child, "linux");
         logger.log(Level.INFO, "Test getParentCodeSumByRepo()");
     }
 }

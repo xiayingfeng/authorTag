@@ -1,4 +1,4 @@
-package GitKit;
+package gitKit;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;

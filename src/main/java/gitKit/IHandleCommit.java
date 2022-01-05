@@ -1,4 +1,4 @@
-package GitKit;
+package gitKit;
 
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.revwalk.RevCommit;
