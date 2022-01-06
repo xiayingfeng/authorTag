@@ -206,16 +206,20 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
             Process pr = rt.exec(cmdStr);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+            BufferedReader stdError = new BufferedReader(new InputStreamReader(pr.getErrorStream()));
             String line;
             while ((line = reader.readLine()) != null) {
                 LineTag lineTag = lineToTag(line);
                 lineTagList.add(lineTag);
                 shaSet.add(lineTag.getSha());
             }
+            logger.log(Level.SEVERE, "Something went wrong in invoking shell script.");
+            while ((line = stdError.readLine()) != null) {
+                logger.log(Level.INFO, line);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return new FileTag(filePath, lineTagList, shaSet);
     }
 
