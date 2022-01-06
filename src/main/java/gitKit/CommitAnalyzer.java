@@ -204,6 +204,7 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
         try {
             Runtime rt =Runtime.getRuntime();
             Process pr = rt.exec(cmdStr);
+            pr.waitFor();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(pr.getInputStream()));
             BufferedReader stdError = new BufferedReader(new InputStreamReader(pr.getErrorStream()));
@@ -222,7 +223,7 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
             reader.close();
             pr.destroyForcibly();
             rt.gc();
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
         return new FileTag(filePath, lineTagList, shaSet);
