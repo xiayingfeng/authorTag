@@ -213,10 +213,15 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
                 lineTagList.add(lineTag);
                 shaSet.add(lineTag.getSha());
             }
-            logger.log(Level.SEVERE, "Something went wrong in invoking shell script.");
             while ((line = stdError.readLine()) != null) {
+                logger.log(Level.SEVERE, "Something went wrong in invoking shell script.");
                 logger.log(Level.INFO, line);
             }
+
+            stdError.close();
+            reader.close();
+            pr.destroyForcibly();
+            rt.gc();
         } catch (IOException e) {
             e.printStackTrace();
         }
