@@ -3,7 +3,6 @@ package gitKit;
 import entity.FileTag;
 import entity.LineTag;
 import entity.RepoTag;
-
 import org.eclipse.jgit.api.*;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.blame.BlameResult;
@@ -18,10 +17,8 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.logging.Level;
@@ -29,8 +26,8 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static constant.Constant.LIN;
 import static constant.Constant.WIN;
+import static utils.ShellCaller.call;
 
 /**
  * @author Xia Yingfeng
@@ -38,6 +35,8 @@ import static constant.Constant.WIN;
  */
 public class CommitAnalyzer extends AbstractCommitAnalyzer {
     private static final Logger logger = Logger.getLogger(CommitAnalyzer.class.getName());
+    static  {
+    }
     private static final String TIME_PAT_STR = "(\\d{4}-\\d{2}-\\d{2}\\s\\d{2}:\\d{2}:\\d{2}\\s[+-]\\d{4}\\s+)";
     private static final Pattern TIME_PATTERN = Pattern.compile(TIME_PAT_STR);
 
@@ -190,50 +189,29 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
      */
     @Override
     public FileTag getFileTagByCmd(String repoPath, String filePath, String platform) throws RuntimeException {
+
         String cmdStr = "";
-        if (WIN.equals(platform)) {
-            cmdStr = "cmd /c ";
-        }
-        cmdStr += "cd " + repoPath +
-                " && " +
-                "git blame -lw " + filePath;
+
+        cmdStr += "git  " +
+                "--git-dir=" + repoPath + "/.git " +
+                "--work-tree=" + repoPath +
+                " blame -lw " + filePath;
 
         List<LineTag> lineTagList = new ArrayList<>();
         Set<String> shaSet = new HashSet<>();
 
-        try {
-            Runtime rt =Runtime.getRuntime();
-            Process pr = rt.exec(cmdStr);
-            pr.waitFor();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(pr.getInputStream()));
-            BufferedReader stdError = new BufferedReader(new InputStreamReader(pr.getErrorStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
+        List<String> linesList = call(cmdStr);
+        for (String line : linesList) {
                 LineTag lineTag = lineToTag(line);
                 lineTagList.add(lineTag);
                 shaSet.add(lineTag.getSha());
-            }
-            while ((line = stdError.readLine()) != null) {
-                logger.log(Level.SEVERE, "Something went wrong in invoking shell script.");
-                logger.log(Level.INFO, line);
-            }
-
-            stdError.close();
-            reader.close();
-            pr.destroyForcibly();
-            rt.gc();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
         }
         return new FileTag(filePath, lineTagList, shaSet);
     }
 
+
     /** get sha of common commits  as a hashset*/
     public Set<String> getCommonCommitSet(Set<RevCommit> parentCommitSet, List<RevCommit> childCommitList) {
-//        Set<RevCommit> parentCommitSet = getCommitSet(parent);
-//        List<RevCommit> childCommitList = getCommitList(child);
-
         Set<String> parentShaSet = (HashSet)toStrCollection(parentCommitSet);
         List<String> childShaList = (ArrayList)toStrCollection(childCommitList);
 
@@ -291,6 +269,7 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
         //TODO .git directory required to be removed from list
         Vector<File> fileVector = new Vector<>();
         fileVector.add(dir);
+
         while(!fileVector.isEmpty()) {
             File currFile = fileVector.firstElement();
             if (currFile.isFile()) {
@@ -300,7 +279,7 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
                      fileTag = getFileTagByCmd(childRepoDir, filePath, platform);
                 } catch (RuntimeException e) {
                     // while line analyze failed, log it
-                    logger.log(Level.SEVERE, filePath + " read failed.");
+                    logger.log(Level.INFO , filePath + " read failed.");
                     fileVector.remove(currFile);
                     continue;
                 }
