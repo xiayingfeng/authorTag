@@ -1,2 +1,4 @@
 # environment
 src/main/resources/config/env.properties
+src/main/resources/repos/google__fdse__dagger
+src/main/resources/repos/square__fdse__dagger
