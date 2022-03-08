@@ -46,7 +46,7 @@ public class Main {
             iterator = rootNode.iterator();
         }
 
-        List<RepoTag> repoTagList = new ArrayList<>(212);
+        List<RepoTag> repoTagList = new ArrayList<>();
         if (iterator != null) {
             while (iterator.hasNext()) {
                 JsonNode tmpNode = iterator.next();
