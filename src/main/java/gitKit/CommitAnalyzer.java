@@ -3,22 +3,21 @@ package gitKit;
 import entity.FileTag;
 import entity.LineTag;
 import entity.RepoTag;
-import org.eclipse.jgit.api.*;
+import org.eclipse.jgit.api.BlameCommand;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.Status;
+import org.eclipse.jgit.api.StatusCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.blame.BlameResult;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -27,7 +26,6 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static constant.Constant.WIN;
 import static utils.ShellCaller.call;
 
 /**
@@ -85,7 +83,7 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
     }
 
     /**
-     * get  differences of 2 specified Commits
+     * get differences of 2 specified Commits
      *
      * @param newCommit .
      * @param oldCommit .
@@ -210,8 +208,8 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
 
     /** get sha of common commits  as a hashset*/
     public Set<String> getCommonCommitSet(Set<RevCommit> parentCommitSet, List<RevCommit> childCommitList) {
-        Set<String> parentShaSet = (HashSet)toStrCollection(parentCommitSet);
-        List<String> childShaList = (ArrayList)toStrCollection(childCommitList);
+        Set<String> parentShaSet = (HashSet<String>)toStrCollection(parentCommitSet);
+        List<String> childShaList = (ArrayList<String>)toStrCollection(childCommitList);
 
         Set<String> commonSet = new HashSet<>();
         for (String sha : childShaList) {
@@ -247,6 +245,8 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
         }
         return count;
     }
+
+
 
     /** get the total lines derived from parent repo in child repo */
     public RepoTag getParentCodeSumByRepo(Repository parent, Repository child, String platform) {
