@@ -1,4 +1,4 @@
-package gitKit;
+package diffscanner;
 
 import entity.RepoTag;
 import org.eclipse.jgit.api.errors.GitAPIException;

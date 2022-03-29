@@ -1,14 +1,17 @@
-import entity.RepoTag;
-import gitKit.CommitAnalyzer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import diffscanner.CommitAnalyzer;
+import entity.RepoTag;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -53,8 +56,8 @@ public class Main {
                 String childShortPath = tmpNode.get("child").asText();
                 String parentShortPath = tmpNode.get("parent").asText();
 
-                String childPath = getFullGitPath(REPOS_DIR, childShortPath);
-                String parentPath = getFullGitPath(REPOS_DIR, parentShortPath);
+                String childPath = getFullGitPath(childShortPath);
+                String parentPath = getFullGitPath(parentShortPath);
 
                 Repository childRepo = null, parentRepo = null;
                 try {
@@ -67,11 +70,13 @@ public class Main {
                 repoTagList.add(repoTag);
             }
         }
-        writeRepoTags(ORIGIN_PROPORTION, repoTagList);
+        writeRepoTags(repoTagList);
     }
 
-    /** get full git  directory path in multiple platform*/
-    private static String getFullGitPath(String reposDir, String shortPath) {
+    /**
+     * get full git  directory path in multiple platform
+     */
+    private static String getFullGitPath(String shortPath) {
         String split = "";
         if (WIN.equals(PLATFORM)) {
             split = "//";
@@ -81,12 +86,14 @@ public class Main {
 
         String[] parts = shortPath.split("/");
         String specialDir = shortPath.replace("/", "__fdse__");
-        String fullPath = reposDir + split + specialDir + split + parts[1] + split +".git" ;
+        String fullPath = constant.Constant.REPOS_DIR + split + specialDir + split + parts[1] + split + ".git";
         return fullPath;
     }
 
-    /** write repo result tags to the destination json file */
-    private static void writeRepoTags(String destJson, List<RepoTag> repoTagList) {
+    /**
+     * write repo result tags to the destination json file
+     */
+    private static void writeRepoTags(List<RepoTag> repoTagList) {
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
         ArrayNode array = mapper.createArrayNode();
         for (RepoTag repoTag : repoTagList) {
@@ -102,7 +109,7 @@ public class Main {
             array.add(node);
         }
 
-        try (OutputStream output = new FileOutputStream(destJson)){
+        try (OutputStream output = new FileOutputStream(constant.Constant.ORIGIN_PROPORTION)) {
             mapper.writeValue(output, array);
         } catch (IOException e) {
             e.printStackTrace();

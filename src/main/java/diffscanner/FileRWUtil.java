@@ -1,18 +1,4 @@
-package gitKit;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
+package diffscanner;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -20,6 +6,15 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author Xia Yingfeng
+ * @date 2022/3/28
+ */
 
 public class FileRWUtil {
 
@@ -68,7 +63,7 @@ public class FileRWUtil {
 		}
 	}
 
-	
+
 	public static List<String> getLines(File f){
 		FileInputStream fos;
 		List<String> result = new ArrayList<String>();
@@ -88,11 +83,11 @@ public class FileRWUtil {
 			e.printStackTrace();
 		}
 		return null;
-		
+
 	}
-	
+
 	public static List<String> getLines(byte[] buffer){
-		InputStream sbs = new ByteArrayInputStream(buffer); 
+		InputStream sbs = new ByteArrayInputStream(buffer);
 		List<String> result = new ArrayList<String>();
 		String line;
 		try {
@@ -109,7 +104,7 @@ public class FileRWUtil {
 			e.printStackTrace();
 		}
 		return null;
-		
+
 	}
 
 	public static boolean fileOutput(byte[] a,String output){
@@ -123,7 +118,7 @@ public class FileRWUtil {
 			return false;
 		}
 	}
-	
+
 	public static byte[] toByteArray(InputStream input) throws IOException {
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		copy(input, output);
@@ -150,22 +145,22 @@ public class FileRWUtil {
 	}
 
 	public static InputStream open(ObjectId blobId, Repository db) throws IOException, IncorrectObjectTypeException {
-		if (blobId == null)
+		if (blobId == null) {
 			return new ByteArrayInputStream(new byte[0]);
+		}
 
 		try {
 			WorkingTreeOptions workingTreeOptions = db.getConfig().get(WorkingTreeOptions.KEY);
 			switch (workingTreeOptions.getAutoCRLF()) {
-			case INPUT:
-				// When autocrlf == input the working tree could be either CRLF
-				// or LF, i.e. the comparison
-				// itself should ignore line endings.
-			case FALSE:
-				return db.open(blobId, Constants.OBJ_BLOB).openStream();
-			case TRUE:
-			default:
-				return db.open(blobId, Constants.OBJ_BLOB).openStream();
-//				return new AutoCRLFInputStream(db.open(blobId, Constants.OBJ_BLOB).openStream(), true);
+				case INPUT:
+					// When autocrlf == input the working tree could be either CRLF
+					// or LF, i.e. the comparison
+					// itself should ignore line endings.
+				case FALSE:
+					return db.open(blobId, Constants.OBJ_BLOB).openStream();
+				case TRUE:
+				default:
+					return db.open(blobId, Constants.OBJ_BLOB).openStream();
 			}
 		} catch (MissingObjectException notFound) {
 			return null;

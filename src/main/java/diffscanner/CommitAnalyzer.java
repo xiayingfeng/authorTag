@@ -1,4 +1,4 @@
-package gitKit;
+package diffscanner;
 
 import entity.FileTag;
 import entity.LineTag;
@@ -170,6 +170,7 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
             BlameCommand blamer = new BlameCommand(repo)
                     .setFilePath(filePath)
                     .setStartCommit(repo.resolve("70eee48"))
+                    //TODO hard-code should be fixed
                     .setTextComparator(RawTextComparator.WS_IGNORE_ALL);
             result = blamer.call();
         } catch (IOException e) {
@@ -245,8 +246,6 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
         }
         return count;
     }
-
-
 
     /** get the total lines derived from parent repo in child repo */
     public RepoTag getParentCodeSumByRepo(Repository parent, Repository child, String platform) {
@@ -365,7 +364,8 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
     }
 
     /**
-     * 比较左边的commit是否比右边的commit更早*/
+     * is the left commit earlier than the right
+     */
     private boolean isLeftEarlier(RevCommit aCommit, RevCommit bCommit) {
         Date aDate = aCommit.getAuthorIdent().getWhen();
         Date bDate = bCommit.getAuthorIdent().getWhen();

@@ -13,6 +13,7 @@ public class FileTag {
     private final List<LineTag> lines;
     private final Set<String> shaSet;
     private boolean[] bitMap;
+    private LogFileTag[] logs;
 
 
     public FileTag(String fileFullName,  List<LineTag> lines, Set<String> shaSet) {

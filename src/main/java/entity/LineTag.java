@@ -7,7 +7,9 @@ package entity;
 public class LineTag {
     private final int lineNo;
     private final String content;
-    //short SHA
+    /**
+     * short SHA
+     */
     private final String sha;
     private final String author;
     private final String timeStamp;
