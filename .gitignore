@@ -1,3 +1,4 @@
 # environment
 src/main/resources/config/env.properties
-src/main/resources/repos
+src/main/resources/repos/*
+target
