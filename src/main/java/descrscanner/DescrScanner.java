@@ -64,13 +64,13 @@ public class DescrScanner implements IDescrScanner {
      * @return description blocks list
      */
     @Override
-    public List<FileDescriptions> getDescrList(String repoName) throws GitAPIException, IOException {
-        List<FileDescriptions> fileDescrList = new ArrayList<>();
+    public List<DescriptionFile> getDescrList(String repoName) throws GitAPIException, IOException {
+        List<DescriptionFile> fileDescrList = new ArrayList<>();
 
         List<File> descrFiles = getDescrFileList(repoName);
         for (File file : descrFiles) {
             List<Description> descrList = extractDescr(file);
-            FileDescriptions fileDescr = new FileDescriptions(repoName, descrList);
+            DescriptionFile fileDescr = new DescriptionFile(repoName, descrList);
             fileDescrList.add(fileDescr);
         }
         return fileDescrList;
@@ -94,8 +94,8 @@ public class DescrScanner implements IDescrScanner {
         return getHunkFromDiffEntry(diffList);
     }
 
-    public List<DescrHunkPair> getDescrHunkPairs(List<FileDescriptions> fileDescrList) throws GitAPIException, IOException {
-        for (FileDescriptions fileDescr : fileDescrList) {
+    public List<DescrHunkPair> getDescrHunkPairs(List<DescriptionFile> fileDescrList) throws GitAPIException, IOException {
+        for (DescriptionFile fileDescr : fileDescrList) {
             List<Description> descrList = fileDescr.getDescrList();
             for (Description description : descrList) {
                 Date leftEnd = description.getLeftEnd();

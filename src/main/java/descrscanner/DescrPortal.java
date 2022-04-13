@@ -31,9 +31,9 @@ public class DescrPortal {
             JsonNode node = repoItr.next();
             String repoName = node.get("name").asText();
             try {
-                List<FileDescriptions> fileDescrList = descrScanner.getDescrList(repoName);
+                List<DescriptionFile> descrFiles = descrScanner.getDescrList(repoName);
                 logger.log(Level.INFO, "Description extracting succeed: " + repoName);
-                List<DescrHunkPair> descrHunkPairs = descrScanner.getDescrHunkPairs(fileDescrList);
+                List<DescrHunkPair> descrHunkPairs = descrScanner.getDescrHunkPairs(descrFiles);
 
 
             } catch (GitAPIException | IOException e) {

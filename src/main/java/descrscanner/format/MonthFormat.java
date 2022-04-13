@@ -14,57 +14,57 @@ public enum MonthFormat {
     CAP_FULL_MONTH("(January|February|March|April|May|June|July|August|September|October|November|December)"),
     CAP_SHORT_MONTH("(Jan.|Feb.|Mar.|Apr.|May.|Jun.|Jul.|Aug.|Sept.|Oct.|Nov.|Dec.)");
 
-    public final static HashMap<String, Integer> monthToIntMap = new HashMap<>();
+    public final static HashMap<String, Integer> MONTH_TO_INT_MAP = new HashMap<>();
 
     static {
-        monthToIntMap.put("JANUARY", 1);
-        monthToIntMap.put("FEBRUARY", 2);
-        monthToIntMap.put("MARCH", 3);
-        monthToIntMap.put("APRIL", 4);
-        monthToIntMap.put("MAY", 5);
-        monthToIntMap.put("JUNE", 6);
-        monthToIntMap.put("JULY", 7);
-        monthToIntMap.put("AUGUST", 8);
-        monthToIntMap.put("SEPTEMBER", 9);
-        monthToIntMap.put("OCTOBER", 10);
-        monthToIntMap.put("NOVEMBER", 11);
-        monthToIntMap.put("DECEMBER", 12);
+        MONTH_TO_INT_MAP.put("JANUARY", 1);
+        MONTH_TO_INT_MAP.put("FEBRUARY", 2);
+        MONTH_TO_INT_MAP.put("MARCH", 3);
+        MONTH_TO_INT_MAP.put("APRIL", 4);
+        MONTH_TO_INT_MAP.put("MAY", 5);
+        MONTH_TO_INT_MAP.put("JUNE", 6);
+        MONTH_TO_INT_MAP.put("JULY", 7);
+        MONTH_TO_INT_MAP.put("AUGUST", 8);
+        MONTH_TO_INT_MAP.put("SEPTEMBER", 9);
+        MONTH_TO_INT_MAP.put("OCTOBER", 10);
+        MONTH_TO_INT_MAP.put("NOVEMBER", 11);
+        MONTH_TO_INT_MAP.put("DECEMBER", 12);
 
-        monthToIntMap.put("JAN.", 1);
-        monthToIntMap.put("FEB.", 2);
-        monthToIntMap.put("MAR.", 3);
-        monthToIntMap.put("APR.", 4);
-        monthToIntMap.put("MAY.", 5);
-        monthToIntMap.put("JUN.", 6);
-        monthToIntMap.put("JUL.", 7);
-        monthToIntMap.put("AUG.", 8);
-        monthToIntMap.put("SEPT.", 9);
-        monthToIntMap.put("OCT.", 10);
-        monthToIntMap.put("NOV.", 11);
-        monthToIntMap.put("DEC.", 12);
+        MONTH_TO_INT_MAP.put("JAN.", 1);
+        MONTH_TO_INT_MAP.put("FEB.", 2);
+        MONTH_TO_INT_MAP.put("MAR.", 3);
+        MONTH_TO_INT_MAP.put("APR.", 4);
+        MONTH_TO_INT_MAP.put("MAY.", 5);
+        MONTH_TO_INT_MAP.put("JUN.", 6);
+        MONTH_TO_INT_MAP.put("JUL.", 7);
+        MONTH_TO_INT_MAP.put("AUG.", 8);
+        MONTH_TO_INT_MAP.put("SEPT.", 9);
+        MONTH_TO_INT_MAP.put("OCT.", 10);
+        MONTH_TO_INT_MAP.put("NOV.", 11);
+        MONTH_TO_INT_MAP.put("DEC.", 12);
 
-        monthToIntMap.put("1", 1);
-        monthToIntMap.put("2", 2);
-        monthToIntMap.put("3", 3);
-        monthToIntMap.put("4", 4);
-        monthToIntMap.put("5", 5);
-        monthToIntMap.put("6", 6);
-        monthToIntMap.put("7", 7);
-        monthToIntMap.put("8", 8);
-        monthToIntMap.put("9", 9);
-        monthToIntMap.put("10", 10);
-        monthToIntMap.put("11", 11);
-        monthToIntMap.put("12", 12);
+        MONTH_TO_INT_MAP.put("1", 1);
+        MONTH_TO_INT_MAP.put("2", 2);
+        MONTH_TO_INT_MAP.put("3", 3);
+        MONTH_TO_INT_MAP.put("4", 4);
+        MONTH_TO_INT_MAP.put("5", 5);
+        MONTH_TO_INT_MAP.put("6", 6);
+        MONTH_TO_INT_MAP.put("7", 7);
+        MONTH_TO_INT_MAP.put("8", 8);
+        MONTH_TO_INT_MAP.put("9", 9);
+        MONTH_TO_INT_MAP.put("10", 10);
+        MONTH_TO_INT_MAP.put("11", 11);
+        MONTH_TO_INT_MAP.put("12", 12);
 
-        monthToIntMap.put("01", 1);
-        monthToIntMap.put("02", 2);
-        monthToIntMap.put("03", 3);
-        monthToIntMap.put("04", 4);
-        monthToIntMap.put("05", 5);
-        monthToIntMap.put("06", 6);
-        monthToIntMap.put("07", 7);
-        monthToIntMap.put("08", 8);
-        monthToIntMap.put("09", 9);
+        MONTH_TO_INT_MAP.put("01", 1);
+        MONTH_TO_INT_MAP.put("02", 2);
+        MONTH_TO_INT_MAP.put("03", 3);
+        MONTH_TO_INT_MAP.put("04", 4);
+        MONTH_TO_INT_MAP.put("05", 5);
+        MONTH_TO_INT_MAP.put("06", 6);
+        MONTH_TO_INT_MAP.put("07", 7);
+        MONTH_TO_INT_MAP.put("08", 8);
+        MONTH_TO_INT_MAP.put("09", 9);
 
     }
 

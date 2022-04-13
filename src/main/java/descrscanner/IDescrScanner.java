@@ -27,7 +27,7 @@ public interface IDescrScanner {
      * @param repoName repo name with owner eg: google/dagger
      * @return description blocks list
      */
-    List<FileDescriptions> getDescrList(String repoName) throws GitAPIException, IOException;
+    List<DescriptionFile> getDescrList(String repoName) throws GitAPIException, IOException;
 
     /**
      * get list of hunks of target repo after a specified commit

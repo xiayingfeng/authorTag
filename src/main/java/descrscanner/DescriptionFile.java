@@ -7,18 +7,18 @@ import java.util.List;
  * @author Xia Yingfeng
  * @date 2022/4/12
  */
-public class FileDescriptions {
+public class DescriptionFile {
     private final String absDescrFilePath;
     private final List<Description> descrList;
     private int descrCount;
 
-    public FileDescriptions(String absDescrFilePath, List<Description> descrList) {
+    public DescriptionFile(String absDescrFilePath, List<Description> descrList) {
         this.absDescrFilePath = absDescrFilePath;
         this.descrList = descrList;
         descrCount = descrList.size();
     }
 
-    public FileDescriptions(String absDescrFilePath) {
+    public DescriptionFile(String absDescrFilePath) {
         this.absDescrFilePath = absDescrFilePath;
         descrList = new ArrayList<>();
         descrCount = 0;

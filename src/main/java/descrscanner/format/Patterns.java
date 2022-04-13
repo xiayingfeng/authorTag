@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 import static descrscanner.format.DateFormat.*;
 import static descrscanner.format.DayFormat.SUFFIX;
-import static descrscanner.format.MonthFormat.monthToIntMap;
+import static descrscanner.format.MonthFormat.MONTH_TO_INT_MAP;
 
 
 /**
@@ -119,12 +119,12 @@ public class Patterns {
     }
 
     private String simplifyMonth(String monthStr) {
-        if (!monthToIntMap.containsKey(monthStr)) {
+        if (!MONTH_TO_INT_MAP.containsKey(monthStr)) {
             logger.log(Level.SEVERE, "Illegal month :" + monthStr);
             // set an illegal month
             return "00";
         }
-        return "" + monthToIntMap.get(monthStr);
+        return "" + MONTH_TO_INT_MAP.get(monthStr);
     }
 
     private String extractDateFormat(String str) {
