@@ -35,7 +35,7 @@ public class RepoLoader {
         String absRepoPath = getRepoPath(repoName);
         File gitFile = null;
         try {
-            gitFile = new File(absRepoPath);
+            gitFile = new File(absRepoPath + "//.git");
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Cannot find \"" + absRepoPath + "\"");
         }
@@ -74,7 +74,6 @@ public class RepoLoader {
     public RevCommitList<RevCommit> getRevCommitList(Repository repo) {
         RevCommitList<RevCommit> commits = null;
         repo.getRefDatabase();
-
         return commits;
     }
 }

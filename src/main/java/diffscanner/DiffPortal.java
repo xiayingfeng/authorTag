@@ -1,9 +1,10 @@
+package diffscanner;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import diffscanner.CommitAnalyzer;
 import entity.RepoTag;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
@@ -22,7 +23,7 @@ import static constant.Constant.*;
  * @author Xia Yingfeng
  * @date 2021/12/10
  */
-public class Main {
+public class DiffPortal {
 
     private static final CommitAnalyzer ANALYZER = new CommitAnalyzer();
 
@@ -30,46 +31,49 @@ public class Main {
         batchAnalyze();
     }
 
-    /** analyze all pairs logged in index.json*/
+    /**
+     * analyze all pairs logged in index.json
+     */
     private static void batchAnalyze() {
 
         ObjectMapper mapper = new ObjectMapper();
         JsonNode rootNode = null;
 
-
         try {
-            File indexFile = new File(INDEX_PATH);
+            File indexFile = new File(DIFF_INDEX_PATH);
             rootNode = mapper.readTree(indexFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Iterator<JsonNode> iterator =null;
+        Iterator<JsonNode> iterator = null;
         if (rootNode != null) {
             iterator = rootNode.iterator();
         }
 
         List<RepoTag> repoTagList = new ArrayList<>();
-        if (iterator != null) {
-            while (iterator.hasNext()) {
-                JsonNode tmpNode = iterator.next();
-                String childShortPath = tmpNode.get("child").asText();
-                String parentShortPath = tmpNode.get("parent").asText();
-
-                String childPath = getFullGitPath(childShortPath);
-                String parentPath = getFullGitPath(parentShortPath);
-
-                Repository childRepo = null, parentRepo = null;
-                try {
-                    childRepo = new RepositoryBuilder().setGitDir(new File(childPath)).build();
-                    parentRepo = new RepositoryBuilder().setGitDir(new File(parentPath)).build();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                RepoTag repoTag = ANALYZER.getParentCodeSumByRepo(parentRepo, childRepo, PLATFORM);
-                repoTagList.add(repoTag);
-            }
+        if (iterator == null) {
+            return;
         }
+        while (iterator.hasNext()) {
+            JsonNode tmpNode = iterator.next();
+            String childShortPath = tmpNode.get("child").asText();
+            String parentShortPath = tmpNode.get("parent").asText();
+
+            String childPath = getFullGitPath(childShortPath);
+            String parentPath = getFullGitPath(parentShortPath);
+
+            Repository childRepo = null, parentRepo = null;
+            try {
+                childRepo = new RepositoryBuilder().setGitDir(new File(childPath)).build();
+                parentRepo = new RepositoryBuilder().setGitDir(new File(parentPath)).build();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            RepoTag repoTag = ANALYZER.getParentCodeSumByRepo(parentRepo, childRepo, PLATFORM);
+            repoTagList.add(repoTag);
+        }
+
         writeRepoTags(repoTagList);
     }
 

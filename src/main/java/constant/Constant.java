@@ -8,13 +8,14 @@ import java.util.logging.Logger;
  * @author Xia Yingfeng
  * @date 2022/3/9
  */
-public class Constant {
+public final class Constant {
+    public static final String REPOS_DIR, PLATFORM;
     public static final String LIN = "Lin";
     public static final String WIN = "Win";
-    private static final Logger logger = Logger.getLogger(Constant.class.getName());
     public static final String ENV_PATH = "config/env";
-
-    public static final String INDEX_PATH, REPOS_DIR, ORIGIN_PROPORTION, PLATFORM;
+    public static final String DIFF_INDEX_PATH, ORIGIN_PROPORTION;
+    public static final String DESCR_INDEX_PATH;
+    private static final Logger logger = Logger.getLogger(Constant.class.getName());
     /**
      * before match, we should toUpperCase() the file name
      */
@@ -23,13 +24,16 @@ public class Constant {
 
     static {
         PLATFORM = System.getProperty("os.name").substring(0, 3);
-        INDEX_PATH = RESOURCE_BUNDLE.getString("index_path");
         REPOS_DIR = RESOURCE_BUNDLE.getString("repos_dir");
-        ORIGIN_PROPORTION = RESOURCE_BUNDLE.getString("origin_proportion");
-
         logger.log(Level.CONFIG, "platform: " + PLATFORM);
         logger.log(Level.CONFIG, "repos_dir: " + REPOS_DIR);
-        logger.log(Level.CONFIG, "index_path: " + INDEX_PATH);
+
+        DIFF_INDEX_PATH = RESOURCE_BUNDLE.getString("diff_index_path");
+        ORIGIN_PROPORTION = RESOURCE_BUNDLE.getString("origin_proportion");
+        logger.log(Level.CONFIG, "diff_index_path: " + DIFF_INDEX_PATH);
+
+        DESCR_INDEX_PATH = RESOURCE_BUNDLE.getString("descr_index_path");
+        logger.log(Level.CONFIG, "descr_index_path: " + DESCR_INDEX_PATH);
     }
 
 }

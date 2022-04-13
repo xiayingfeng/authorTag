@@ -1,7 +1,6 @@
 package descrscanner;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.patch.HunkHeader;
 import org.eclipse.jgit.revwalk.RevCommit;
 
@@ -28,17 +27,15 @@ public interface IDescrScanner {
      * @param repoName repo name with owner eg: google/dagger
      * @return description blocks list
      */
-    List<Description> getDescrList(String repoName);
+    List<FileDescriptions> getDescrList(String repoName) throws GitAPIException, IOException;
 
     /**
      * get list of hunks of target repo after a specified commit
      *
-     * @param repo        research object repository
      * @param startCommit left start commit
      * @return hunk headers list
      * @throws GitAPIException might be thrown during LogCommand been called
      * @throws IOException     throwable during reset TreeParser
      */
-    List<HunkHeader> getHunks(Repository repo, RevCommit startCommit) throws GitAPIException, IOException;
-
+    List<HunkHeader> getHunks(RevCommit startCommit) throws GitAPIException, IOException;
 }
