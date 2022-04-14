@@ -1,6 +1,6 @@
 package descrscanner.format;
 
-import static descrscanner.format.Patterns.*;
+import static constant.RegexConstant.*;
 
 
 /**

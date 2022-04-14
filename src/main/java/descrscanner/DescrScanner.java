@@ -42,6 +42,7 @@ public class DescrScanner implements IDescrScanner {
 
     private Repository repo;
     private Git git;
+    //
 
     /**
      * get list of file containing modification description of specified repository
@@ -187,7 +188,13 @@ public class DescrScanner implements IDescrScanner {
         CanonicalTreeParser currParser = new CanonicalTreeParser();
         currParser.reset(reader, currHead);
 
-        diffList = git.diff().setOldTree(prevParser).setNewTree(currParser).call();
+
+        diffList = git.diff()
+                .setOldTree(prevParser)
+                .setNewTree(currParser)
+                .setOutputStream(System.out)
+//                .setContextLines()
+                .call();
 
         return diffList;
     }

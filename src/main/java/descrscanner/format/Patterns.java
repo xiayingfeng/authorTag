@@ -6,9 +6,8 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static constant.RegexConstant.*;
 import static descrscanner.format.DateFormat.*;
-import static descrscanner.format.DayFormat.SUFFIX;
-import static descrscanner.format.MonthFormat.MONTH_TO_INT_MAP;
 
 
 /**
@@ -16,14 +15,7 @@ import static descrscanner.format.MonthFormat.MONTH_TO_INT_MAP;
  * @date 2022/4/8
  */
 public class Patterns {
-    static final String SPLIT = "([-./\\s])";
-    static final String DAY = "(\\d{1,2}((ST|ND|RD|TH)?))";
-    static final String YEAR = "(\\d{4})";
-    static final String MONTH = "(\\d{1,2}|" +
-            "JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER|" +
-            "JAN\\.|FEB\\.|MAR\\.|APR\\.|MAY\\.|JUN\\.|JUL\\.|AUG\\.|SEP\\.|SEPT\\.|OCT\\.|NOV\\.|DEC\\.)";
     private static final Logger logger = Logger.getLogger(Patterns.class.getName());
-    private static final String VER = "[VERSION|V]?\\s?\\d+(\\.\\d+)*";
 
     private final String dateFormatRegex;
     boolean hasVerFormat;

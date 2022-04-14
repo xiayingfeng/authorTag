@@ -9,7 +9,6 @@ public enum DayFormat {
     NUM_DAY("(\\d{1,2})"),
     WORD_DAY("(\\d{1,2}(st|nd|rd|th))");
 
-    public static final String SUFFIX = "(st|nd|rd|th)";
 
     public final String dayFormatValue;
 
