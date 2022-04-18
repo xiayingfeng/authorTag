@@ -62,11 +62,14 @@ public class RepoLoader {
         // the name of repo without owner info, eg: dagger
         String realRepoName = repoName.split("/")[1];
         String path = Constant.REPOS_DIR;
+/*
         if (Constant.PLATFORM.equals(Constant.WIN)) {
             path += "//" + localRepoName + "//" + realRepoName;
         } else if (Constant.PLATFORM.equals(Constant.LIN)) {
             path += "/" + localRepoName + "/" + realRepoName;
         }
+*/
+        path += File.separator + localRepoName + File.separator + realRepoName;
         logger.log(Level.INFO, "absRepoPath: " + path);
         return path;
     }

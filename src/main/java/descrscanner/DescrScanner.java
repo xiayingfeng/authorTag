@@ -3,18 +3,17 @@ package descrscanner;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import constant.Constant;
+import descrscanner.entities.DescrHunkPair;
+import descrscanner.entities.Description;
+import descrscanner.entities.DescriptionFile;
 import descrscanner.format.Patterns;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.patch.FileHeader;
-import org.eclipse.jgit.patch.HunkHeader;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -77,42 +76,28 @@ public class DescrScanner implements IDescrScanner {
         return fileDescrList;
     }
 
-    /**
-     * get list of hunks of target repo after a specified commit
-     *
-     * @param startCommit left start commit
-     * @return hunk headers list
-     * @throws GitAPIException might be thrown during LogCommand been called
-     */
-    @Override
-    public List<HunkHeader> getHunks(RevCommit startCommit) throws GitAPIException, IOException {
-        // in reverse chronological order
-        Iterable<RevCommit> commits = git.log().call();
-
-        // now only start commit and the latest commit
-        RevCommit currCommit = commits.iterator().next();
-        List<DiffEntry> diffList = getDiffEntry(startCommit, currCommit);
-        return getHunkFromDiffEntry(diffList);
-    }
-
     public List<DescrHunkPair> getDescrHunkPairs(List<DescriptionFile> fileDescrList) throws GitAPIException, IOException {
+        List<DescrHunkPair> descrHunkPairList = new ArrayList<>();
         for (DescriptionFile fileDescr : fileDescrList) {
             List<Description> descrList = fileDescr.getDescrList();
             for (Description description : descrList) {
                 Date leftEnd = description.getLeftEnd();
                 Date rightEnd = description.getRightEnd();
                 TreeMap<Date, RevCommit> commitsByDate = getAllCommitsBetween(leftEnd, rightEnd);
+                if (commitsByDate.size() < 2) {
+                    return descrHunkPairList;
+                }
                 RevCommit leftCommit = commitsByDate.firstEntry().getValue();
                 RevCommit rightCommit = commitsByDate.lastEntry().getValue();
-                List<DiffEntry> diffEntries = getDiffEntry(leftCommit, rightCommit);
-                List<HunkHeader> hunkHeaders = getHunkFromDiffEntry(diffEntries);
-                break;
+                String hunkContent = getHunkContent(leftCommit, rightCommit);
+                DescrHunkPair pair = new DescrHunkPair(description, hunkContent);
+                descrHunkPairList.add(pair);
             }
         }
-        return null;
+        return descrHunkPairList;
     }
 
-    /*
+    /**
      * Get all commits before rightEnd and after leftEnd
      * */
     private TreeMap<Date, RevCommit> getAllCommitsBetween(Date leftEnd, Date rightEnd) {
@@ -142,31 +127,6 @@ public class DescrScanner implements IDescrScanner {
 
 
     /**
-     * extract hunks from diff entry list
-     *
-     * @return a list contains all hunks in list of diff entries
-     * @throws IOException DiffEntry could not be read during transmute entry to FileHeader.
-     */
-    private List<HunkHeader> getHunkFromDiffEntry(List<DiffEntry> diffList) throws IOException {
-        List<HunkHeader> headerList = new ArrayList<>();
-
-        // format diff
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        DiffFormatter formatter = new DiffFormatter(out);
-        // ignore all white space
-        formatter.setDiffComparator(RawTextComparator.WS_IGNORE_ALL);
-        formatter.setRepository(repo);
-        for (DiffEntry entry : diffList) {
-            FileHeader fileHeader = formatter.toFileHeader(entry);
-
-            // Not sure if the cast is correct
-            List<HunkHeader> tempList = (List<HunkHeader>) fileHeader.getHunks();
-            headerList.addAll(tempList);
-        }
-        return headerList;
-    }
-
-    /**
      * get diff entry list of 2 adjacent commit version.
      * Is it possible to compare any two version?
      *
@@ -176,7 +136,7 @@ public class DescrScanner implements IDescrScanner {
      * @throws IOException     throwable during reset TreeParser
      * @throws GitAPIException throwable during calling diff command
      */
-    private List<DiffEntry> getDiffEntry(RevCommit prevCommit, RevCommit currCommit) throws IOException, GitAPIException {
+    private String getHunkContent(RevCommit prevCommit, RevCommit currCommit) throws IOException, GitAPIException {
         List<DiffEntry> diffList;
         ObjectId currHead = currCommit.getTree().getId();
         ObjectId prevHead = prevCommit.getTree().getId();
@@ -188,15 +148,17 @@ public class DescrScanner implements IDescrScanner {
         CanonicalTreeParser currParser = new CanonicalTreeParser();
         currParser.reset(reader, currHead);
 
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-        diffList = git.diff()
+
+        git.diff()
                 .setOldTree(prevParser)
                 .setNewTree(currParser)
-                .setOutputStream(System.out)
 //                .setContextLines()
+                .setOutputStream(bos)
                 .call();
 
-        return diffList;
+        return bos.toString();
     }
 
     /**
@@ -264,7 +226,7 @@ public class DescrScanner implements IDescrScanner {
         List<String> descrBlock = new ArrayList<>();
 //        boolean isInitiated = false;
         Date tmpDate = null;
-        Date leftDate = null, rightDate = null;
+        Date leftDate, rightDate;
 
         int size = strList.size();
         int i = 0;

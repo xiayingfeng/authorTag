@@ -1,6 +1,4 @@
-package descrscanner;
-
-import org.eclipse.jgit.patch.HunkHeader;
+package descrscanner.entities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +9,7 @@ import java.util.List;
  */
 public class FileHunks {
     private final String absSrcFilePath;
-    private final List<HunkHeader> hunksList;
+    private final List<String> hunksList;
     private int hunksCount;
 
     public FileHunks(String absSrcFilePath) {
@@ -20,7 +18,7 @@ public class FileHunks {
         this.hunksCount = 0;
     }
 
-    public FileHunks(String absSrcFilePath, List<HunkHeader> hunksList) {
+    public FileHunks(String absSrcFilePath, List<String> hunksList) {
         this.absSrcFilePath = absSrcFilePath;
         this.hunksList = hunksList;
         this.hunksCount = hunksList.size();
@@ -30,7 +28,7 @@ public class FileHunks {
         return absSrcFilePath;
     }
 
-    public List<HunkHeader> getHunksList() {
+    public List<String> getHunksList() {
         return hunksList;
     }
 
@@ -42,7 +40,7 @@ public class FileHunks {
         return hunksCount > 0;
     }
 
-    public void addHunk(HunkHeader hunk) {
+    public void addHunk(String hunk) {
         hunksList.add(hunk);
         hunksCount++;
     }

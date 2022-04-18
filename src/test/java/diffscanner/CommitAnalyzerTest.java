@@ -139,7 +139,7 @@ class CommitAnalyzerTest {
         logger.log(Level.INFO, "Test getFileBlameByCmd()");
         String repoPath = "F:/SelfFileBackUp/Term/Lab/License_Reading/authorTag/src/main/resources/repos/google__fdse__dagger/dagger";
         String filePath = "F:/SelfFileBackUp/Term/Lab/License_Reading/authorTag/src/main/resources/repos/google__fdse__dagger/dagger/README.md";
-        commitAnalyzer.getFileTagByCmd(repoPath, filePath, "linux");
+        commitAnalyzer.getFileTagByCmd(repoPath, filePath);
     }
 
     @Test
@@ -155,13 +155,13 @@ class CommitAnalyzerTest {
 
     @Test
     void getParentCodeSum() {
-        int sum = commitAnalyzer.getParentCodeSumByFile(parent, child, childReadme, "linux");
+        int sum = commitAnalyzer.getParentCodeSumByFile(parent, child, childReadme);
         logger.log(Level.INFO, "Test getParentCodeSum()");
     }
 
     @Test
     void testGetParentCodeSumByRepo() {
-        RepoTag repoTag = commitAnalyzer.getParentCodeSumByRepo(parent, child, "linux");
+        RepoTag repoTag = commitAnalyzer.getParentCodeSumByRepo(parent, child);
         logger.log(Level.INFO, "Test getParentCodeSumByRepo()");
     }
 }
