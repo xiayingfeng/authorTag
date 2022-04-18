@@ -10,11 +10,12 @@ import java.util.logging.Logger;
  */
 public final class Constant {
     public static final String REPOS_DIR, PLATFORM;
-    public static final String LIN = "Lin";
+    //    public static final String LIN = "Lin";
     public static final String WIN = "Win";
+    public static final String FDSE = "__fdse__";
     public static final String ENV_PATH = "config/env";
-    public static final String DIFF_INDEX_PATH, ORIGIN_PROPORTION;
-    public static final String DESCR_INDEX_PATH;
+    public static final String DIFF_INDEX_PATH, DIFF_OUTPUT_PATH;
+    public static final String DESCR_INDEX_PATH, DESCR_OUTPUT_PATH, DESCR_OUT_DETAILS;
     private static final Logger logger = Logger.getLogger(Constant.class.getName());
     /**
      * before match, we should toUpperCase() the file name
@@ -29,11 +30,16 @@ public final class Constant {
         logger.log(Level.CONFIG, "repos_dir: " + REPOS_DIR);
 
         DIFF_INDEX_PATH = RESOURCE_BUNDLE.getString("diff_index_path");
-        ORIGIN_PROPORTION = RESOURCE_BUNDLE.getString("origin_proportion");
+        DIFF_OUTPUT_PATH = RESOURCE_BUNDLE.getString("diff_output_path");
         logger.log(Level.CONFIG, "diff_index_path: " + DIFF_INDEX_PATH);
+        logger.log(Level.CONFIG, "diff_output_path: " + DIFF_OUTPUT_PATH);
 
         DESCR_INDEX_PATH = RESOURCE_BUNDLE.getString("descr_index_path");
+        DESCR_OUTPUT_PATH = RESOURCE_BUNDLE.getString("descr_output_path");
+        DESCR_OUT_DETAILS = RESOURCE_BUNDLE.getString("descr_out_details");
         logger.log(Level.CONFIG, "descr_index_path: " + DESCR_INDEX_PATH);
+        logger.log(Level.CONFIG, "descr_output_path: " + DESCR_OUTPUT_PATH);
+        logger.log(Level.CONFIG, "descr_out_details: " + DESCR_OUT_DETAILS);
     }
 
 }

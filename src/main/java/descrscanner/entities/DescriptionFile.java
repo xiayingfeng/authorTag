@@ -1,4 +1,4 @@
-package descrscanner;
+package descrscanner.entities;
 
 import java.util.ArrayList;
 import java.util.List;

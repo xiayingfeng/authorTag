@@ -186,7 +186,7 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
      * @param filePath absolute path
      */
     @Override
-    public FileTag getFileTagByCmd(String repoPath, String filePath, String platform) throws RuntimeException {
+    public FileTag getFileTagByCmd(String repoPath, String filePath) throws RuntimeException {
 
         String cmdStr = "";
 
@@ -221,15 +221,17 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
         return commonSet;
     }
 
-    /** count how many lines in a child file are from parent */
-    public int getParentCodeSumByFile(Repository parent, Repository child, String filePath, String platform) {
+    /**
+     * count how many lines in a child file are from parent
+     */
+    public int getParentCodeSumByFile(Repository parent, Repository child, String filePath) {
         Set<RevCommit> parentCommitSet = getCommitSet(parent);
         List<RevCommit> childCommitList = getCommitList(child);
         // repo level common commits set
         Set<String> commonSha = getCommonCommitSet(parentCommitSet, childCommitList);
 
         String repoDir = child.getDirectory().getParent();
-        int count = getParentCodeSumByFile(commonSha, getFileTagByCmd(repoDir, filePath, platform));
+        int count = getParentCodeSumByFile(commonSha, getFileTagByCmd(repoDir, filePath));
         return count;
     }
 
@@ -247,8 +249,10 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
         return count;
     }
 
-    /** get the total lines derived from parent repo in child repo */
-    public RepoTag getParentCodeSumByRepo(Repository parent, Repository child, String platform) {
+    /**
+     * get the total lines derived from parent repo in child repo
+     */
+    public RepoTag getParentCodeSumByRepo(Repository parent, Repository child) {
         int total = 0, parentCount = 0;
 
         // TODO may be this should be extracted.
@@ -281,7 +285,7 @@ public class CommitAnalyzer extends AbstractCommitAnalyzer {
                 String filePath = currFile.getAbsolutePath();
                 FileTag fileTag;
                 try {
-                     fileTag = getFileTagByCmd(childRepoDir, filePath, platform);
+                    fileTag = getFileTagByCmd(childRepoDir, filePath);
                 } catch (RuntimeException e) {
                     // while line analyze failed, log it
                     logger.log(Level.INFO , filePath + " read failed.");

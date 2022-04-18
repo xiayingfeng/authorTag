@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import entity.RepoTag;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
+import utils.MyFileUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,7 +18,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static constant.Constant.*;
+import static constant.Constant.DIFF_INDEX_PATH;
+import static constant.Constant.FDSE;
 
 /**
  * @author Xia Yingfeng
@@ -35,21 +37,7 @@ public class DiffPortal {
      * analyze all pairs logged in index.json
      */
     private static void batchAnalyze() {
-
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode rootNode = null;
-
-        try {
-            File indexFile = new File(DIFF_INDEX_PATH);
-            rootNode = mapper.readTree(indexFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Iterator<JsonNode> iterator = null;
-        if (rootNode != null) {
-            iterator = rootNode.iterator();
-        }
+        Iterator<JsonNode> iterator = MyFileUtil.getJsonItrFrom(DIFF_INDEX_PATH);
 
         List<RepoTag> repoTagList = new ArrayList<>();
         if (iterator == null) {
@@ -70,7 +58,7 @@ public class DiffPortal {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            RepoTag repoTag = ANALYZER.getParentCodeSumByRepo(parentRepo, childRepo, PLATFORM);
+            RepoTag repoTag = ANALYZER.getParentCodeSumByRepo(parentRepo, childRepo);
             repoTagList.add(repoTag);
         }
 
@@ -81,15 +69,10 @@ public class DiffPortal {
      * get full git  directory path in multiple platform
      */
     private static String getFullGitPath(String shortPath) {
-        String split = "";
-        if (WIN.equals(PLATFORM)) {
-            split = "//";
-        } else if (LIN.equals(PLATFORM)) {
-            split = "/";
-        }
+        String split = File.separator;
 
         String[] parts = shortPath.split("/");
-        String specialDir = shortPath.replace("/", "__fdse__");
+        String specialDir = shortPath.replace("/", FDSE);
         return constant.Constant.REPOS_DIR + split + specialDir + split + parts[1] + split + ".git";
     }
 
@@ -112,7 +95,7 @@ public class DiffPortal {
             array.add(node);
         }
 
-        try (OutputStream output = new FileOutputStream(constant.Constant.ORIGIN_PROPORTION)) {
+        try (OutputStream output = new FileOutputStream(constant.Constant.DIFF_OUTPUT_PATH)) {
             mapper.writeValue(output, array);
         } catch (IOException e) {
             e.printStackTrace();
@@ -121,14 +104,10 @@ public class DiffPortal {
 
     /** get short name of each repo in multiple platform*/
     private static String getShortName(String fullName) {
-        String split = "";
-        if (WIN.equals(PLATFORM)) {
-            split = "//";
-        } else if (LIN.equals(PLATFORM)) {
-            split = "/";
-        }
+        String split = File.separator;
+
         String[] dirs = fullName.split(split);
-        return dirs[dirs.length - 2].replace("__fdse__", "/");
+        return dirs[dirs.length - 2].replace(FDSE, "/");
     }
 
 }

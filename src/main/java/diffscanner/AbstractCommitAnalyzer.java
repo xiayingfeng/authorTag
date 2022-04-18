@@ -52,19 +52,29 @@ public abstract class AbstractCommitAnalyzer {
     /** use RevWalk to quickly iterate over all available commits list*/
     abstract List<RevCommit> getCommitList(Repository repo);
 
-    /** invoke getCommitList() to generate a commits set*/
+    /**
+     * invoke getCommitList() to generate a commits set
+     */
     abstract Set<RevCommit> getCommitSet(Repository repo);
 
-    /** get the Blame-information for a dir */
+    /**
+     * get the Blame-information for a dir
+     */
     abstract BlameResult getDirBlame(Repository repo, String dirPath);
 
-    /** get the Blame-information for a file */
+    /**
+     * get the Blame-information for a file
+     */
     abstract BlameResult getFileBlame(Repository repo, String filePath) throws GitAPIException;
 
-    /** get the Blame-info by invoke cmd in windows*/
-    public abstract FileTag getFileTagByCmd(String repoPath, String filePath, String platform) throws RuntimeException;
+    /**
+     * get the Blame-info by invoke cmd in windows
+     */
+    public abstract FileTag getFileTagByCmd(String repoPath, String filePath) throws RuntimeException;
 
-    /** from the commit we can build the tree which allows us to construct the TreeParser*/
+    /**
+     * from the commit we can build the tree which allows us to construct the TreeParser
+     */
     protected AbstractTreeIterator prepareTreeParser(Repository repository, String objectId) throws IOException {
         try (RevWalk walk = new RevWalk(repository)) {
             RevCommit commit = walk.parseCommit(repository.resolve(objectId));
