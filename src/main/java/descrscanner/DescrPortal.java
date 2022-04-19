@@ -36,6 +36,7 @@ public class DescrPortal {
         while (repoItr.hasNext()) {
             DescrScanner descrScanner = new DescrScanner();
             JsonNode node = repoItr.next();
+            String index = node.get("index").asText();
             String repoName = node.get("name").asText();
             List<DescrHunkPair> descrHunkPairs = new ArrayList<>();
             try {

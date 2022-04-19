@@ -17,6 +17,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.filter.CommitTimeRevFilter;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import utils.RepoLoader;
 
@@ -76,16 +77,17 @@ public class DescrScanner implements IDescrScanner {
         return fileDescrList;
     }
 
-    public List<DescrHunkPair> getDescrHunkPairs(List<DescriptionFile> fileDescrList) throws GitAPIException, IOException {
+    public List<DescrHunkPair> getDescrHunkPairs(List<DescriptionFile> descriptionFileList) throws GitAPIException, IOException {
         List<DescrHunkPair> descrHunkPairList = new ArrayList<>();
-        for (DescriptionFile fileDescr : fileDescrList) {
-            List<Description> descrList = fileDescr.getDescrList();
+        for (DescriptionFile descriptionFile : descriptionFileList) {
+            List<Description> descrList = descriptionFile.getDescrList();
             for (Description description : descrList) {
                 Date leftEnd = description.getLeftEnd();
                 Date rightEnd = description.getRightEnd();
                 TreeMap<Date, RevCommit> commitsByDate = getAllCommitsBetween(leftEnd, rightEnd);
                 if (commitsByDate.size() < 2) {
-                    return descrHunkPairList;
+//                    return descrHunkPairList;
+                    continue;
                 }
                 RevCommit leftCommit = commitsByDate.firstEntry().getValue();
                 RevCommit rightCommit = commitsByDate.lastEntry().getValue();
@@ -101,27 +103,33 @@ public class DescrScanner implements IDescrScanner {
      * Get all commits before rightEnd and after leftEnd
      * */
     private TreeMap<Date, RevCommit> getAllCommitsBetween(Date leftEnd, Date rightEnd) {
-        RevWalk walk = new RevWalk(this.repo);
-        TreeMap<Date, RevCommit> commitsByDate = new TreeMap<>();
+//        RevWalk walk = new RevWalk(this.repo);
+        RevWalk walk = null;
         try {
-            walk.markStart(walk.parseCommit(this.repo.resolve(Constants.HEAD)));
-
-            walk.sort(RevSort.COMMIT_TIME_DESC);
-//            walk.setTreeFilter(PathFilter.create(path));
-
-            for (RevCommit commit : walk) {
-                Date commitTime = commit.getCommitterIdent().getWhen();
-                boolean isAfterLeft = commitTime.after(leftEnd);
-                boolean isBeforeRight = commitTime.before(rightEnd);
-                if (isAfterLeft && isBeforeRight) {
-                    commitsByDate.put(commitTime, commit);
-                }
-            }
-            walk.close();
-            logger.log(Level.INFO, "Number of valid commits: " + commitsByDate.size());
-        } catch (IOException e) {
+            ObjectId masterId = this.repo.exactRef("refs/heads/master").getObjectId();
+            walk = (RevWalk) this.git.log().add(masterId).setRevFilter(CommitTimeRevFilter.between(leftEnd,rightEnd)).call();
+        } catch (GitAPIException | IOException e) {
             e.printStackTrace();
         }
+        TreeMap<Date, RevCommit> commitsByDate = new TreeMap<>();
+        //            walk.markStart(walk.parseCommit(this.repo.resolve(Constants.HEAD)));
+
+        walk.sort(RevSort.COMMIT_TIME_DESC);
+//            walk.setTreeFilter(PathFilter.create(path));
+
+        for (RevCommit commit : walk) {
+            Date commitTime = commit.getCommitterIdent().getWhen();
+            commitsByDate.put(commitTime, commit);
+/*
+            boolean isAfterLeft = commitTime.after(leftEnd);
+            boolean isBeforeRight = commitTime.before(rightEnd);
+            if (isAfterLeft && isBeforeRight) {
+                commitsByDate.put(commitTime, commit);
+            }
+*/
+        }
+        walk.close();
+        logger.log(Level.INFO, "Number of valid commits: " + commitsByDate.size());
         return commitsByDate;
     }
 
