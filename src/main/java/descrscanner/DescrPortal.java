@@ -37,7 +37,7 @@ public class DescrPortal {
             DescrScanner descrScanner = new DescrScanner();
             JsonNode node = repoItr.next();
             String repoName = node.get("name").asText();
-            List<DescrHunkPair> descrHunkPairs = null;
+            List<DescrHunkPair> descrHunkPairs = new ArrayList<>();
             try {
                 List<DescriptionFile> descrFiles = descrScanner.getDescrList(repoName);
                 logger.log(Level.INFO, "Description extracting succeed: " + repoName);
@@ -46,7 +46,7 @@ public class DescrPortal {
                 logger.log(Level.SEVERE, "Description extracting failed: " + repoName);
                 e.printStackTrace();
             }
-            if (descrHunkPairs == null) {
+            if (descrHunkPairs.isEmpty()) {
                 logger.log(Level.SEVERE, "No <description, hunks> pairs found: " + repoName);
                 descrHunkPairs = new ArrayList<>();
             }

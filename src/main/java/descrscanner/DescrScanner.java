@@ -70,7 +70,7 @@ public class DescrScanner implements IDescrScanner {
         List<File> descrFiles = getDescrFileList(repoName);
         for (File file : descrFiles) {
             List<Description> descrList = extractDescr(file);
-            DescriptionFile fileDescr = new DescriptionFile(repoName, descrList);
+            DescriptionFile fileDescr = new DescriptionFile(file.getName(), descrList);
             fileDescrList.add(fileDescr);
         }
         return fileDescrList;
@@ -244,8 +244,10 @@ public class DescrScanner implements IDescrScanner {
         if (patterns == null) {
             String filePath = file.getAbsolutePath();
             logger.log(Level.INFO, "No patterns found in " + filePath);
-            Description description = wholeAsSingleBlock(strList);
-            descrList.add(description);
+
+            // I think it's improper to see the whole file as a Description, so I commented the following 2 lines
+//            Description description = wholeAsSingleBlock(strList);
+//            descrList.add(description);
             return descrList;
         }
 
@@ -285,9 +287,11 @@ public class DescrScanner implements IDescrScanner {
         // now only start commit and the latest commit
         RevCommit latestCommit = commits.iterator().next();
 
-        Date rightEnd = new Date(latestCommit.getCommitTime());
+        Date rightEnd = latestCommit.getCommitterIdent().getWhen();
         return new Description(rightEnd, descrBlockList);
     }
+
+
 
     private Date extractDate(String line, Patterns patterns) {
         String dateStr = patterns.extractDate(line);
