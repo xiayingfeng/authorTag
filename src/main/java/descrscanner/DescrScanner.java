@@ -78,32 +78,33 @@ public class DescrScanner implements IDescrScanner {
     }
 
     public List<DescrHunkPair> getDescrHunkPairs(List<DescriptionFile> descriptionFileList) throws GitAPIException, IOException {
-        // todo 1. merge duplicated descriptions with same time interval
-        //  2. extract commit message add into Description commit massage, new field!
         List<DescrHunkPair> descrHunkPairList = new ArrayList<>();
         List<Description> generalDescrList = extractNonRedundantDescrList(descriptionFileList);
 
         for (Description description : generalDescrList) {
             Date leftEnd = description.getLeftEnd();
             Date rightEnd = description.getRightEnd();
+
             TreeMap<Date, RevCommit> commitsByDate = getAllCommitsBetween(leftEnd, rightEnd);
             if (commitsByDate.size() < 2) {
-//                    return descrHunkPairList;
                 continue;
             }
             RevCommit leftCommit = commitsByDate.firstEntry().getValue();
             RevCommit rightCommit = commitsByDate.lastEntry().getValue();
             String hunkContent = getHunkContent(leftCommit, rightCommit);
-            DescrHunkPair pair = new DescrHunkPair(description, hunkContent);
+            List<String> commitMessageList = new ArrayList<>();
+            for (RevCommit commit : commitsByDate.values()) {
+                commitMessageList.add(commit.getFullMessage());
+            }
+            DescrHunkPair pair = new DescrHunkPair(description, hunkContent, commitMessageList);
             descrHunkPairList.add(pair);
         }
-
         return descrHunkPairList;
     }
 
     private List<Description> extractNonRedundantDescrList(List<DescriptionFile> descriptionFileList) {
         List<Description> generalDescrList = new ArrayList<>();
-        HashMap<String, Description> descrHashMap = new HashMap<>();
+        HashMap<String, Description> descrHashMap = new HashMap<>(32);
         for (DescriptionFile descriptionFile : descriptionFileList) {
             List<Description> descrList = descriptionFile.getDescrList();
             for (Description descr : descrList) {
@@ -133,39 +134,9 @@ public class DescrScanner implements IDescrScanner {
      * Get all commits before rightEnd and after leftEnd
      * */
     private TreeMap<Date, RevCommit> getAllCommitsBetween(Date leftEnd, Date rightEnd) throws IOException, GitAPIException {
-/*
-//        RevWalk walk = new RevWalk(this.repo);
-        RevWalk walk = null;
-
-//            ObjectId masterId = this.repo.exactRef("refs/heads/master").getObjectId();
-        ObjectId headId = null;
-        RevCommit headCommit = null;
-        try {
-            headId = this.repo.resolve(Constants.HEAD);
-            headCommit = this.repo.parseCommit(headId);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        ObjectId optionalId = headId;
-        int parentGen = 0;
-
-        while (walk == null) {
-            try {
-                walk = (RevWalk) this.git.log().add(optionalId).setRevFilter(CommitTimeRevFilter.between(leftEnd,rightEnd)).call();
-            } catch (GitAPIException | IncorrectObjectTypeException | MissingObjectException e) {
-                e.printStackTrace();
-                logger.log(Level.SEVERE, "Commit missing: " + optionalId.getName());
-                optionalId = headCommit.getParent(parentGen).toObjectId();
-                parentGen++;
-            }
-        }
-*/
-
         ObjectId headId = this.repo.resolve(Constants.HEAD);
         RevWalk walk = (RevWalk) this.git.log().add(headId).setRevFilter(CommitTimeRevFilter.between(leftEnd,rightEnd)).call();
         TreeMap<Date, RevCommit> commitsByDate = new TreeMap<>();
-        //            walk.markStart(walk.parseCommit(this.repo.resolve(Constants.HEAD)));
 
         walk.sort(RevSort.COMMIT_TIME_DESC);
 
@@ -271,15 +242,13 @@ public class DescrScanner implements IDescrScanner {
     /**
      * extract description list from single file
      */
-    private List<Description> extractDescr(File file) throws IOException, GitAPIException {
+    private List<Description> extractDescr(File file) throws IOException {
         List<Description> descrList = new ArrayList<>();
         List<String> strList = Files.readLines(file, Charsets.UTF_8);
 
-        //TODO find patterns at first
         Patterns patterns = null;
 
         List<String> descrBlock = new ArrayList<>();
-//        boolean isInitiated = false;
         Date tmpDate = null;
         Date leftDate, rightDate;
 
