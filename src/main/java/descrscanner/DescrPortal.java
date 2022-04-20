@@ -70,7 +70,7 @@ public class DescrPortal {
         }
     }
 
-    private static List<DescrHunkPair> getDescrHunkPairs( String repoName) {
+    private static List<DescrHunkPair> getDescrHunkPairs(String repoName) {
         DescrScanner descrScanner = new DescrScanner();
         List<DescrHunkPair> descrHunkPairs = new ArrayList<>();
         try {
@@ -85,6 +85,7 @@ public class DescrPortal {
             logger.log(Level.SEVERE, "No <description, hunks> pairs found: " + repoName);
             descrHunkPairs = new ArrayList<>();
         }
+        descrHunkPairs = descrScanner.removeDuplicatedPair(descrHunkPairs);
         return descrHunkPairs;
     }
 

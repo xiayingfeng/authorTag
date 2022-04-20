@@ -42,4 +42,8 @@ public class Description {
         }
         return builder.toString();
     }
+
+    public List<String> getDescrLines() {
+        return descrLines;
+    }
 }

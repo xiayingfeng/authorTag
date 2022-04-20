@@ -9,10 +9,7 @@ import descrscanner.entities.DescriptionFile;
 import descrscanner.format.Patterns;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -74,32 +71,62 @@ public class DescrScanner implements IDescrScanner {
         List<File> descrFiles = getDescrFileList(repoName);
         for (File file : descrFiles) {
             List<Description> descrList = extractDescr(file);
-            DescriptionFile fileDescr = new DescriptionFile(file.getName(), descrList);
-            fileDescrList.add(fileDescr);
+            DescriptionFile descriptionFile = new DescriptionFile(file.getName(), descrList);
+            fileDescrList.add(descriptionFile);
         }
         return fileDescrList;
     }
 
     public List<DescrHunkPair> getDescrHunkPairs(List<DescriptionFile> descriptionFileList) throws GitAPIException, IOException {
+        // todo 1. merge duplicated descriptions with same time interval
+        //  2. extract commit message add into Description commit massage, new field!
         List<DescrHunkPair> descrHunkPairList = new ArrayList<>();
+        List<Description> generalDescrList = extractNonRedundantDescrList(descriptionFileList);
+
+        for (Description description : generalDescrList) {
+            Date leftEnd = description.getLeftEnd();
+            Date rightEnd = description.getRightEnd();
+            TreeMap<Date, RevCommit> commitsByDate = getAllCommitsBetween(leftEnd, rightEnd);
+            if (commitsByDate.size() < 2) {
+//                    return descrHunkPairList;
+                continue;
+            }
+            RevCommit leftCommit = commitsByDate.firstEntry().getValue();
+            RevCommit rightCommit = commitsByDate.lastEntry().getValue();
+            String hunkContent = getHunkContent(leftCommit, rightCommit);
+            DescrHunkPair pair = new DescrHunkPair(description, hunkContent);
+            descrHunkPairList.add(pair);
+        }
+
+        return descrHunkPairList;
+    }
+
+    private List<Description> extractNonRedundantDescrList(List<DescriptionFile> descriptionFileList) {
+        List<Description> generalDescrList = new ArrayList<>();
+        HashMap<String, Description> descrHashMap = new HashMap<>();
         for (DescriptionFile descriptionFile : descriptionFileList) {
             List<Description> descrList = descriptionFile.getDescrList();
-            for (Description description : descrList) {
-                Date leftEnd = description.getLeftEnd();
-                Date rightEnd = description.getRightEnd();
-                TreeMap<Date, RevCommit> commitsByDate = getAllCommitsBetween(leftEnd, rightEnd);
-                if (commitsByDate.size() < 2) {
-//                    return descrHunkPairList;
-                    continue;
+            for (Description descr : descrList) {
+                Date leftDate = descr.getLeftEnd();
+                Date rightDate = descr.getRightEnd();
+                String dateKey = "[" + leftDate.toString() + " || " +  rightDate.toString() +"]";
+                if (! descrHashMap.containsKey(dateKey)) {
+                    descrHashMap.put(dateKey, descr);
+                } else {
+                    Description oldDescr = descrHashMap.get(dateKey);
+                    List<String> oldLineList = oldDescr.getDescrLines();
+                    List<String> newLineList = descr.getDescrLines();
+                    TreeSet<String> lineSet = new TreeSet<>();
+                    lineSet.addAll(oldLineList);
+                    lineSet.addAll(newLineList);
+                    List<String> sumLineList = new ArrayList<>(lineSet);
+                    Description sumDescr = new Description(leftDate, rightDate, sumLineList);
+                    descrHashMap.put(dateKey, sumDescr);
                 }
-                RevCommit leftCommit = commitsByDate.firstEntry().getValue();
-                RevCommit rightCommit = commitsByDate.lastEntry().getValue();
-                String hunkContent = getHunkContent(leftCommit, rightCommit);
-                DescrHunkPair pair = new DescrHunkPair(description, hunkContent);
-                descrHunkPairList.add(pair);
             }
+            generalDescrList.addAll(descrList);
         }
-        return descrHunkPairList;
+        return generalDescrList;
     }
 
     /**
@@ -331,5 +358,13 @@ public class DescrScanner implements IDescrScanner {
             e.printStackTrace();
         }
         return dateTime;
+    }
+
+
+    public List<DescrHunkPair> removeDuplicatedPair(List<DescrHunkPair> descrHunkPairs) {
+
+        // TODO merge duplicated description pairs
+
+        return null;
     }
 }
