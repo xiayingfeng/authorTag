@@ -57,6 +57,7 @@ public class DescrPortal {
         HashMap<String, List<DescrHunkPair>> repoDescrMap = new HashMap<>(50);
         while (repoItr.hasNext()) {
             JsonNode node = repoItr.next();
+            // variable index: for debug
             String index = node.get("index").asText();
             String repoName = node.get("name").asText();
             List<DescrHunkPair> descrHunkPairs = getDescrHunkPairs(repoName);
@@ -83,9 +84,7 @@ public class DescrPortal {
         }
         if (descrHunkPairs.isEmpty()) {
             logger.log(Level.SEVERE, "No <description, hunks> pairs found: " + repoName);
-            descrHunkPairs = new ArrayList<>();
         }
-        descrHunkPairs = descrScanner.removeDuplicatedPair(descrHunkPairs);
         return descrHunkPairs;
     }
 
@@ -104,11 +103,19 @@ public class DescrPortal {
 
             ArrayNode pairsArray = mapper.createArrayNode();
             for (DescrHunkPair pair : pairs) {
+
+                List<String> commitMessageList = pair.getCommitMessageList();
+                ArrayNode commitMessageArray = mapper.createArrayNode();
+                for (String message : commitMessageList) {
+                    commitMessageArray.add(message);
+                }
+
                 ObjectNode pairNode = mapper.createObjectNode();
                 Description description = pair.getDescr();
                 pairNode.put("begin time", description.getLeftEnd().toString());
                 pairNode.put("end time", description.getRightEnd().toString());
                 pairNode.put("description", description.getDescrContent());
+                pairNode.set("commit message", commitMessageArray);
                 pairNode.put("hunks", pair.getHunksContent());
                 pairsArray.add(pairNode);
             }
@@ -153,7 +160,11 @@ public class DescrPortal {
                 writer.append(paraSeparator).append("\n")
                         .append("start time: ").append(description.getLeftEnd().toString()).append("\n")
                         .append("end time: ").append(description.getRightEnd().toString()).append("\n")
+                        .append("description: ").append("\n")
                         .append(description.getDescrContent()).append("\n")
+                        .append("commit message: ").append("\n")
+                        .append(pair.getCommitMessageContent()).append("\n")
+                        .append("hunks: ").append("\n")
                         .append(pair.getHunksContent()).append("\n");
             }
         }
