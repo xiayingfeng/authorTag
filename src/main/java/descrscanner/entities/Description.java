@@ -2,6 +2,7 @@ package descrscanner.entities;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -18,6 +19,7 @@ public class Description {
         this.leftEnd = leftEnd;
         this.rightEnd = rightEnd;
         this.descrLines = descrLines;
+        this.descrLines.removeIf(String::isBlank);
     }
 
     public Description(Date rightEnd, ArrayList<String> descrLines) {
@@ -25,6 +27,7 @@ public class Description {
         this.leftEnd = new Date(0);
         this.rightEnd = rightEnd;
         this.descrLines = descrLines;
+        this.descrLines.removeIf(String::isBlank);
     }
 
     public Date getLeftEnd() {
