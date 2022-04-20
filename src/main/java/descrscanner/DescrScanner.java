@@ -66,15 +66,15 @@ public class DescrScanner implements IDescrScanner {
      */
     @Override
     public List<DescriptionFile> getDescrList(String repoName) throws GitAPIException, IOException {
-        List<DescriptionFile> fileDescrList = new ArrayList<>();
+        List<DescriptionFile> descriptionFiles = new ArrayList<>();
 
         List<File> descrFiles = getDescrFileList(repoName);
         for (File file : descrFiles) {
             List<Description> descrList = extractDescr(file);
             DescriptionFile descriptionFile = new DescriptionFile(file.getName(), descrList);
-            fileDescrList.add(descriptionFile);
+            descriptionFiles.add(descriptionFile);
         }
-        return fileDescrList;
+        return descriptionFiles;
     }
 
     public List<DescrHunkPair> getDescrHunkPairs(List<DescriptionFile> descriptionFileList) throws GitAPIException, IOException {
@@ -94,7 +94,7 @@ public class DescrScanner implements IDescrScanner {
             String hunkContent = getHunkContent(leftCommit, rightCommit);
             List<String> commitMessageList = new ArrayList<>();
             for (RevCommit commit : commitsByDate.values()) {
-                commitMessageList.add(commit.getFullMessage());
+                commitMessageList.add(commit.getShortMessage());
             }
             DescrHunkPair pair = new DescrHunkPair(description, hunkContent, commitMessageList);
             descrHunkPairList.add(pair);
@@ -323,13 +323,5 @@ public class DescrScanner implements IDescrScanner {
             e.printStackTrace();
         }
         return dateTime;
-    }
-
-
-    public List<DescrHunkPair> removeDuplicatedPair(List<DescrHunkPair> descrHunkPairs) {
-
-        // TODO merge duplicated description pairs
-
-        return null;
     }
 }

@@ -1,6 +1,5 @@
 package descrscanner.entities;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,18 +11,6 @@ public class DescrHunkPair {
     private final String hunksContent;
     private List<String> commitMessageList;
 
-    public DescrHunkPair(Description descr) {
-        this.descr = descr;
-        this.hunksContent = "";
-        this.commitMessageList = new ArrayList<>();
-    }
-
-    public DescrHunkPair(Description descr, String hunksContent) {
-        this.descr = descr;
-        this.hunksContent = hunksContent;
-        this.commitMessageList = new ArrayList<>();
-    }
-
     public DescrHunkPair(Description descr, String hunksContent, List<String> commitMessageList) {
         this.descr = descr;
         this.hunksContent = hunksContent;
@@ -31,7 +18,15 @@ public class DescrHunkPair {
     }
 
     public List<String> getCommitMessageList() {
-        return commitMessageList;
+        return this.commitMessageList;
+    }
+
+    public String getCommitMessageContent() {
+        StringBuilder builder = new StringBuilder();
+        for (String line : this.commitMessageList) {
+            builder.append(line).append("\n");
+        }
+        return builder.toString();
     }
 
     public boolean addToCommitMessageList(String commitMessage) {
@@ -43,11 +38,11 @@ public class DescrHunkPair {
     }
 
     public Description getDescr() {
-        return descr;
+        return this.descr;
     }
 
     public String getHunksContent() {
-        return hunksContent;
+        return this.hunksContent;
     }
 
 

@@ -28,22 +28,22 @@ public class Description {
     }
 
     public Date getLeftEnd() {
-        return leftEnd;
+        return this.leftEnd;
     }
 
     public Date getRightEnd() {
-        return rightEnd;
+        return this.rightEnd;
     }
 
     public String getDescrContent() {
         StringBuilder builder = new StringBuilder();
-        for (String line : descrLines) {
-            builder.append(line);
+        for (String line : this.descrLines) {
+            builder.append(line).append("\n");
         }
         return builder.toString();
     }
 
     public List<String> getDescrLines() {
-        return descrLines;
+        return this.descrLines;
     }
 }
