@@ -27,7 +27,11 @@ public class DescrPortal {
 
     public static void main(String[] args) {
 //        batchProcess();
+        long beginTime = System.nanoTime();
         singleProcess(args);
+        long endTime =System.nanoTime();
+        double ms = (endTime - beginTime) * 1E-6;
+        logger.log(Level.INFO,args[0] + " Time consumption: " + ms + "ms");
     }
 
     private static void singleProcess(String[] args) {
