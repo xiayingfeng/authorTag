@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 
 public class RepoLoader {
     private static final Logger logger = Logger.getLogger(RepoLoader.class.getName());
-    private static final FileRepositoryBuilder BUILDER = new FileRepositoryBuilder();
     private static RepoLoader repoLoader;
 
     private RepoLoader() {
@@ -41,8 +40,10 @@ public class RepoLoader {
         }
 
         Repository repository = null;
+
         try {
-            repository = BUILDER.setGitDir(gitFile)
+            repository = new FileRepositoryBuilder()
+                    .setGitDir(gitFile)
                     .readEnvironment()
                     .findGitDir()
                     .build();

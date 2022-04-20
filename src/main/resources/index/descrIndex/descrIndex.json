@@ -1,0 +1,166 @@
+[
+  {
+    "index": 0,
+    "name": "Alir3z4/html2text"
+  },
+  {
+    "index": 1,
+    "name": "KindDragon/vld"
+  },
+  {
+    "index": 2,
+    "name": "OSGeo/OSGeoLive"
+  },
+  {
+    "index": 3,
+    "name": "Synchro/PHPMailer"
+  },
+  {
+    "index": 4,
+    "name": "brbeaird/SmartThings_MyQ"
+  },
+  {
+    "index": 5,
+    "name": "btford/grunt-conventional-changelog"
+  },
+  {
+    "index": 6,
+    "name": "clog-tool/clog-cli"
+  },
+  {
+    "index": 7,
+    "name": "commitizen-tools/commitizen"
+  },
+  {
+    "index": 8,
+    "name": "conventional-changelog/standard-version"
+  },
+  {
+    "index": 9,
+    "name": "cookpete/auto-changelog"
+  },
+  {
+    "index": 10,
+    "name": "dylang/changelog"
+  },
+  {
+    "index": 11,
+    "name": "fabiospampinato/bump"
+  },
+  {
+    "index": 12,
+    "name": "facebook/react-native"
+  },
+  {
+    "index": 13,
+    "name": "frinyvonnick/gitmoji-changelog"
+  },
+  {
+    "index": 14,
+    "name": "gabrielemariotti/changeloglib"
+  },
+  {
+    "index": 15,
+    "name": "git-chglog/git-chglog"
+  },
+  {
+    "index": 16,
+    "name": "github-changelog-generator/github-changelog-generator"
+  },
+  {
+    "index": 17,
+    "name": "github-tools/github-release-notes"
+  },
+  {
+    "index": 18,
+    "name": "google/dagger"
+  },
+  {
+    "index": 19,
+    "name": "hippojay/plugin.video.plexbmc"
+  },
+  {
+    "index": 20,
+    "name": "invertase/melos"
+  },
+  {
+    "index": 21,
+    "name": "jstasiak/python-zeroconf"
+  },
+  {
+    "index": 22,
+    "name": "lalitkapoor/github-changes"
+  },
+  {
+    "index": 23,
+    "name": "lerna/lerna-changelog"
+  },
+  {
+    "index": 24,
+    "name": "lob/generate-changelog"
+  },
+  {
+    "index": 25,
+    "name": "microsoft/docker"
+  },
+  {
+    "index": 26,
+    "name": "nodejs/changelog-maker"
+  },
+  {
+    "index": 27,
+    "name": "olivierlacan/keep-a-changelog"
+  },
+  {
+    "index": 28,
+    "name": "orhun/git-cliff"
+  },
+  {
+    "index": 29,
+    "name": "pajapro/fastlane-plugin-changelog"
+  },
+  {
+    "index": 30,
+    "name": "picklesdoc/pickles"
+  },
+  {
+    "index": 31,
+    "name": "puppetlabs/puppetlabs-vcsrepo"
+  },
+  {
+    "index": 32,
+    "name": "pyrech/composer-changelogs"
+  },
+  {
+    "index": 33,
+    "name": "rafinskipg/git-changelog"
+  },
+  {
+    "index": 34,
+    "name": "react-native-community/releases"
+  },
+  {
+    "index": 35,
+    "name": "release-it/release-it"
+  },
+  {
+    "index": 36,
+    "name": "th0r/npm-upgrade"
+  },
+  {
+    "index": 37,
+    "name": "tomasbjerre/git-changelog-lib"
+  },
+  {
+    "index": 38,
+    "name": "twoscoops/two-scoops-of-django-1.11"
+  },
+  {
+    "index": 39,
+    "name": "zapmaker/GrblHoming"
+  },
+  {
+    "index": 40,
+    "name": "zertrin/duplicity-backup.sh"
+  }
+]

@@ -26,6 +26,28 @@ public class DescrPortal {
     private static final Logger logger = Logger.getLogger(DescrScanner.class.getName());
 
     public static void main(String[] args) {
+//        batchProcess();
+        singleProcess(args);
+    }
+
+    private static void singleProcess(String[] args) {
+        if (args.length < 1) {
+            System.out.println("missing repo name (program arguments)");
+            return;
+        }
+        String repoName = args[0];
+        List<DescrHunkPair> descrHunkPairs = getDescrHunkPairs(repoName);
+        HashMap<String, List<DescrHunkPair>> repoDescrMap = new HashMap<>(1);
+        repoDescrMap.put(repoName, descrHunkPairs);
+        try {
+            writeAsJson(repoDescrMap);
+            writeAsTxt(repoDescrMap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void batchProcess() {
         Iterator<JsonNode> repoItr = MyFileUtil.getJsonItrFrom(DESCR_INDEX_PATH);
         if (repoItr == null) {
             logger.log(Level.SEVERE, "Iterator is null");
@@ -34,23 +56,10 @@ public class DescrPortal {
 
         HashMap<String, List<DescrHunkPair>> repoDescrMap = new HashMap<>(50);
         while (repoItr.hasNext()) {
-            DescrScanner descrScanner = new DescrScanner();
             JsonNode node = repoItr.next();
             String index = node.get("index").asText();
             String repoName = node.get("name").asText();
-            List<DescrHunkPair> descrHunkPairs = new ArrayList<>();
-            try {
-                List<DescriptionFile> descrFiles = descrScanner.getDescrList(repoName);
-                logger.log(Level.INFO, "Description extracting succeed: " + repoName);
-                descrHunkPairs = descrScanner.getDescrHunkPairs(descrFiles);
-            } catch (GitAPIException | IOException e) {
-                logger.log(Level.SEVERE, "Description extracting failed: " + repoName);
-                e.printStackTrace();
-            }
-            if (descrHunkPairs.isEmpty()) {
-                logger.log(Level.SEVERE, "No <description, hunks> pairs found: " + repoName);
-                descrHunkPairs = new ArrayList<>();
-            }
+            List<DescrHunkPair> descrHunkPairs = getDescrHunkPairs(repoName);
             repoDescrMap.put(repoName, descrHunkPairs);
         }
         try {
@@ -60,6 +69,25 @@ public class DescrPortal {
             e.printStackTrace();
         }
     }
+
+    private static List<DescrHunkPair> getDescrHunkPairs( String repoName) {
+        DescrScanner descrScanner = new DescrScanner();
+        List<DescrHunkPair> descrHunkPairs = new ArrayList<>();
+        try {
+            List<DescriptionFile> descrFiles = descrScanner.getDescrList(repoName);
+            logger.log(Level.INFO, "Description extracting succeed: " + repoName);
+            descrHunkPairs = descrScanner.getDescrHunkPairs(descrFiles);
+        } catch (GitAPIException | IOException e) {
+            logger.log(Level.SEVERE, "Description extracting failed: " + repoName);
+            e.printStackTrace();
+        }
+        if (descrHunkPairs.isEmpty()) {
+            logger.log(Level.SEVERE, "No <description, hunks> pairs found: " + repoName);
+            descrHunkPairs = new ArrayList<>();
+        }
+        return descrHunkPairs;
+    }
+
 
     private static void writeAsJson(HashMap<String, List<DescrHunkPair>> repoDescrMap) throws IOException {
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);

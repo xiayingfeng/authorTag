@@ -9,7 +9,10 @@ import descrscanner.entities.DescriptionFile;
 import descrscanner.format.Patterns;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -102,34 +105,51 @@ public class DescrScanner implements IDescrScanner {
     /**
      * Get all commits before rightEnd and after leftEnd
      * */
-    private TreeMap<Date, RevCommit> getAllCommitsBetween(Date leftEnd, Date rightEnd) {
+    private TreeMap<Date, RevCommit> getAllCommitsBetween(Date leftEnd, Date rightEnd) throws IOException, GitAPIException {
+/*
 //        RevWalk walk = new RevWalk(this.repo);
         RevWalk walk = null;
+
+//            ObjectId masterId = this.repo.exactRef("refs/heads/master").getObjectId();
+        ObjectId headId = null;
+        RevCommit headCommit = null;
         try {
-            ObjectId masterId = this.repo.exactRef("refs/heads/master").getObjectId();
-            walk = (RevWalk) this.git.log().add(masterId).setRevFilter(CommitTimeRevFilter.between(leftEnd,rightEnd)).call();
-        } catch (GitAPIException | IOException e) {
+            headId = this.repo.resolve(Constants.HEAD);
+            headCommit = this.repo.parseCommit(headId);
+        } catch (IOException e) {
             e.printStackTrace();
         }
+
+        ObjectId optionalId = headId;
+        int parentGen = 0;
+
+        while (walk == null) {
+            try {
+                walk = (RevWalk) this.git.log().add(optionalId).setRevFilter(CommitTimeRevFilter.between(leftEnd,rightEnd)).call();
+            } catch (GitAPIException | IncorrectObjectTypeException | MissingObjectException e) {
+                e.printStackTrace();
+                logger.log(Level.SEVERE, "Commit missing: " + optionalId.getName());
+                optionalId = headCommit.getParent(parentGen).toObjectId();
+                parentGen++;
+            }
+        }
+*/
+
+        ObjectId headId = this.repo.resolve(Constants.HEAD);
+        RevWalk walk = (RevWalk) this.git.log().add(headId).setRevFilter(CommitTimeRevFilter.between(leftEnd,rightEnd)).call();
         TreeMap<Date, RevCommit> commitsByDate = new TreeMap<>();
         //            walk.markStart(walk.parseCommit(this.repo.resolve(Constants.HEAD)));
 
         walk.sort(RevSort.COMMIT_TIME_DESC);
-//            walk.setTreeFilter(PathFilter.create(path));
 
         for (RevCommit commit : walk) {
             Date commitTime = commit.getCommitterIdent().getWhen();
             commitsByDate.put(commitTime, commit);
-/*
-            boolean isAfterLeft = commitTime.after(leftEnd);
-            boolean isBeforeRight = commitTime.before(rightEnd);
-            if (isAfterLeft && isBeforeRight) {
-                commitsByDate.put(commitTime, commit);
-            }
-*/
+
         }
         walk.close();
-        logger.log(Level.INFO, "Number of valid commits: " + commitsByDate.size());
+        logger.log(Level.INFO,"Time interval: [" + leftEnd + ", " + rightEnd + "]");
+        logger.log(Level.INFO, "Number of valid commits : " + commitsByDate.size());
         return commitsByDate;
     }
 
