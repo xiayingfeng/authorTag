@@ -268,10 +268,6 @@ public class DescrScanner implements IDescrScanner {
         if (patterns == null) {
             String filePath = file.getAbsolutePath();
             logger.log(Level.INFO, "No patterns found in " + filePath);
-
-            // I think it's improper to see the whole file as a Description, so I commented the following 2 lines
-//            Description description = wholeAsSingleBlock(strList);
-//            descrList.add(description);
             return descrList;
         }
 
