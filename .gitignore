@@ -1,4 +1,5 @@
 # environment
 #src/main/resources/config/env.properties
+output/descrOutput
 repos
 target
