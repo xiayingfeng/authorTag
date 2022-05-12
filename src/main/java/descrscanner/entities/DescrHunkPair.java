@@ -1,5 +1,7 @@
 package descrscanner.entities;
 
+import org.eclipse.jgit.revwalk.RevCommit;
+
 import java.util.List;
 
 /**
@@ -9,32 +11,33 @@ import java.util.List;
 public class DescrHunkPair {
     private final Description descr;
     private final String hunksContent;
-    private List<String> commitMessageList;
+    private List<RevCommit> commitList;
 
-    public DescrHunkPair(Description descr, String hunksContent, List<String> commitMessageList) {
+    public DescrHunkPair(Description descr, String hunksContent, List<RevCommit> commitList) {
         this.descr = descr;
         this.hunksContent = hunksContent;
-        this.commitMessageList = commitMessageList;
+        this.commitList = commitList;
     }
 
-    public List<String> getCommitMessageList() {
-        return this.commitMessageList;
+    public List<RevCommit> getCommitList() {
+        return this.commitList;
     }
 
-    public String getCommitMessageContent() {
+    public String getCommitMessageIdAndContent() {
         StringBuilder builder = new StringBuilder();
-        for (String line : this.commitMessageList) {
+        for (RevCommit commit : this.commitList) {
+            String line = commit.getId() + " :: " + commit.getShortMessage();
             builder.append(line).append("\n");
         }
         return builder.toString();
     }
 
-    public boolean addToCommitMessageList(String commitMessage) {
-        return this.commitMessageList.add(commitMessage);
+    public boolean addToCommitMessageList(RevCommit commit) {
+        return this.commitList.add(commit);
     }
 
-    public void setCommitMessageList(List<String> commitMessageList) {
-        this.commitMessageList = commitMessageList;
+    public void setCommitList(List<RevCommit> commitList) {
+        this.commitList = commitList;
     }
 
     public Description getDescr() {

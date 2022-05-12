@@ -92,10 +92,9 @@ public class DescrScanner implements IDescrScanner {
             RevCommit leftCommit = commitsByDate.firstEntry().getValue();
             RevCommit rightCommit = commitsByDate.lastEntry().getValue();
             String hunkContent = getHunkContent(leftCommit, rightCommit);
-            List<String> commitMessageList = new ArrayList<>();
-            for (RevCommit commit : commitsByDate.values()) {
-                commitMessageList.add(commit.getShortMessage());
-            }
+
+            List<RevCommit> commitMessageList = new ArrayList<>(commitsByDate.values());
+
             DescrHunkPair pair = new DescrHunkPair(description, hunkContent, commitMessageList);
             descrHunkPairList.add(pair);
         }

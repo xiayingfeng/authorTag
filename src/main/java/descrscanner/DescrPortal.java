@@ -107,12 +107,8 @@ public class DescrPortal {
 
             ArrayNode pairsArray = mapper.createArrayNode();
             for (DescrHunkPair pair : pairs) {
-
-                List<String> commitMessageList = pair.getCommitMessageList();
                 ArrayNode commitMessageArray = mapper.createArrayNode();
-                for (String message : commitMessageList) {
-                    commitMessageArray.add(message);
-                }
+                commitMessageArray.add(pair.getCommitMessageIdAndContent());
 
                 ObjectNode pairNode = mapper.createObjectNode();
                 Description description = pair.getDescr();
@@ -167,7 +163,7 @@ public class DescrPortal {
                         .append("description: ").append("\n")
                         .append(description.getDescrContent()).append("\n")
                         .append("commit message: ").append("\n")
-                        .append(pair.getCommitMessageContent()).append("\n")
+                        .append(pair.getCommitMessageIdAndContent()).append("\n")
                         .append("hunks: ").append("\n")
                         .append(pair.getHunksContent()).append("\n");
             }
