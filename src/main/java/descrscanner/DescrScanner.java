@@ -39,6 +39,7 @@ public class DescrScanner implements IDescrScanner {
     private static final Logger logger = Logger.getLogger(DescrScanner.class.getName());
     private static final RepoLoader REPO_READER = RepoLoader.getRepoReader();
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private static final int OFFSET = 1;
 
     private Repository repo;
     private Git git;
@@ -82,8 +83,8 @@ public class DescrScanner implements IDescrScanner {
         List<Description> generalDescrList = extractNonRedundantDescrList(descriptionFileList);
 
         for (Description description : generalDescrList) {
-            Date leftEnd = description.getLeftEnd();
-            Date rightEnd = description.getRightEnd();
+            Date leftEnd = getDateWithOffset(description, -OFFSET);
+            Date rightEnd = getDateWithOffset(description, +OFFSET);
 
             TreeMap<Date, RevCommit> commitsByDate = getAllCommitsBetween(leftEnd, rightEnd);
             if (commitsByDate.size() < 2) {
@@ -94,11 +95,19 @@ public class DescrScanner implements IDescrScanner {
             String hunkContent = getHunkContent(leftCommit, rightCommit);
 
             List<RevCommit> commitMessageList = new ArrayList<>(commitsByDate.values());
-
             DescrHunkPair pair = new DescrHunkPair(description, hunkContent, commitMessageList);
             descrHunkPairList.add(pair);
         }
         return descrHunkPairList;
+    }
+
+    private Date getDateWithOffset(Description description, int offset) {
+        Calendar calendar = Calendar.getInstance();
+        Date leftEnd = description.getLeftEnd();
+        calendar.setTime(leftEnd);
+        calendar.add(Calendar.DAY_OF_MONTH, offset);
+        leftEnd = calendar.getTime();
+        return leftEnd;
     }
 
     private List<Description> extractNonRedundantDescrList(List<DescriptionFile> descriptionFileList) {
@@ -134,7 +143,9 @@ public class DescrScanner implements IDescrScanner {
      * */
     private TreeMap<Date, RevCommit> getAllCommitsBetween(Date leftEnd, Date rightEnd) throws IOException, GitAPIException {
         ObjectId headId = this.repo.resolve(Constants.HEAD);
-        RevWalk walk = (RevWalk) this.git.log().add(headId).setRevFilter(CommitTimeRevFilter.between(leftEnd,rightEnd)).call();
+        RevWalk walk = (RevWalk) this.git.log().add(headId)
+//                .setRevFilter()
+                .setRevFilter(CommitTimeRevFilter.between(leftEnd,rightEnd)).call();
         TreeMap<Date, RevCommit> commitsByDate = new TreeMap<>();
 
         walk.sort(RevSort.COMMIT_TIME_DESC);
@@ -142,7 +153,6 @@ public class DescrScanner implements IDescrScanner {
         for (RevCommit commit : walk) {
             Date commitTime = commit.getCommitterIdent().getWhen();
             commitsByDate.put(commitTime, commit);
-
         }
         walk.close();
         logger.log(Level.INFO,"Time interval: [" + leftEnd + ", " + rightEnd + "]");
@@ -299,6 +309,8 @@ public class DescrScanner implements IDescrScanner {
         descrBlockList.add(block);
         // as for single whole unformatted file, set leftEnd as 0, and rightEnd as latest commit date
         // 干脆对于非格式化文件，只设置结束时间为repo的最后一次提交时间，将开始时间置空
+        // 2022/07/01: 将开始时间置为fork base点
+
 
         // in reverse chronological order
         Iterable<RevCommit> commits = git.log().call();

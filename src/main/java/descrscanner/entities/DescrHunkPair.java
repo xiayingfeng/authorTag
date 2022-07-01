@@ -26,7 +26,8 @@ public class DescrHunkPair {
     public String getCommitMessageIdAndContent() {
         StringBuilder builder = new StringBuilder();
         for (RevCommit commit : this.commitList) {
-            String line = commit.getId() + " :: " + commit.getShortMessage();
+//            String line = commit.getId() + " :: " + commit.getShortMessage();
+            String line = commit.getId() + " :: " + commit.getFullMessage();
             builder.append(line).append("\n");
         }
         return builder.toString();
