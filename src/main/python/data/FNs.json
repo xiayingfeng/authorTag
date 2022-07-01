@@ -1,0 +1,345 @@
+[
+  {
+    "commit message": "Use setuptools declarative syntax through setup.cfg",
+    "ground truth": "* Configure setuptools using setup.cfg.",
+    "type": "FN",
+    "target descr": "* Configure setuptools using setup.cfg.",
+    "cos sim": 0.4992594251726031
+  },
+  {
+    "commit message": "Fix handling &lrm; and &rlm; marks",
+    "ground truth": "* Fix #201: handle &lrm;/&rlm; marks mid-text within stressed tags or right after stressed tags.",
+    "type": "FN",
+    "target descr": "* Fix #201: handle &lrm;/&rlm; marks mid-text within stressed tags or right after stressed tags.",
+    "cos sim": 0.37766898648475217
+  },
+  {
+    "commit message": "`images_as_html` control",
+    "ground truth": "* Feature #213: ``images_as_html`` config option to always generate an ``img`` html tag. preserves \"height\", \"width\" and \"alt\" if possible.",
+    "type": "FN",
+    "target descr": "* Feature #213: ``images_as_html`` config option to always generate an ``img`` html tag. preserves \"height\", \"width\" and \"alt\" if possible.",
+    "cos sim": 0.18234146266978088
+  },
+  {
+    "commit message": "Add a __main__.py file to the package",
+    "ground truth": "* Add ``__main__.py`` module to allow running the CLI using ``python -m html2text ...``.",
+    "type": "FN",
+    "target descr": "* Add ``__main__.py`` module to allow running the CLI using ``python -m html2text ...``.",
+    "cos sim": 0.4899595110854881
+  },
+  {
+    "commit message": "Remove unused unescape() function and related support code",
+    "ground truth": "* Remove unused or deprecated:\n\t* ``html2text.compat.escape()``\n\t* ``html2text.config.RE_UNESCAPE``\n\t* ``html2text.HTML2Text.replaceEntities()``\n\t* ``html2text.HTML2Text.unescape()``\n\t* ``html2text.unescape()``",
+    "type": "FN",
+    "target descr": "* Remove unused or deprecated:\n\t* ``html2text.compat.escape()``\n\t* ``html2text.config.RE_UNESCAPE``\n\t* ``html2text.HTML2Text.replaceEntities()``\n\t* ``html2text.HTML2Text.unescape()``\n\t* ``html2text.unescape()``",
+    "cos sim": 0.21912238548619903
+  },
+  {
+    "commit message": "Support the <q> tag",
+    "ground truth": "* Feature #193: Add support for the <q> tag.",
+    "type": "FN",
+    "target descr": "* Feature #193: Add support for the <q> tag.",
+    "cos sim": 0.578771924382499
+  },
+  {
+    "commit message": "fix the test failures on windows/cygwin due to \r",
+    "ground truth": "* Fix #160: The html2text tests are failing on Windows and on Cygwin due to differences in eol handling between windows/*nix",
+    "type": "FN",
+    "target descr": "* Fix #160: The html2text tests are failing on Windows and on Cygwin due to differences in eol handling between windows/*nix",
+    "cos sim": 0.5395825556765742
+  },
+  {
+    "commit message": "fix flake8 violations (no functional changes)",
+    "ground truth": "* Feature #164: Housekeeping: Add flake8 to the travis build, cleanup existing flake8 violations, add py3.6 and pypy3 to the travis build",
+    "type": "FN",
+    "target descr": "* Feature #164: Housekeeping: Add flake8 to the travis build, cleanup existing flake8 violations, add py3.6 and pypy3 to the travis build",
+    "cos sim": 0.3191933973679251
+  },
+  {
+    "commit message": "adds support for \"700\", \"800\", and \"900\" as bold style indicators",
+    "ground truth": "* Adds support for numeric bold text indication in ``font-weight``, as used by Google (and presumably others.)",
+    "type": "FN",
+    "target descr": "* Adds support for numeric bold text indication in ``font-weight``, as used by Google (and presumably others.)",
+    "cos sim": 0.2659017791551466
+  },
+  {
+    "commit message": "Deprecation warning for retrieval over internet",
+    "ground truth": "* Deprecation warnings for URL retrieval.",
+    "type": "FN",
+    "target descr": "* Deprecation warnings for URL retrieval.",
+    "cos sim": 0.4689485235813325
+  },
+  {
+    "commit message": "add baseurl functionality to inplace urls",
+    "ground truth": "* Fix #113: inplace baseurl substitution for <a> and <img> tags.",
+    "type": "FN",
+    "target descr": "* Fix #113: inplace baseurl substitution for <a> and <img> tags.",
+    "cos sim": 0.37593743634282356
+  },
+  {
+    "commit message": "add baseurl functionality to inplace urls to <img> tags also",
+    "ground truth": "* Fix #113: inplace baseurl substitution for <a> and <img> tags.",
+    "type": "FN",
+    "target descr": "* Fix #113: inplace baseurl substitution for <a> and <img> tags.",
+    "cos sim": 0.4932813978761977
+  },
+  {
+    "commit message": "- Render <s> <del> <strike> as '~~text~~' in markdown - Rendering them as tags did not make sense.",
+    "ground truth": "* <s>, <strike>, <del> now rendered as ~~text~~.",
+    "type": "FN",
+    "target descr": "* <s>, <strike>, <del> now rendered as ~~text~~.",
+    "cos sim": 0.48048388896262517
+  },
+  {
+    "commit message": "Test passing for long wrap links. New option --no-wrap-links Basic link ignore added.",
+    "ground truth": "* Fix #38: Long links wrapping controlled by ``--no-wrap-links``.",
+    "type": "FN",
+    "target descr": "* Fix #38: Long links wrapping controlled by ``--no-wrap-links``.",
+    "cos sim": 0.519362807981045
+  },
+  {
+    "commit message": "Add callback",
+    "ground truth": "* Feature #83: Add callback-on-tag.",
+    "type": "FN",
+    "target descr": "* Feature #83: Add callback-on-tag.",
+    "cos sim": 0.5673877128956448
+  },
+  {
+    "commit message": "Added option via command line to control decode errors.",
+    "ground truth": "* Fix #87: Decode errors can be handled via command line.",
+    "type": "FN",
+    "target descr": "* Fix #87: Decode errors can be handled via command line.",
+    "cos sim": 0.5347373070667218
+  },
+  {
+    "commit message": "More tests and coverage things",
+    "ground truth": "* Fix #71: Coverage detects command line tests.",
+    "type": "FN",
+    "target descr": "* Fix #71: Coverage detects command line tests.",
+    "cos sim": 0.31442621032037427
+  },
+  {
+    "commit message": "Added all options as command line flags.",
+    "ground truth": "* Feature #82: More command line options. See docs.",
+    "type": "FN",
+    "target descr": "* Feature #82: More command line options. See docs.",
+    "cos sim": 0.3648860596834245
+  },
+  {
+    "commit message": "Support for image sizing using raw html",
+    "ground truth": "Write image tags with height and width attrs as raw html to retain dimensions",
+    "type": "FN",
+    "target descr": "Write image tags with height and width attrs as raw html to retain dimensions",
+    "cos sim": 0.3184238651642066
+  },
+  {
+    "commit message": "Anchor tags that contain <img> tags or empty text are no longer discarded. Added tests for new cases, modified text for images-to-alt to allow for inline <img> tags.",
+    "ground truth": "* Fix #38: Anchor tags with empty text or with ``<img>`` tags inside are no longer stripped.",
+    "type": "FN",
+    "target descr": "* Fix #38: Anchor tags with empty text or with ``<img>`` tags inside are no longer stripped.",
+    "cos sim": 0.5547724696215748
+  },
+  {
+    "commit message": "Add single line break configuration (use case: Evernote)",
+    "ground truth": "* Feature #51: Add single line break option.      This feature is useful for ensuring that lots of extra line breaks do not end up in the resulting Markdown file in situations like Evernote .enex exports. Note that this only works properly if ``body-width`` is set to ``0``.",
+    "type": "FN",
+    "target descr": "* Feature #51: Add single line break option.      This feature is useful for ensuring that lots of extra line breaks do not end up in the resulting Markdown file in situations like Evernote .enex exports. Note that this only works properly if ``body-width`` is set to ``0``.",
+    "cos sim": 0.2738762185530712
+  },
+  {
+    "commit message": "Merge branch 'master' into jd-protect-links",
+    "ground truth": "* Feature #50: Protect links, surrounding them with angle brackets to avoid breaking...",
+    "type": "FN",
+    "target descr": "* Feature #50: Protect links, surrounding them with angle brackets to avoid breaking...",
+    "cos sim": 0.23962336019197014
+  },
+  {
+    "commit message": "Remove py_modules",
+    "ground truth": "* Fix #35: Remove ``py_modules`` from ``setup.py``.",
+    "type": "FN",
+    "target descr": "* Fix #35: Remove ``py_modules`` from ``setup.py``.",
+    "cos sim": 0.5828317939093387
+  },
+  {
+    "commit message": "Merge pull request #43 from Alir3z4/feature-#40-extract-cli-to-separate-module",
+    "ground truth": "* Feature #40: Extract cli part to ``cli`` module.",
+    "type": "FN",
+    "target descr": "* Feature #40: Extract cli part to ``cli`` module.",
+    "cos sim": 0.5818797695478003
+  },
+  {
+    "commit message": "Initial cli module",
+    "ground truth": "* Feature #40: Extract cli part to ``cli`` module.",
+    "type": "FN",
+    "target descr": "* Feature #40: Extract cli part to ``cli`` module.",
+    "cos sim": 0.44864792447261925
+  },
+  {
+    "commit message": "Initial compat module",
+    "ground truth": "* Feature #42: Bring python version compatibility to ``compat.py`` module.",
+    "type": "FN",
+    "target descr": "* Feature #42: Bring python version compatibility to ``compat.py`` module.",
+    "cos sim": 0.3888442320031413
+  },
+  {
+    "commit message": "Remov utility/helpers method to utils module",
+    "ground truth": "* Feature #41: Extract utility/helper methods to ``utils`` module.",
+    "type": "FN",
+    "target descr": "* Feature #41: Extract utility/helper methods to ``utils`` module.",
+    "cos sim": 0.4229941089215971
+  },
+  {
+    "commit message": "Fix importing from utils",
+    "ground truth": "* Feature #41: Extract utility/helper methods to ``utils`` module.",
+    "type": "FN",
+    "target descr": "* Feature #41: Extract utility/helper methods to ``utils`` module.",
+    "cos sim": 0.21493191554886296
+  },
+  {
+    "commit message": "Initial utils module",
+    "ground truth": "* Feature #41: Extract utility/helper methods to ``utils`` module.",
+    "type": "FN",
+    "target descr": "* Feature #41: Extract utility/helper methods to ``utils`` module.",
+    "cos sim": 0.35933730126571267
+  },
+  {
+    "commit message": "Added simple tables support with bypass option",
+    "ground truth": "* Feature #29, #27: Add simple table support with bypass option.",
+    "type": "FN",
+    "target descr": "* Feature #29, #27: Add simple table support with bypass option.",
+    "cos sim": 0.5937586905289268
+  },
+  {
+    "commit message": "Remove old website address",
+    "ground truth": "* Fix #20: Replace project website with: https://alir3z4.github.io/html2text/ .",
+    "type": "FN",
+    "target descr": "* Fix #20: Replace project website with: https://alir3z4.github.io/html2text/ .",
+    "cos sim": 0.21112326550805757
+  },
+  {
+    "commit message": "Remove meta vars",
+    "ground truth": "* Feature #21: Remove meta vars from ``html2text.py`` file header.",
+    "type": "FN",
+    "target descr": "* Feature #21: Remove meta vars from ``html2text.py`` file header.",
+    "cos sim": 0.595653146586518
+  },
+  {
+    "commit message": "Fix TypeError when attrs['href'] is None in handle_tag.",
+    "ground truth": "* Fix: Fix TypeError when parsing tags like <img src='foo' alt>. Fixed in #25.",
+    "type": "FN",
+    "target descr": "* Fix: Fix TypeError when parsing tags like <img src='foo' alt>. Fixed in #25.",
+    "cos sim": 0.2588169121650117
+  },
+  {
+    "commit message": ":fire: Remove some badges",
+    "ground truth": "- \ud83d\udd25 Remove some badges [[6d27a32]] (by Yvonnick FRIN)",
+    "type": "FN",
+    "target descr": "- \ud83d\udd25 Remove some badges [[6d27a32]] (by Yvonnick FRIN)",
+    "cos sim": 0.48532801909165507
+  },
+  {
+    "commit message": "fix(main): make --from optional",
+    "ground truth": "*  make --from optional ([86dd25d4])",
+    "type": "FN",
+    "target descr": "*  make --from optional ([86dd25d4])",
+    "cos sim": 0.561057617123122
+  },
+  {
+    "commit message": "Remove periods from PR titles",
+    "ground truth": "* [#106] Remove trailing period enforcement from PR titles ([@Turbo87])",
+    "type": "FN",
+    "target descr": "* [#106] Remove trailing period enforcement from PR titles ([@Turbo87])",
+    "cos sim": 0.46750549083511317
+  },
+  {
+    "commit message": "Add `prettier` dev dependency",
+    "ground truth": "* [#99] Use `prettier` to format code. ([@Turbo87])",
+    "type": "FN",
+    "target descr": "* [#99] Use `prettier` to format code. ([@Turbo87])",
+    "cos sim": 0.19464607635142522
+  },
+  {
+    "commit message": "Use `tslint-config-prettier` to disable rules handled by `prettier`",
+    "ground truth": "* [#99] Use `prettier` to format code. ([@Turbo87])",
+    "type": "FN",
+    "target descr": "* [#99] Use `prettier` to format code. ([@Turbo87])",
+    "cos sim": 0.30086157550462017
+  },
+  {
+    "commit message": "Update `ts-jest` to v22.4.6",
+    "ground truth": "* [#94] Update to Jest 23. ([@Turbo87])",
+    "type": "FN",
+    "target descr": "* [#94] Update to Jest 23. ([@Turbo87])",
+    "cos sim": 0.26268638684504575
+  },
+  {
+    "commit message": "Update `@types/jest` to v23.1.0",
+    "ground truth": "* [#94] Update to Jest 23. ([@Turbo87])",
+    "type": "FN",
+    "target descr": "* [#94] Update to Jest 23. ([@Turbo87])",
+    "cos sim": 0.2783173688431859
+  },
+  {
+    "commit message": "Update `jest` to v23.1.0",
+    "ground truth": "* [#94] Update to Jest 23. ([@Turbo87])",
+    "type": "FN",
+    "target descr": "* [#94] Update to Jest 23. ([@Turbo87])",
+    "cos sim": 0.31522044279591477
+  },
+  {
+    "commit message": "GitHubAPI: Inline _get() method",
+    "ground truth": "* [#80] GitHubAPI class refactorings. ([@Turbo87])",
+    "type": "FN",
+    "target descr": "* [#80] GitHubAPI class refactorings. ([@Turbo87])",
+    "cos sim": 0.2237654527653236
+  },
+  {
+    "commit message": "GitHubAPI: Remove unused \"repo\" property",
+    "ground truth": "* [#80] GitHubAPI class refactorings. ([@Turbo87])",
+    "type": "FN",
+    "target descr": "* [#80] GitHubAPI class refactorings. ([@Turbo87])",
+    "cos sim": 0.22985021650880622
+  },
+  {
+    "commit message": "GitHubAPI: Add \"repo\" parameter to getIssueData() method",
+    "ground truth": "* [#80] GitHubAPI class refactorings. ([@Turbo87])",
+    "type": "FN",
+    "target descr": "* [#80] GitHubAPI class refactorings. ([@Turbo87])",
+    "cos sim": 0.19496691494904986
+  },
+  {
+    "commit message": "RemoteRepo: Move getBaseIssueUrl() implementation to GitHubAPI class",
+    "ground truth": "* [#80] GitHubAPI class refactorings. ([@Turbo87])",
+    "type": "FN",
+    "target descr": "* [#80] GitHubAPI class refactorings. ([@Turbo87])",
+    "cos sim": 0.36283410599086846
+  },
+  {
+    "commit message": "ConfigurationError: Convert to TypeScript",
+    "ground truth": "* [#54] Convert to TypeScript. ([@Turbo87])",
+    "type": "FN",
+    "target descr": "* [#54] Convert to TypeScript. ([@Turbo87])",
+    "cos sim": 0.5168930907253863
+  },
+  {
+    "commit message": "execSync: Convert to TypeScript",
+    "ground truth": "* [#54] Convert to TypeScript. ([@Turbo87])",
+    "type": "FN",
+    "target descr": "* [#54] Convert to TypeScript. ([@Turbo87])",
+    "cos sim": 0.5168930907253864
+  },
+  {
+    "commit message": "RemoteRepo: Convert to TypeScript",
+    "ground truth": "* [#54] Convert to TypeScript. ([@Turbo87])",
+    "type": "FN",
+    "target descr": "* [#54] Convert to TypeScript. ([@Turbo87])",
+    "cos sim": 0.5262998156891971
+  },
+  {
+    "commit message": "-  \"peerDependencies\": { -    \"lerna\": \"^2.0.0-beta.8\" -  },",
+    "ground truth": "- Removes \"lerna\" peerDep",
+    "type": "FN",
+    "target descr": "- Removes \"lerna\" peerDep",
+    "cos sim": 0.212352386385291
+  }
+]
