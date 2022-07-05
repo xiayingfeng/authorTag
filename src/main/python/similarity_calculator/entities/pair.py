@@ -1,10 +1,10 @@
-from commit import *
+from similarity_calculator.entities.commit import Commit
 
 
-class pair:
+class Pair:
     pair_id: str
     description: str
-    commit_list: list[commit]
+    commit_list: list[Commit]
 
     def __init__(self, pair_id: str, descr: str, commit_list: list):
         self.pair_id = pair_id

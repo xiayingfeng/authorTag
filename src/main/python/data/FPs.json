@@ -2,1149 +2,306 @@
   {
     "commit message": "Remove support for Python \u2264 3.4",
     "ground truth": "* Remove support for Python \u2264 3.4. Now requires Python 3.5+.",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "* Add support for Python 3.8.",
     "cos sim": 0.8077008206144078
   },
   {
-    "commit message": "Merge pull request #215 from jvanasco/feature-images_as_html",
-    "ground truth": "* Feature #213: ``images_as_html`` config option to always generate an ``img`` html tag. preserves \"height\", \"width\" and \"alt\" if possible.",
-    "type": "FP",
-    "target descr": "- \u2b06\ufe0f Bump ssri from 6.0.1 to 6.0.2 ([#215]) [[ed4a033]]",
-    "cos sim": 0.17914679928589808
-  },
-  {
-    "commit message": "Merge pull request #93 from critiqjo/callback-on-tag",
-    "ground truth": "* Feature #83: Add callback-on-tag.",
-    "type": "FP",
-    "target descr": "* [#93] Update `execa` to v0.10.0. ([@Turbo87])",
-    "cos sim": 0.4362215683238003
-  },
-  {
-    "commit message": "Merge pull request #59 from smblackburn/master",
-    "ground truth": "Write image tags with height and width attrs as raw html to retain dimensions",
-    "type": "FP",
-    "target descr": "- Use root commit when --latest and there is only one tag (#59)",
-    "cos sim": 0.08568216976432555
+    "commit message": "Coverage now detects the command line tests which were run in subprocesses.",
+    "ground truth": "* Fix #71: Coverage detects tests carried out in ``subprocesses``",
+    "polarity": "FP",
+    "target descr": "* Fix #71: Coverage detects command line tests.",
+    "cos sim": 0.5526952241421259
   },
   {
     "commit message": "add python 3.4",
     "ground truth": "* Feature #18: Add ``Python`` ``3.4`` to travis config file.",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "* Add support for Python 3.8.",
     "cos sim": 0.7505009021384061
   },
   {
-    "commit message": "\ud83d\udc65 Add MarkLyck as a contributor (#208)",
-    "ground truth": "- \ud83d\udc65 Add MarkLyck as a contributor ([#208]) [[134dfb9]]",
-    "type": "FP",
-    "target descr": "* Fix #208: handle LEFT-TO-RIGHT MARK after a stressed tag.",
-    "cos sim": 0.09303690064479016
-  },
-  {
-    "commit message": ":sparkles: Add a generic preset using configuration file (#160)",
-    "ground truth": "- \u2728 Add a generic preset using configuration file ([#160]) [[d41ebc6]] (by Yvonnick FRIN)",
-    "type": "FP",
-    "target descr": "* Fix #160: The html2text tests are failing on Windows and on Cygwin due to differences in eol handling between windows/*nix",
-    "cos sim": 0.13185563286222726
-  },
-  {
-    "commit message": ":pencil: Correct sentence structure in documentation (#173)",
-    "ground truth": "- \ud83d\udcdd Correct sentence structure in documentation ([#173]) [[36872a0]] (by Daniel Tamkin)",
-    "type": "FP",
-    "target descr": "* Fix #173 and #142: Stripping whitespace in crucial markdown and adding whitespace as necessary",
-    "cos sim": 0.0784103817739677
-  },
-  {
-    "commit message": ":bug: Fix bug preventing generating changelog when previous version doesn't exist (#145)",
-    "ground truth": "- \ud83d\udc1b Fix bug preventing generating changelog when previous version doesn&#x27;t exist ([#145]) [[4f04f45]] (by Yvonnick FRIN)",
-    "type": "FP",
-    "target descr": "* Fix #145: Running test suite on Travis CI for Python 2.6.",
-    "cos sim": 0.12889496309024026
-  },
-  {
-    "commit message": ":bug: Handle pre-release as latest version in markdown (#126)",
-    "ground truth": "- \ud83d\udc1b Handle pre-release as latest version in markdown ([#126]) [[d22699b]] (by Yvonnick FRIN)",
-    "type": "FP",
-    "target descr": "* Merge #126: Fix deprecation warning on py3 due to html.escape",
-    "cos sim": 0.14778844035378103
-  },
-  {
-    "commit message": "#110 :sparkles: Add npx instruction on README (#123)",
-    "ground truth": "- \ud83d\udcdd Add npx instruction on README ([#123]) [[ffcbef5]] (by quentinncl)",
-    "type": "FP",
-    "target descr": "* [#110] Update `p-map` to v1.2.0 ([@Turbo87])",
-    "cos sim": 0.6548821666656203
-  },
-  {
-    "commit message": ":pencil: Add contributors to README (#125)",
-    "ground truth": "- \ud83d\udcdd Add contributors to README ([#125]) [[7580ff9]] (by Franck Abgrall)",
-    "type": "FP",
-    "target descr": "Fix #125: --pad_tables now pads table cells to make them look nice.",
-    "cos sim": 0.09761968575562713
-  },
-  {
-    "commit message": ":whale: Improve Dockerfile and update docker image usage (#109)",
-    "ground truth": "- \ud83d\udc33 Improve Dockerfile and update docker image usage ([#109]) [[55e24c2]] (by Baptiste Gauduchon)",
-    "type": "FP",
-    "target descr": "* Fix #109: Fix for unexpanded &lt; &gt; &amp;",
-    "cos sim": 0.03634829894128358
-  },
-  {
-    "commit message": ":memo: doc/add docker usage doc (#99)",
-    "ground truth": "- \ud83d\udcdd Add docker usage section ([#99]) [[53c96bc]] (by Baptiste Gauduchon)",
-    "type": "FP",
-    "target descr": "* Feature #99: Removed duplicated initialisation.",
-    "cos sim": 0.06961893442996805
-  },
-  {
-    "commit message": ":sparkles: Add the author in changelog lines (#56)",
-    "ground truth": "- \u2728 Add the author in changelog lines ([#56]) [[979da30]] (by Benjamin Petetot)",
-    "type": "FP",
-    "target descr": "* Feature #56: Treat '-' file parameter as stdin.",
-    "cos sim": 0.17751970420523194
-  },
-  {
-    "commit message": ":bug: Remove empty versions (#51)",
-    "ground truth": "- \ud83d\udc1b Remove empty versions ([#51]) [[64ac5a7]] (by Fabien JUIF)",
-    "type": "FP",
-    "target descr": "* Feature #51: Add single line break option.      This feature is useful for ensuring that lots of extra line breaks do not end up in the resulting Markdown file in situations like Evernote .enex exports. Note that this only works properly if ``body-width`` is set to ``0``.",
-    "cos sim": 0.169495190031012
-  },
-  {
-    "commit message": ":bug: Parse unicode emoji in commit (#49)",
-    "ground truth": "- \ud83d\udc1b Parse unicode emoji in commit ([#49]) [[4d52747]] (by Benjamin Petetot)",
-    "type": "FP",
-    "target descr": "* Feature #49: Added an images_to_alt option to discard images and keep only their alt.",
-    "cos sim": 0.048537532502930344
-  },
-  {
-    "commit message": ":alembic: Group similar commits together (#50)",
-    "ground truth": "- \u2697 Group similar commits together ([#50]) [[06c8f3c]] (by Fabien JUIF)",
-    "type": "FP",
-    "target descr": "* Feature #50: Protect links, surrounding them with angle brackets to avoid breaking...",
-    "cos sim": 0
-  },
-  {
-    "commit message": ":whale: Init dockerfile (#61)",
-    "ground truth": "- \ud83d\udc33 Init dockerfile ([#61]) [[afa7021]] (by Logan HAUSPIE) & ([#69]) [[36c0e06]] (by Charles-Henri GUERIN)",
-    "type": "FP",
-    "target descr": "* Fix #61: Functionality added for optional use of automatic links.",
-    "cos sim": 0
-  },
-  {
-    "commit message": "chore(deps): remove package-lock.json (#118)",
-    "ground truth": "* **deps:** remove package-lock.json ([#118]) ([a059bc7])",
-    "type": "FP",
-    "target descr": "* Feature #118: Update the badges to badge.kloud51.com",
-    "cos sim": 0.07613247150504698
-  },
-  {
-    "commit message": "chore(no-release): bump tap from 15.0.10 to 15.1.1 (#113)",
-    "ground truth": "* **no-release:** bump tap from 15.0.10 to 15.1.1 ([#113]) ([fcfc5c8])",
-    "type": "FP",
-    "target descr": "* Fix #113: Stop changing quiet levels on /script tags.",
-    "cos sim": 0.024828065676167906
-  },
-  {
-    "commit message": "chore(deps): bump split2 from 3.2.2 to 4.0.0 (#109)",
-    "ground truth": "* **deps:** bump split2 from 3.2.2 to 4.0.0 ([#109]) ([365916f])",
-    "type": "FP",
-    "target descr": "* Fix #109: Fix for unexpanded &lt; &gt; &amp;",
-    "cos sim": 0.03633643390135225
-  },
-  {
-    "commit message": "fix(project): use the correct branch for codecov (#65)",
-    "ground truth": "- Use the correct branch for codecov (#65)",
-    "type": "FP",
-    "target descr": "- \ud83d\udc1b Fix emojies not identified in some commits ([#65]) [[6a3b1b6]] (by Benjamin Petetot)",
-    "cos sim": 0.15021581668029196
-  },
-  {
-    "commit message": "fix(config): lower the priority of global configuration file (#51)",
-    "ground truth": "- Lower the priority of global configuration file (#51)",
-    "type": "FP",
-    "target descr": "* Feature #51: Add single line break option.      This feature is useful for ensuring that lots of extra line breaks do not end up in the resulting Markdown file in situations like Evernote .enex exports. Note that this only works properly if ``body-width`` is set to ``0``.",
-    "cos sim": 0.09291692592622912
-  },
-  {
-    "commit message": "feat(changelog): add `link_parsers` for parsing/extracting links (#42)",
-    "ground truth": "- Add `link_parsers` for parsing/extracting links (#42)",
-    "type": "FP",
-    "target descr": "* Feature #42: Bring python version compatibility to ``compat.py`` module.",
-    "cos sim": 0.19865742688835547
-  },
-  {
-    "commit message": "feat(config): make the `git` section optional (#45)",
-    "ground truth": "- Make the `git` section optional (#45)",
-    "type": "FP",
-    "target descr": "* Fix #45: Does not accept standard input when running under Python 3.",
-    "cos sim": 0.17279125604510062
-  },
-  {
-    "commit message": "feat(config): make the `changelog` section optional (#45)",
-    "ground truth": "- Make the `changelog` section optional (#45)",
-    "type": "FP",
-    "target descr": "* Fix #45: Does not accept standard input when running under Python 3.",
-    "cos sim": 0.17943466872086086
-  },
-  {
-    "commit message": "chore(args): update arg parsing to clap v3 (#49)",
-    "ground truth": "- Update arg parsing to clap v3 (#49)",
-    "type": "FP",
-    "target descr": "* Feature #49: Added an images_to_alt option to discard images and keep only their alt.",
-    "cos sim": 0.05590346557521431
-  },
-  {
-    "commit message": "refactor(lib): unify serde and serde_derive using derive feature (#57)",
-    "ground truth": "- Unify serde and serde_derive using derive feature (#57)",
-    "type": "FP",
-    "target descr": "* Feature #57: Retain escaping of html except within code or pre tags.",
-    "cos sim": 0.09847461894398583
-  },
-  {
-    "commit message": "style(changelog): comply with MD022 and fix minor typos (#61)",
-    "ground truth": "- Comply with MD022 and fix minor typos (#61)",
-    "type": "FP",
-    "target descr": "* Fix #61: Functionality added for optional use of automatic links.",
-    "cos sim": 0.13247083018082503
-  },
-  {
-    "commit message": "fix(args): override the sort related config if args are present (#39)",
-    "ground truth": "- Override the sort related config if args are present (#39)",
-    "type": "FP",
-    "target descr": "* Fix #39: Documentation update.",
-    "cos sim": 0.08703692198969268
-  },
-  {
-    "commit message": "feat(changelog): add `--topo-order` flag for sorting tags (#29)",
-    "ground truth": "- Add `--topo-order` flag for sorting tags (#29)",
-    "type": "FP",
-    "target descr": "* Feature #29, #27: Add simple table support with bypass option.",
-    "cos sim": 0.14215411676767778
-  },
-  {
-    "commit message": "feat(config): support specifying the sorting methods in config (#31)",
-    "ground truth": "- Support specifying the sorting methods in config (#31)",
-    "type": "FP",
-    "target descr": "* Fix #31: HTML entities stay inside link.",
-    "cos sim": 0.1398301675706911
-  },
-  {
-    "commit message": "feat(config): add `ignore_tags` option (#40)",
-    "ground truth": "- Add `ignore_tags` option (#40)",
-    "type": "FP",
-    "target descr": "* Feature #40: Extract cli part to ``cli`` module.",
-    "cos sim": 0.1190966652854427
-  },
-  {
-    "commit message": "fix(config): remove only the leading \"v\" from tags (#18)",
-    "ground truth": "- Remove only the leading \"v\" from tags (#18)",
-    "type": "FP",
-    "target descr": "* Feature #18: Add ``Python`` ``3.4`` to travis config file.",
-    "cos sim": 0.19742986420735825
-  },
-  {
-    "commit message": "docs(config): Add scope-sorted example (#16)",
-    "ground truth": "- Add scope-sorted example (#16)",
-    "type": "FP",
-    "target descr": "* Feature #16: Remove ``install_deps.py``.",
-    "cos sim": 0.08506488919779916
-  },
-  {
-    "commit message": "docs(readme): mention the signing key for binary releases (#17)",
-    "ground truth": "- Mention the signing key for binary releases (#17)",
-    "type": "FP",
-    "target descr": "* Feature #17: Add status badges via pypin.",
-    "cos sim": 0.18077477651311621
-  },
-  {
-    "commit message": "feat(changelog): support parsing the missing scopes with `default_scope` (#8)",
-    "ground truth": "- Support parsing the missing scopes with `default_scope` (#8)",
-    "type": "FP",
-    "target descr": "* Fix #8: Remove ``How to do a release`` section from README.md.",
-    "cos sim": 0.15535913209413663
-  },
-  {
-    "commit message": "feat(changelog): support generating a changelog scoped to a directory (#11)",
-    "ground truth": "- Support generating a changelog scoped to a directory (#11)",
-    "type": "FP",
-    "target descr": "* Fix #11: Include test directory markdown, html files.",
-    "cos sim": 0.14939137653025591
-  },
-  {
-    "commit message": "Drop support for Node 8",
-    "ground truth": "* [#198] Drop support for Node 8 ([@Turbo87])",
-    "type": "FP",
-    "target descr": "* [#160] Drop support for Node 6 ([@Turbo87])",
-    "cos sim": 0.7712668000040586
-  },
-  {
-    "commit message": "Merge pull request #160 from Turbo87/node-6",
-    "ground truth": "* [#160] Drop support for Node 6 ([@Turbo87])",
-    "type": "FP",
-    "target descr": "* Fix #160: The html2text tests are failing on Windows and on Cygwin due to differences in eol handling between windows/*nix",
-    "cos sim": 0.04020379789911708
-  },
-  {
-    "commit message": "Merge pull request #189 from lerna/nm-handle-401-responses",
-    "ground truth": "* [#189] Abort process when github response is not OK ([@emmenko])",
-    "type": "FP",
-    "target descr": "- \ud83d\udcdd Improve documentation about presets ([#189]) [[4e22239]]",
-    "cos sim": 0.13991790718520375
-  },
-  {
-    "commit message": "Switch from TSLint to ESLint (#147)",
-    "ground truth": "* [#147] Switch from TSLint to ESLint ([@trivikr])",
-    "type": "FP",
-    "target descr": "- \ud83d\udc77\u200d\u2642\ufe0f Add exact option to canary version ([#147]) [[84c7086]] (by Benjamin Petetot)",
-    "cos sim": 0.07066351527332962
-  },
-  {
-    "commit message": "Merge pull request #161 from trivikr/travis-ci-node-12",
-    "ground truth": "* [#161] CI: Add Node.js 12 to the test matrix ([@trivikr])",
-    "type": "FP",
-    "target descr": "- \u267b\ufe0f Improve error messages for preset system ([#161]) [[a51fee2]] (by Yvonnick FRIN)",
-    "cos sim": 0.18998153872802753
-  },
-  {
-    "commit message": "fix: Incorrect repo parsing in configuration.ts > findRepoFromPkg method. (#155)",
-    "ground truth": "* [#155] Fix incorrect repo parsing for project names with `.` characters ([@shrikanthkr])",
-    "type": "FP",
-    "target descr": "- \u2728 Add configuration so users can customize commit mapping ([#155]) [[be1fca2]] (by Yvonnick FRIN)",
-    "cos sim": 0.15535917395903356
-  },
-  {
-    "commit message": "chore(dep): upgrade p-map to ^2.1.0 (#143)",
-    "ground truth": "* [#143] Upgrade `p-map` to v2.1.0 ([@trivikr])",
-    "type": "FP",
-    "target descr": "* Fix #143: Fix line wrapping for the lines starting with bold",
-    "cos sim": 0.028580360131410597
-  },
-  {
-    "commit message": "chore(dep): update execa to v1.0.0 (#137)",
-    "ground truth": "* [#137] Update `execa` to v1.0.0 ([@trivikr])",
-    "type": "FP",
-    "target descr": "- \u2728 Generate a bug report when unexpected errors happens ([#137]) [[6d68130]] (by Yvonnick FRIN)",
-    "cos sim": 0.06814082866647707
-  },
-  {
-    "commit message": "Merge pull request #127 from Turbo87/travis-sudo",
-    "ground truth": "* [#127] TravisCI: Remove deprecated `sudo: false` option ([@Turbo87])",
-    "type": "FP",
-    "target descr": "- \u267b\ufe0f Change core function parameters from &quot;mode&quot; to &quot;from&quot; and &quot;to&quot; ([#127]) [[42af500]] (by Yvonnick FRIN)",
-    "cos sim": 0.15335940797658423
-  },
-  {
-    "commit message": "Merge pull request #125 from Turbo87/config-fix",
-    "ground truth": "* [#125] Fix `nextVersion` config handling ([@Turbo87])",
-    "type": "FP",
-    "target descr": "Fix #125: --pad_tables now pads table cells to make them look nice.",
-    "cos sim": 0.10344470635234636
-  },
-  {
-    "commit message": "Merge pull request #124 from Turbo87/integrity",
-    "ground truth": "* [#124] yarn: Add `integrity` hashes ([@Turbo87])",
-    "type": "FP",
-    "target descr": "- \ud83d\udd27 Add editor config file ([#124]) [[6c763a2]] (by quentinncl)",
-    "cos sim": 0.04605756499366667
-  },
-  {
-    "commit message": "Merge pull request #115 from Turbo87/cli-options",
-    "ground truth": "* [#115] Improve CLI help output ([@Turbo87])",
-    "type": "FP",
-    "target descr": "- \ud83d\udc1b Fix updating changelog after tagging a version ([#115]) [[8df6705]] (by Yvonnick FRIN)",
-    "cos sim": 0.2152880339860121
-  },
-  {
-    "commit message": "Merge pull request #114 from Turbo87/to-from",
-    "ground truth": "* [#114] Add `--from` and `--to` as replacements for `--tag-from/to` ([@Turbo87])",
-    "type": "FP",
-    "target descr": "* Fix #114: Break does not interrupt blockquotes",
-    "cos sim": 0.07917395058706966
-  },
-  {
-    "commit message": "Merge pull request #103 from Turbo87/highlight",
-    "ground truth": "* [#103] Use `cli-highlight` to syntax highlight markdown output. ([@Turbo87])",
-    "type": "FP",
-    "target descr": "- \ud83d\udcdd Propose to add badge to our users ([#103]) [[f5981cb]] (by Florent Berthelot)",
-    "cos sim": 0.04756323228228073
-  },
-  {
-    "commit message": "Merge pull request #106 from Turbo87/period",
-    "ground truth": "* [#106] Remove trailing period enforcement from PR titles ([@Turbo87])",
-    "type": "FP",
-    "target descr": "* Fix #106: encoding by stdin",
-    "cos sim": 0.04507269100014634
-  },
-  {
-    "commit message": "Merge pull request #113 from Turbo87/readme",
-    "ground truth": "* [#113] Update Documentation ([@Turbo87])",
-    "type": "FP",
-    "target descr": "* Fix #113: Stop changing quiet levels on /script tags.",
-    "cos sim": 0.04210864711894743
-  },
-  {
-    "commit message": "Update `yargs` to v11.0.0 (#109)",
-    "ground truth": "* [#109] Update `yargs` to v11.0.0 ([@Turbo87])",
-    "type": "FP",
-    "target descr": "* Fix #109: Fix for unexpanded &lt; &gt; &amp;",
-    "cos sim": 0.030623006894831356
-  },
-  {
-    "commit message": "CI: Remove `node_modules` from cache (#101)",
-    "ground truth": "* [#101] CI: Remove `node_modules` from cache. ([@Turbo87])",
-    "type": "FP",
-    "target descr": "* Fix #101: Fix error end tag pop exception",
-    "cos sim": 0.09316088959413088
-  },
-  {
-    "commit message": "Merge pull request #100 from Turbo87/labels",
-    "ground truth": "* [#100] package.json: Adjust changelog labels. ([@Turbo87])",
-    "type": "FP",
-    "target descr": "* Fix #100: Get element style key error.",
-    "cos sim": 0.046869091940287204
-  },
-  {
-    "commit message": "Merge pull request #99 from Turbo87/prettier",
-    "ground truth": "* [#99] Use `prettier` to format code. ([@Turbo87])",
-    "type": "FP",
-    "target descr": "* Feature #99: Removed duplicated initialisation.",
-    "cos sim": 0.050631558092769764
-  },
-  {
-    "commit message": "Update `make-fetch-happen` to v4.0.1 (#97)",
-    "ground truth": "* [#97] Update `make-fetch-happen` to v4.0.1. ([@Turbo87])",
-    "type": "FP",
-    "target descr": "- \ud83d\udc33 Fix dependencies versions in Dockerfile ([#97]) [[719541d]] (by Baptiste Gauduchon)",
-    "cos sim": 0.10561841658957886
-  },
-  {
-    "commit message": "Update `chalk` to v2.4.1 (#95)",
-    "ground truth": "* [#95] Update `chalk` to v2.4.1. ([@Turbo87])",
-    "type": "FP",
-    "target descr": "* Feature #95: Docs, decode errors spelling mistake.",
-    "cos sim": 0.08008888999246977
-  },
-  {
-    "commit message": "Merge pull request #81 from Turbo87/scoped-packages",
-    "ground truth": "* [#81] Add support for nested/scoped packages. ([@Turbo87])",
-    "type": "FP",
-    "target descr": "- \u2728 Add interactive option to manually select commits ([#81]) [[d13ca2e]] (by Franck Abgrall)",
-    "cos sim": 0.21257782224096128
-  },
-  {
-    "commit message": "Merge pull request #82 from Turbo87/issue-not-found",
-    "ground truth": "* [#82] changelog: Handle missing issues/PRs gracefully. ([@Turbo87])",
-    "type": "FP",
-    "target descr": "* Feature #82: More command line options. See docs.",
-    "cos sim": 0.10960784497423388
-  },
-  {
-    "commit message": "configuration: Derive repo from package.json and use default labels (#71)",
-    "ground truth": "* [#71] configuration: Derive repo from package.json and use default labels. ([@Turbo87])",
-    "type": "FP",
-    "target descr": "* Fix #71: Coverage detects command line tests.",
-    "cos sim": 0.14524118234735772
-  },
-  {
-    "commit message": "Merge pull request #60 from Turbo87/homu",
-    "ground truth": "* [#60] Add support for homu merge commits. ([@Turbo87])",
-    "type": "FP",
-    "target descr": "- \ud83d\udc1b Fix duplication with incremental update ([#60]) [[c4ffc59]] (by Benjamin Petetot)",
-    "cos sim": 0.045072691000146346
-  },
-  {
-    "commit message": "Merge pull request #64 from Turbo87/fix-progress-bar",
-    "ground truth": "* [#64] progressBar: Split tick() into setTitle() and tick(). ([@Turbo87])",
-    "type": "FP",
-    "target descr": "- Add another option of GitHub Actions (#64)",
-    "cos sim": 0.08259476078410637
-  },
-  {
-    "commit message": "Use async/await to request commit infos concurrently (#51)",
-    "ground truth": "* [#51] Use async/await to request commit infos concurrently. ([@Turbo87])",
-    "type": "FP",
-    "target descr": "* Feature #51: Add single line break option.      This feature is useful for ensuring that lots of extra line breaks do not end up in the resulting Markdown file in situations like Evernote .enex exports. Note that this only works properly if ``body-width`` is set to ``0``.",
-    "cos sim": 0.05606544323700271
-  },
-  {
-    "commit message": "Exclude arrow functions, classes and generator functions from being transpiled (#49)",
-    "ground truth": "* [#49] Exclude arrow functions, classes and generator functions from being transpiled. ([@Turbo87])",
-    "type": "FP",
-    "target descr": "* Feature #49: Added an images_to_alt option to discard images and keep only their alt.",
-    "cos sim": 0.04876521671091162
-  },
-  {
-    "commit message": "Update \"jest\" to v20.0.4 (#50)",
-    "ground truth": "* [#50] Update \"jest\" to v20.0.4. ([@Turbo87])",
-    "type": "FP",
-    "target descr": "* Feature #50: Protect links, surrounding them with angle brackets to avoid breaking...",
-    "cos sim": 0.08156963099359209
-  },
-  {
-    "commit message": "Move configuration from \"lerna.json\" into \"package.json\" (#47)",
-    "ground truth": "* [#47] Move configuration from \"lerna.json\" into \"package.json\". ([@Turbo87])",
-    "type": "FP",
-    "target descr": "- Set the previous release when using `--unreleased` (#47)",
-    "cos sim": 0.31019677341006047
-  },
-  {
-    "commit message": "Babel: Use \"preset-env\" instead of \"preset-es2015\" (#37)",
-    "ground truth": "* [#37] Babel: Use \"preset-env\" instead of \"preset-es2015\". ([@Turbo87])",
-    "type": "FP",
-    "target descr": "* Fix #37: Don't hardcode the path to the installed binary.",
-    "cos sim": 0.10045728643867476
-  },
-  {
-    "commit message": "Update .gitignore file (#39)",
-    "ground truth": "* [#39] Update .gitignore file. ([@Turbo87])",
-    "type": "FP",
-    "target descr": "* Fix #39: Documentation update.",
-    "cos sim": 0.05403652699246509
-  },
-  {
-    "commit message": "package.json: Sort keys according to documentation (#40)",
-    "ground truth": "* [#40] package.json: Sort keys according to documentation. ([@Turbo87])",
-    "type": "FP",
-    "target descr": "* Feature #40: Extract cli part to ``cli`` module.",
-    "cos sim": 0.19597876969797548
-  },
-  {
-    "commit message": "Apply ESLint to \"test\" folder too (#38)",
-    "ground truth": "* [#38] Apply ESLint to \"test\" folder too. ([@Turbo87])",
-    "type": "FP",
-    "target descr": "* Fix #38: Long links wrapping controlled by ``--no-wrap-links``.",
-    "cos sim": 0.08822584198852054
-  },
-  {
     "commit message": "Merge pull request #193 from kurtmckee/support-the-q-tag",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "* Feature #193: Add support for the <q> tag.",
     "cos sim": 0.2520523273708335
   },
   {
-    "commit message": "Merge pull request #206 from Unit03/lrm",
-    "type": "FP",
-    "target descr": "- \ud83d\udc1b Fix unsupported key using read-pkg-up ([#206]) [[7a2eb08]]",
-    "cos sim": 0.11396384726178443
-  },
-  {
-    "commit message": "Merge pull request #219 from jwilk-forks/decode",
-    "type": "FP",
-    "target descr": "- \u2b06\ufe0f Bump normalize-url from 4.5.0 to 4.5.1 ([#219]) [[9cb9e41]]",
-    "cos sim": 0.1735128949253227
-  },
-  {
-    "commit message": "Merge pull request #234 from jdufresne/py",
-    "type": "FP",
-    "target descr": "- \ud83d\udc65 Add horaklukas as a contributor for code ([#234]) [[1f94e98]]",
-    "cos sim": 0.20502430493695092
-  },
-  {
-    "commit message": "Merge pull request #260 from jdufresne/bool",
-    "type": "FP",
-    "target descr": "* [#260] Remove `os.tmpDir` deprecation warning ([@tuchk4])",
-    "cos sim": 0.06448455749374593
-  },
-  {
-    "commit message": "Merge pull request #259 from jdufresne/black",
-    "type": "FP",
-    "target descr": "* [#259] Allow `;` characters in merge commit messages ([@tuchk4])",
-    "cos sim": 0.06494953742120553
-  },
-  {
-    "commit message": "Merge pull request #190 from whuream/master",
-    "type": "FP",
-    "target descr": "- \ud83d\udc1b Fix a bug occuring when version is missing in configuration but passed as argument ([#190]) [[20cf369]]",
-    "cos sim": 0.042639005077638334
-  },
-  {
     "commit message": "Merge pull request #157 from phuslu/master",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "Fix #157: Fix images link with div wrap",
     "cos sim": 0.033827297284757904
   },
   {
-    "commit message": "Merge pull request #159 from andreskrey/issue-55-empty-title-tags",
-    "type": "FP",
-    "target descr": "* [#159] Adjust `.npmignore` file ([@Turbo87])",
-    "cos sim": 0.520323125265469
-  },
-  {
-    "commit message": "Merge pull request #161 from ciprianmiclaus/fix_tests",
-    "type": "FP",
-    "target descr": "- \u267b\ufe0f Improve error messages for preset system ([#161]) [[a51fee2]] (by Yvonnick FRIN)",
-    "cos sim": 0.04187732917226694
-  },
-  {
-    "commit message": "Merge pull request #172 from tos-kamiya/fix-issue-143",
-    "type": "FP",
-    "target descr": "- \u2728 Add maven preset ([#172]) [[1622775]] (by Guillaume Membr\u00e9)",
-    "cos sim": 0.20043415639903425
-  },
-  {
-    "commit message": "Merge pull request #124 from theSage21/master",
-    "type": "FP",
-    "target descr": "- \ud83d\udd27 Add editor config file ([#124]) [[6c763a2]] (by quentinncl)",
-    "cos sim": 0.0918393119487787
-  },
-  {
-    "commit message": "do not break words to wrap paragraph (#128)",
-    "type": "FP",
-    "target descr": "- \u2728 Add a presets system to be independent from the package.json ([#128]) [[24cead9]] (by Yvonnick FRIN)",
-    "cos sim": 0.23027670147434842
-  },
-  {
     "commit message": "Added failing tests for #114",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "* Fix #114: Break does not interrupt blockquotes",
     "cos sim": 0.17565989825446887
   },
   {
-    "commit message": "bump version",
-    "type": "FP",
-    "target descr": "- Bump the rust version",
-    "cos sim": 0.6405351579324042
-  },
-  {
-    "commit message": "Merge pull request #108 from stefanor/python3.5",
-    "type": "FP",
-    "target descr": "* [#108] Improve progress reporting ([@Turbo87])",
-    "cos sim": 0.06193326229275401
-  },
-  {
-    "commit message": "Merge pull request #110 from jwilk/spelling",
-    "type": "FP",
-    "target descr": "* [#110] Update `p-map` to v1.2.0 ([@Turbo87])",
-    "cos sim": 0.2079113640609496
-  },
-  {
     "commit message": "Merge pull request #113 from ZumZoom/master",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "* Fix #113: Stop changing quiet levels on /script tags.",
     "cos sim": 0.03476841426405808
   },
   {
-    "commit message": "Merge pull request #111 from Alir3z4/better-doc-usage",
-    "type": "FP",
-    "target descr": "* [#111] Update `progress` to v2.0.0 ([@Turbo87])",
-    "cos sim": 0.23281968510153342
-  },
-  {
-    "commit message": "Merge pull request #120 from theSage21/master",
-    "type": "FP",
-    "target descr": "* [#120] Add monorepo support docs ([@jonaskello])",
-    "cos sim": 0.11874332240236396
-  },
-  {
     "commit message": "Update README.md",
-    "type": "FP",
-    "target descr": "- Update README.md about usage",
-    "cos sim": 0.6880044444368911
+    "polarity": "FP",
+    "target descr": "* Feature: Update ``README.md`` with usage examples.",
+    "cos sim": 0.5521619695986433
   },
   {
     "commit message": "Merge pull request #100 from DistPub/bug/get-element-style-not-check-dict-key",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "* Fix #100: Get element style key error.",
     "cos sim": 0.07535707433854706
   },
   {
     "commit message": "Merge pull request #99 from Savageman/patch-1",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "* Feature #99: Removed duplicated initialisation.",
     "cos sim": 0.04197589502603871
   },
   {
-    "commit message": "Remove python 3.5 support, due to #98",
-    "type": "FP",
-    "target descr": "* [#98] Use `jest-runner-tslint` for linting. ([@Turbo87])",
-    "cos sim": 0.4478317657617191
-  },
-  {
-    "commit message": "Merge pull request #104 from theSage21/master",
-    "type": "FP",
-    "target descr": "* [#104] Add `@` sign in front of contributor login ([@Turbo87])",
-    "cos sim": 0.11874332240236396
-  },
-  {
-    "commit message": "As per #103",
-    "type": "FP",
-    "target descr": "- \ud83d\udcdd Propose to add badge to our users ([#103]) [[f5981cb]] (by Florent Berthelot)",
-    "cos sim": 0.13896418224851217
-  },
-  {
     "commit message": "Merge pull request #101 from DistPub/cherrypick/bug/handle-end-tag-not-check-list",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "* Fix #101: Fix error end tag pop exception",
     "cos sim": 0.14119673826293205
   },
   {
-    "commit message": "Remove the extra spaces on <br> encounter as per #91",
-    "type": "FP",
-    "target descr": "* [#91] Update TSLint and fix issues. ([@Turbo87])",
-    "cos sim": 0.14392056723565602
-  },
-  {
-    "commit message": "Merge pull request #75 from theSage21/master",
-    "type": "FP",
-    "target descr": "- \ud83d\udc1b Fix dates sorting in commits ([#75]) [[748e673]] (by Mathieu TUDISCO)",
-    "cos sim": 0.09105157989697252
+    "commit message": "deocde errors spelling mistake",
+    "polarity": "FP",
+    "target descr": "* Feature #95: Docs, decode errors spelling mistake.",
+    "cos sim": 0.5882254367101907
   },
   {
     "commit message": "Merge pull request #55 from mgontav/fix-img-links",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "Fix #55: Fix error when empty title tags",
     "cos sim": 0.09797690158121394
   },
   {
     "commit message": "Update changelog for setup.cfg",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "* Feature: Add ``setup.cfg`` file.",
     "cos sim": 0.6384996883505345
   },
   {
     "commit message": "Add setup.cfg",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "* Feature: Add ``setup.cfg`` file.",
     "cos sim": 0.8118510263175623
   },
   {
     "commit message": "Protect links, surrounding them with angle brackets to avoid breaking them with line-wrap (inline and reference).",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "* Feature #50: Protect links, surrounding them with angle brackets to avoid breaking...",
     "cos sim": 0.7784643356522197
   },
   {
     "commit message": "Feature: Clean up ``ChangeLog.rst`` for version and date numbers.",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "* Feature: Clean up ``ChangeLog.rst`` for version and date numbers.",
     "cos sim": 1.0
   },
   {
     "commit message": "Merge pull request #46 from Alir3z4/fix-#45-does-not-accept-standard-input-when-running-under-python-3",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "* Fix #45: Does not accept standard input when running under Python 3.",
     "cos sim": 0.8767855219753106
   },
   {
+    "commit message": "points to html2text=html2text.cli:main",
+    "polarity": "FP",
+    "target descr": "* Remove unused or deprecated:\n\t* ``html2text.compat.escape()``\n\t* ``html2text.config.RE_UNESCAPE``\n\t* ``html2text.HTML2Text.replaceEntities()``\n\t* ``html2text.HTML2Text.unescape()``\n\t* ``html2text.unescape()``",
+    "cos sim": 0.5815507430597101
+  },
+  {
     "commit message": "Merge pull request #29 from summerisgone/master",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "* Feature #29, #27: Add simple table support with bypass option.",
     "cos sim": 0.04566797149115982
   },
   {
     "commit message": "Update changelog for #25",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "* Fix: Fix TypeError when parsing tags like <img src='foo' alt>. Fixed in #25.",
     "cos sim": 0.162449885786614
   },
   {
-    "commit message": ":wrench: Activate GitHub ci to pull request (#142)",
-    "type": "FP",
-    "target descr": "* [#142] Upgrade `make-fetch-happen` to v5.0.0 ([@trivikr])",
-    "cos sim": 0.18628741183541098
+    "commit message": "Merge branch 'master' of github.com:html2text/html2text",
+    "polarity": "FP",
+    "target descr": "* Remove unused or deprecated:\n\t* ``html2text.compat.escape()``\n\t* ``html2text.config.RE_UNESCAPE``\n\t* ``html2text.HTML2Text.replaceEntities()``\n\t* ``html2text.HTML2Text.unescape()``\n\t* ``html2text.unescape()``",
+    "cos sim": 0.5594091570174237
   },
   {
-    "commit message": ":busts_in_silhouette: Add rudym as a contributor (#151)",
-    "type": "FP",
-    "target descr": "* [#151] Add dependabot config ([@Turbo87])",
-    "cos sim": 0.29732261234329843
+    "commit message": "feat(config): make the `changelog` section optional (#45)",
+    "ground truth": "- Make the `changelog` section optional (#45)",
+    "polarity": "FP",
+    "target descr": "- Make the `git` section optional (#45)",
+    "cos sim": 0.28769440669845214
   },
   {
-    "commit message": ":arrow_up: Upgrade dependencies",
-    "type": "FP",
-    "target descr": "- Upgrade dependencies",
-    "cos sim": 0.673471575487621
-  },
-  {
-    "commit message": "chore: add dependabot config",
-    "type": "FP",
-    "target descr": "* [#151] Add dependabot config ([@Turbo87])",
-    "cos sim": 0.6439386111959363
+    "commit message": "feat(template): add `breaking_description` to the template context (#4)",
+    "polarity": "FP",
+    "target descr": "- Update the comments in template context",
+    "cos sim": 0.548541755543576
   },
   {
     "commit message": "style(args): update the message of `--init` flag",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "- Update the message of `--init` flag",
     "cos sim": 0.8340862308879312
   },
   {
+    "commit message": "fix(cd): copy the configuration file to embed into package",
+    "polarity": "FP",
+    "target descr": "- Embed the default configuration file into the binary",
+    "cos sim": 0.5943280248062582
+  },
+  {
     "commit message": "fix(release): strip the unreleased title from tag message",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "- Add release title to the tag message",
     "cos sim": 0.6801749526992923
   },
   {
+    "commit message": "chore(cd): set the release body on linux",
+    "polarity": "FP",
+    "target descr": "- Set the changelog as release body",
+    "cos sim": 0.5724584703159568
+  },
+  {
     "commit message": "chore(cd): set the release body text",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "- Set the changelog as release body",
     "cos sim": 0.6308619412814279
   },
   {
-    "commit message": "Merge pull request #84 from badboy/no-regex-macro",
-    "type": "FP",
-    "target descr": "* Fix #84: Make bodywidth kwarg overridable using config.",
-    "cos sim": 0.10938301411487139
-  },
-  {
-    "commit message": "Merge pull request #82 from nvanheuverzwijn/patch-1",
-    "type": "FP",
-    "target descr": "* Feature #82: More command line options. See docs.",
-    "cos sim": 0.041975895026038705
-  },
-  {
-    "commit message": "Merge pull request #48 from thoughtram/issue-47",
-    "type": "FP",
-    "target descr": "* [#48] Adjust \"lint\" script. ([@Turbo87])",
-    "cos sim": 0.2120643843262366
-  },
-  {
-    "commit message": "Merge pull request #51 from thoughtram/dep-update",
-    "type": "FP",
-    "target descr": "* Feature #51: Add single line break option.      This feature is useful for ensuring that lots of extra line breaks do not end up in the resulting Markdown file in situations like Evernote .enex exports. Note that this only works properly if ``body-width`` is set to ``0``.",
-    "cos sim": 0.07531654426029741
-  },
-  {
-    "commit message": "Merge pull request #50 from thoughtram/imp-regex",
-    "type": "FP",
-    "target descr": "* Feature #50: Protect links, surrounding them with angle brackets to avoid breaking...",
-    "cos sim": 0.03837973608144521
-  },
-  {
-    "commit message": "Merge pull request #67 from thoughtram/newline-bug",
-    "type": "FP",
-    "target descr": "- Document timestamp format of `Release` struct (#67)",
-    "cos sim": 0.08627247110563702
-  },
-  {
-    "commit message": "Merge pull request #72 from kentcdodds/patch-1",
-    "type": "FP",
-    "target descr": "* [#72] Convert \"cli\" script to TypeScript and wrap in a run() function. ([@Turbo87])",
-    "cos sim": 0.11830846999888044
-  },
-  {
-    "commit message": "Merge pull request #75 from clog-tool/rustfmt",
-    "type": "FP",
-    "target descr": "- \ud83d\udc1b Fix dates sorting in commits ([#75]) [[748e673]] (by Mathieu TUDISCO)",
-    "cos sim": 0.037460957124565916
-  },
-  {
-    "commit message": "Merge pull request #42 from killercup/patch-1",
-    "type": "FP",
-    "target descr": "* Feature #42: Bring python version compatibility to ``compat.py`` module.",
-    "cos sim": 0.04197589502603871
-  },
-  {
-    "commit message": "Merge pull request #39 from orclev/feature/stash_support",
-    "type": "FP",
-    "target descr": "* Fix #39: Documentation update.",
-    "cos sim": 0.12840959143154798
-  },
-  {
-    "commit message": "Merge pull request #41 from thoughtram/issue-5",
-    "type": "FP",
-    "target descr": "* Feature #41: Extract utility/helper methods to ``utils`` module.",
-    "cos sim": 0.04525280319667523
-  },
-  {
-    "commit message": "Merge pull request #40 from thoughtram/issue-2",
-    "type": "FP",
-    "target descr": "* Feature #40: Extract cli part to ``cli`` module.",
-    "cos sim": 0.04618890684147378
-  },
-  {
-    "commit message": "Merge pull request #37 from thoughtram/travis-stable",
-    "type": "FP",
-    "target descr": "* Fix #37: Don't hardcode the path to the installed binary.",
-    "cos sim": 0.12068027017009579
-  },
-  {
-    "commit message": "Merge pull request #36 from thoughtram/dep-update",
-    "type": "FP",
-    "target descr": "* Fix #36: Excludes tests from being installed as a separate module.",
-    "cos sim": 0.07141620067526472
-  },
-  {
-    "commit message": "Merge pull request #32 from thoughtram/patch-31",
-    "type": "FP",
-    "target descr": "* [#32] Add changelog file, move cli to /bin. ([@hzoo])",
-    "cos sim": 0.16318486091080855
-  },
-  {
-    "commit message": "Merge pull request #29 from thoughtram/fix-v",
-    "type": "FP",
-    "target descr": "* Feature #29, #27: Add simple table support with bypass option.",
-    "cos sim": 0.10435499640727007
-  },
-  {
     "commit message": "feat(aliases): implement aliases for commit types",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "* **aliases**  implement aliases for commit types ([44f7d493], closes [#3])",
     "cos sim": 0.8329004799669042
   },
   {
-    "commit message": "Merge pull request #25 from thoughtram/clap-update",
-    "type": "FP",
-    "target descr": "* Fix: Fix TypeError when parsing tags like <img src='foo' alt>. Fixed in #25.",
-    "cos sim": 0.0749040027875474
+    "commit message": "Drop support for Node 8",
+    "ground truth": "* [#198] Drop support for Node 8 ([@Turbo87])",
+    "polarity": "FP",
+    "target descr": "* [#160] Drop support for Node 6 ([@Turbo87])",
+    "cos sim": 0.7712668000040586
   },
   {
-    "commit message": "Bump @types/jest from 24.0.23 to 24.0.24 (#206)",
-    "type": "FP",
-    "target descr": "- \ud83d\udc1b Fix unsupported key using read-pkg-up ([#206]) [[7a2eb08]]",
-    "cos sim": 0.08134889677481257
-  },
-  {
-    "commit message": "Bump @typescript-eslint/parser from 2.11.0 to 2.12.0 (#201)",
-    "type": "FP",
-    "target descr": "* Fix #201: handle &lrm;/&rlm; marks mid-text within stressed tags or right after stressed tags.",
-    "cos sim": 0.031080097691999216
-  },
-  {
-    "commit message": "Bump eslint-plugin-prettier from 3.1.1 to 3.1.2 (#194)",
-    "type": "FP",
-    "target descr": "* Feature #194: Add support for the <kbd> tag.",
-    "cos sim": 0.03722650035045036
-  },
-  {
-    "commit message": "Bump @typescript-eslint/eslint-plugin from 2.13.0 to 2.14.0 (#213)",
-    "type": "FP",
-    "target descr": "* Feature #213: ``images_as_html`` config option to always generate an ``img`` html tag. preserves \"height\", \"width\" and \"alt\" if possible.",
-    "cos sim": 0.027186808679705497
-  },
-  {
-    "commit message": "Bump @typescript-eslint/parser from 2.12.0 to 2.13.0 (#208)",
-    "type": "FP",
-    "target descr": "* Fix #208: handle LEFT-TO-RIGHT MARK after a stressed tag.",
-    "cos sim": 0.031194018255435343
-  },
-  {
-    "commit message": "Bump eslint-config-prettier from 6.7.0 to 6.9.0 (#207)",
-    "type": "FP",
-    "target descr": "- \ud83d\udccc Fix yarn.lock not up to date ([#207]) [[54d194f]]",
-    "cos sim": 0.15236766015537298
+    "commit message": "Update dependency make-fetch-happen to v9",
+    "polarity": "FP",
+    "target descr": "* [#97] Update `make-fetch-happen` to v4.0.1. ([@Turbo87])",
+    "cos sim": 0.5601431576414264
   },
   {
     "commit message": "Bump make-fetch-happen from 6.1.0 to 7.1.0 (#204)",
-    "type": "FP",
-    "target descr": "- \ud83d\udc1b Fix init command ([#204]) [[a9b1bfe]]",
-    "cos sim": 0.13500062983530964
-  },
-  {
-    "commit message": "Bump @typescript-eslint/eslint-plugin from 2.16.0 to 2.17.0 (#229)",
-    "type": "FP",
-    "target descr": "- \u2728 Add Helm preset ([#229]) [[8c16f72]]",
-    "cos sim": 0.1825191118618203
-  },
-  {
-    "commit message": "Bump @typescript-eslint/parser from 2.15.0 to 2.16.0 (#220)",
-    "type": "FP",
-    "target descr": "- \u2b06\ufe0f Bump y18n from 3.2.1 to 3.2.2 ([#220]) [[0668d86]]",
-    "cos sim": 0.20037798429740944
-  },
-  {
-    "commit message": "Bump @typescript-eslint/parser from 2.14.0 to 2.15.0 (#219)",
-    "type": "FP",
-    "target descr": "- \u2b06\ufe0f Bump normalize-url from 4.5.0 to 4.5.1 ([#219]) [[9cb9e41]]",
-    "cos sim": 0.12183253287240983
-  },
-  {
-    "commit message": "Bump @typescript-eslint/eslint-plugin from 2.17.0 to 2.18.0 (#234)",
-    "type": "FP",
-    "target descr": "- \ud83d\udc65 Add horaklukas as a contributor for code ([#234]) [[1f94e98]]",
-    "cos sim": 0.20309960798931656
-  },
-  {
-    "commit message": "Bump eslint-config-prettier from 6.9.0 to 6.10.0 (#232)",
-    "type": "FP",
-    "target descr": "- \u2b06\ufe0f Upgrade dependencies using yarn upgrade ([#232]) [[14f55bc]]",
-    "cos sim": 0.13189228353551982
-  },
-  {
-    "commit message": "Bump @typescript-eslint/parser from 2.17.0 to 2.18.0 (#230)",
-    "type": "FP",
-    "target descr": "- \u2b06\ufe0f Upgrade vulnerable packages ([#230]) [[27c53bd]]",
-    "cos sim": 0.22474748783236806
-  },
-  {
-    "commit message": "[Security] Bump https-proxy-agent from 2.2.2 to 2.2.4 (#173)",
-    "type": "FP",
-    "target descr": "* Fix #173 and #142: Stripping whitespace in crucial markdown and adding whitespace as necessary",
-    "cos sim": 0.027218412769133525
-  },
-  {
-    "commit message": "Bump typescript from 3.6.3 to 3.7.2 (#171)",
-    "type": "FP",
-    "target descr": "- \u267b\ufe0f Make core independent from the git client. ([#171]) [[4094bb9]] (by Benjamin Petetot)",
-    "cos sim": 0.18409676369729483
-  },
-  {
-    "commit message": "Bump fs-extra from 6.0.1 to 8.1.0 (#163)",
-    "type": "FP",
-    "target descr": "- \ud83d\udcdd Add documentation about generic preset ([#163]) [[c940075]] (by Yvonnick FRIN)",
-    "cos sim": 0.13913037585323795
-  },
-  {
-    "commit message": "Bump p-map from 2.1.0 to 3.0.0 (#167)",
-    "type": "FP",
-    "target descr": "- \ud83d\udc33 Upgrade Docker image version ([#167]) [[8276d4a]] (by Charles-Henri GUERIN)",
-    "cos sim": 0.16172222331392372
-  },
-  {
-    "commit message": "v0.8.3",
-    "type": "FP",
-    "target descr": "<a name=\"v0.6.0\"></a>",
-    "cos sim": 0.6640207235200376
+    "polarity": "FP",
+    "target descr": "* [#97] Update `make-fetch-happen` to v4.0.1. ([@Turbo87])",
+    "cos sim": 0.5455961781344294
   },
   {
     "commit message": "markdown-renderer: Add empty lines only when release commits are present",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "* [#153] enhancement: Update string renderer to add empty lines only when commits are present.  ([@shrikanthkr])",
     "cos sim": 0.6979903854134897
   },
   {
-    "commit message": "Bump @typescript-eslint/parser from 2.8.0 to 2.9.0 (#188)",
-    "type": "FP",
-    "target descr": "* Fix #188: Non-ASCII in title attribute causes encode error.",
-    "cos sim": 0.03790853188694598
-  },
-  {
-    "commit message": "Bump typescript from 3.7.2 to 3.7.3 (#190)",
-    "type": "FP",
-    "target descr": "- \ud83d\udc1b Fix a bug occuring when version is missing in configuration but passed as argument ([#190]) [[20cf369]]",
-    "cos sim": 0.18409676369729483
-  },
-  {
-    "commit message": "Bump @typescript-eslint/parser from 2.9.0 to 2.10.0 (#191)",
-    "type": "FP",
-    "target descr": "- \ud83d\udccc Upgrade dependencies ([#191]) [[cdf76f9]]",
-    "cos sim": 0.13721910468397638
-  },
-  {
     "commit message": "chore(deps): fix vulnerabilities from yarn audit (#149)",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "* [#149] Update locked dependencies ([@trivikr])",
-    "cos sim": 0.4434742688012034
-  },
-  {
-    "commit message": "v0.8.2",
-    "type": "FP",
-    "target descr": "<a name=\"v0.6.0\"></a>",
-    "cos sim": 0.6640207235200376
-  },
-  {
-    "commit message": "v0.8.1",
-    "type": "FP",
-    "target descr": "<a name=\"v0.6.0\"></a>",
-    "cos sim": 0.6640207235200376
-  },
-  {
-    "commit message": "v0.8.0",
-    "type": "FP",
-    "target descr": "<a name=\"v0.6.0\"></a>",
-    "cos sim": 0.6640207235200376
+    "cos sim": 0.15131523920830772
   },
   {
     "commit message": "Merge pull request #80 from Turbo87/next",
-    "type": "FP",
-    "target descr": "* Feature #80: ``title`` attribute is preserved in both inline and reference links.",
-    "cos sim": 0.0456829723116731
-  },
-  {
-    "commit message": "v0.7.0",
-    "type": "FP",
-    "target descr": "<a name=\"v0.6.0\"></a>",
-    "cos sim": 0.6640207235200376
+    "polarity": "FP",
+    "target descr": "* [#80] GitHubAPI class refactorings. ([@Turbo87])",
+    "cos sim": 0.14013903377391157
   },
   {
     "commit message": "Merge pull request #73 from Turbo87/caching",
-    "type": "FP",
-    "target descr": "- \ud83d\udce6 Add .npmignore file ([#73]) [[b0a243f]] (by Emmanuel DEMEY)",
-    "cos sim": 0.0456829723116731
+    "polarity": "FP",
+    "target descr": "* [#73] Use HTTP-based caching. ([@Turbo87])",
+    "cos sim": 0.14013903377391157
+  },
+  {
+    "commit message": "Replace \"node-fetch\" with \"make-fetch-happen\"",
+    "polarity": "FP",
+    "target descr": "* [#97] Update `make-fetch-happen` to v4.0.1. ([@Turbo87])",
+    "cos sim": 0.5445332752122531
   },
   {
     "commit message": "Merge pull request #61 from Turbo87/refactorings",
-    "type": "FP",
-    "target descr": "* Fix #61: Functionality added for optional use of automatic links.",
-    "cos sim": 0.0478179046658113
-  },
-  {
-    "commit message": "Clarify the scope for Github personal access token (#63) [skip ci]",
-    "type": "FP",
-    "target descr": "- Do not skip all tags when `skip_tags` is empty (#63)",
-    "cos sim": 0.1361512275267737
+    "polarity": "FP",
+    "target descr": "* [#61] Refactorings and code simplification (part 2). ([@Turbo87])",
+    "cos sim": 0.35962112920728506
   },
   {
     "commit message": "Merge pull request #59 from Turbo87/refactorings",
-    "type": "FP",
-    "target descr": "- Use root commit when --latest and there is only one tag (#59)",
-    "cos sim": 0.04693925163373134
+    "polarity": "FP",
+    "target descr": "* [#59] Refactorings and code simplification. ([@Turbo87])",
+    "cos sim": 0.35301309822419763
   },
   {
     "commit message": "Merge pull request #54 from Turbo87/typescript",
-    "type": "FP",
-    "target descr": "- \u2728 Filter bookmark commit out ([#54]) [[7858140]] (by Fabien JUIF)",
-    "cos sim": 0.05167066524291263
+    "polarity": "FP",
+    "target descr": "* [#54] Convert to TypeScript. ([@Turbo87])",
+    "cos sim": 0.24860354908451962
   },
   {
     "commit message": "Use tslint for linting",
-    "type": "FP",
+    "polarity": "FP",
     "target descr": "* [#98] Use `jest-runner-tslint` for linting. ([@Turbo87])",
     "cos sim": 0.6866519210014289
   },
   {
     "commit message": "Merge pull request #67 from Turbo87/async-git",
-    "type": "FP",
-    "target descr": "- Document timestamp format of `Release` struct (#67)",
-    "cos sim": 0.3088988520443571
+    "polarity": "FP",
+    "target descr": "* [#67] Change git functions to be async using \"execa\". ([@Turbo87])",
+    "cos sim": 0.21015218969020838
   },
   {
     "commit message": "Merge pull request #66 from Turbo87/renderer-cleanup",
-    "type": "FP",
-    "target descr": "- Fix `keepachangelog` config example (#66)",
-    "cos sim": 0.1205414501900823
+    "polarity": "FP",
+    "target descr": "* [#66] MarkdownRenderer cleanup. ([@Turbo87])",
+    "cos sim": 0.12549468714856096
   },
   {
     "commit message": "Merge pull request #65 from Turbo87/markdown-renderer",
-    "type": "FP",
-    "target descr": "- \ud83d\udc1b Fix emojies not identified in some commits ([#65]) [[6a3b1b6]] (by Benjamin Petetot)",
-    "cos sim": 0.13737931937179554
+    "polarity": "FP",
+    "target descr": "* [#65] Extract \"MarkdownRenderer\" class. ([@Turbo87])",
+    "cos sim": 0.16461713376474743
   },
   {
     "commit message": "Merge pull request #53 from Turbo87/single-package",
-    "type": "FP",
-    "target descr": "- \u2728 Do not override the top of the existing file ([#53]) [[15edd6c]] (by Fabien JUIF)",
-    "cos sim": 0.14310146611219846
+    "polarity": "FP",
+    "target descr": "* [#53] Skip package heading for single package repos. ([@Turbo87])",
+    "cos sim": 0.21063811363262522
   },
   {
     "commit message": "Merge pull request #42 from Turbo87/pkg-config",
-    "type": "FP",
-    "target descr": "* Feature #42: Bring python version compatibility to ``compat.py`` module.",
-    "cos sim": 0.075790727977065
-  },
-  {
-    "commit message": "Merge pull request #34 from lerna/fix",
-    "type": "FP",
-    "target descr": "* **changelog.md**  allows specifying custom file for changelog ([7fa505aa], closes [#34])",
-    "cos sim": 0.10275406938829314
+    "polarity": "FP",
+    "target descr": "* [#42] Read \"changelog\" config key from \"package.json\" too. ([@Turbo87])",
+    "cos sim": 0.2067042572474561
   },
   {
     "commit message": "Merge pull request #31 from emmenko/historical-logs-multi-tags",
-    "type": "FP",
-    "target descr": "* Fix #31: HTML entities stay inside link.",
-    "cos sim": 0.09912338521805371
+    "polarity": "FP",
+    "target descr": "* [#31] New CLI options, custom tags range and tests.. ([@emmenko])",
+    "cos sim": 0.20843053774957296
   },
   {
     "commit message": "Merge pull request #41 from Turbo87/lerna",
-    "type": "FP",
-    "target descr": "* Feature #41: Extract utility/helper methods to ``utils`` module.",
-    "cos sim": 0.04942688889905179
+    "polarity": "FP",
+    "target descr": "* [#41] Remove \"lerna\" peer dependency. ([@Turbo87])",
+    "cos sim": 0.23772797405478355
   },
   {
-    "commit message": "Convert label name to lowercase before matching (#28)",
-    "type": "FP",
-    "target descr": "* Fix #28: missing ``html2text`` package in installation.",
-    "cos sim": 0.02535470408445
+    "commit message": "docs(readme): adjust cli help output",
+    "polarity": "FP",
+    "target descr": "* [#115] Improve CLI help output ([@Turbo87])",
+    "cos sim": 0.5510451494950168
   }
 ]
